@@ -1,0 +1,5 @@
+/* Basic CSS reset or global styles not covered by MUI CssBaseline */
+html {
+  overflow-y: scroll;
+}
+/* No more custom classes needed as we use MUI components */
