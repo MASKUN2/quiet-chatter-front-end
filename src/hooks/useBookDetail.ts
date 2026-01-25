@@ -41,6 +41,12 @@ export const useBookDetail = (bookId: string | undefined) => {
     }
   }, []);
 
+  const onTalkUpdate = () => {
+    if(bookId) {
+      loadTalks(bookId, talkPage);
+    }
+  }
+
   useEffect(() => {
     if (bookId) {
       loadBook(bookId);
@@ -56,8 +62,12 @@ export const useBookDetail = (bookId: string | undefined) => {
       await postTalk(bookId, talkContent);
       setTalkContent('');
       await loadTalks(bookId, 0); 
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred while posting the talk.');
+      }
     }
   };
 
@@ -92,8 +102,12 @@ export const useBookDetail = (bookId: string | undefined) => {
         };
       }));
 
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('An unknown error occurred while processing the reaction.');
+      }
       if (bookId) loadTalks(bookId, talkPage);
     }
   };
@@ -113,6 +127,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     talkPage,
     onPostTalk,
     onReaction,
+    onTalkUpdate,
     handlePageChange
   };
 };
