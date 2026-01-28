@@ -29,4 +29,5 @@ export interface Talk {
   support_count: number;
   didILike: boolean;
   didISupport: boolean;
+  is_modified: boolean;
 }

@@ -72,3 +72,51 @@ export async function sendVocMessage(content: string): Promise<void> {
         throw new Error('Failed to send message.');
     }
 }
+
+export async function updateTalk(talkId: string, content: string): Promise<void> {
+  const response = await fetch(`/api/talks/${talkId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
+    throw new Error(err.message || 'API request failed.');
+  }
+}
+
+export async function deleteTalk(talkId: string): Promise<void> {
+  const response = await fetch(`/api/talks/${talkId}`, {
+    method: 'DELETE'
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
+    throw new Error(err.message || 'API request failed.');
+  }
+}
+
+export async function updateTalk(talkId: string, content: string): Promise<void> {
+  const response = await fetch(`/api/talks/${talkId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
+    throw new Error(err.message || 'API request failed.');
+  }
+}
+
+export async function deleteTalk(talkId: string): Promise<void> {
+  const response = await fetch(`/api/talks/${talkId}`, {
+    method: 'DELETE'
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
+    throw new Error(err.message || 'API request failed.');
+  }
+}
