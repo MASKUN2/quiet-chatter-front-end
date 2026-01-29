@@ -1,4 +1,4 @@
-import type { Book, PageResponse, Talk } from '../types';
+import type { Book, PageResponse, SliceResponse, Talk } from '../types';
 
 async function handleJsonResponse(response: Response) {
   if (!response.ok) {
@@ -11,13 +11,13 @@ async function handleJsonResponse(response: Response) {
   return response.json();
 }
 
-export async function searchBooks(keyword: string, page: number = 0): Promise<PageResponse<Book>> {
-  return fetch(`/api/books?keyword=${keyword}&page=${page}&sort=title,asc`)
+export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
+  return fetch(`/api/v1/books?keyword=${keyword}&page=${page}&sort=title,asc`)
     .then(handleJsonResponse);
 }
 
 export async function getBookDetails(bookId: string): Promise<Book> {
-  return fetch(`/api/books/${bookId}`)
+  return fetch(`/api/v1/books/${bookId}`)
     .then(handleJsonResponse);
 }
 
@@ -25,17 +25,17 @@ export async function getBooksByIds(bookIds: string[]): Promise<Book[]> {
   if (!bookIds || bookIds.length === 0) {
     return Promise.resolve([]);
   }
-  return fetch(`/api/books?id=${bookIds.join(',')}`)
+  return fetch(`/api/v1/books?id=${bookIds.join(',')}`)
     .then(handleJsonResponse);
 }
 
 export async function getTalks(bookId: string, page: number = 0): Promise<PageResponse<Talk>> {
-  return fetch(`/api/talks?bookId=${bookId}&page=${page}&size=6&sort=createdAt,desc`)
+  return fetch(`/api/v1/talks?bookId=${bookId}&page=${page}&size=6&sort=createdAt,desc`)
     .then(handleJsonResponse);
 }
 
 export async function getRecommendedTalks(): Promise<Talk[]> {
-  return fetch('/api/talks/recommend')
+  return fetch('/api/v1/talks/recommend')
     .then(handleJsonResponse);
 }
 
@@ -44,7 +44,7 @@ export async function postTalk(bookId: string, content: string): Promise<Talk> {
   now.setUTCMonth(now.getUTCMonth() + 12);
   const hiddenTimestamp = now.toISOString();
 
-  return fetch('/api/talks', {
+  return fetch('/api/v1/talks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ bookId, content, hidden: hiddenTimestamp })
@@ -54,7 +54,7 @@ export async function postTalk(bookId: string, content: string): Promise<Talk> {
 
 export async function handleReaction(talkId: string, reactionType: 'LIKE' | 'SUPPORT', hasReacted: boolean): Promise<Response> {
   const method = hasReacted ? 'DELETE' : 'POST';
-  return fetch(`/api/reactions`, {
+  return fetch(`/api/v1/reactions`, {
     method: method,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: reactionType, talkId: talkId })
@@ -62,7 +62,7 @@ export async function handleReaction(talkId: string, reactionType: 'LIKE' | 'SUP
 }
 
 export async function sendVocMessage(content: string): Promise<void> {
-    const response = await fetch('/api/customer/messages', {
+    const response = await fetch('/api/v1/customer/messages', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({content: content})
@@ -74,7 +74,7 @@ export async function sendVocMessage(content: string): Promise<void> {
 }
 
 export async function updateTalk(talkId: string, content: string): Promise<void> {
-  const response = await fetch(`/api/talks/${talkId}`, {
+  const response = await fetch(`/api/v1/talks/${talkId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ content })
@@ -87,31 +87,7 @@ export async function updateTalk(talkId: string, content: string): Promise<void>
 }
 
 export async function deleteTalk(talkId: string): Promise<void> {
-  const response = await fetch(`/api/talks/${talkId}`, {
-    method: 'DELETE'
-  });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
-    throw new Error(err.message || 'API request failed.');
-  }
-}
-
-export async function updateTalk(talkId: string, content: string): Promise<void> {
-  const response = await fetch(`/api/talks/${talkId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content })
-  });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
-    throw new Error(err.message || 'API request failed.');
-  }
-}
-
-export async function deleteTalk(talkId: string): Promise<void> {
-  const response = await fetch(`/api/talks/${talkId}`, {
+  const response = await fetch(`/api/v1/talks/${talkId}`, {
     method: 'DELETE'
   });
 
