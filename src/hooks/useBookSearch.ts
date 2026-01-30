@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { searchBooks } from '../api/api';
 import type { Book, SliceInfo } from '../types';
@@ -12,6 +12,18 @@ export const useBookSearch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastBookElementRef = useCallback((node: HTMLDivElement) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && sliceInfo && !sliceInfo.last) {
+        setPage(prev => prev + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, sliceInfo]);
 
   useEffect(() => {
     setBooks([]);
@@ -63,6 +75,7 @@ export const useBookSearch = () => {
     sliceInfo,
     loading,
     error,
-    loadMore
+    loadMore,
+    lastBookElementRef
   };
 };

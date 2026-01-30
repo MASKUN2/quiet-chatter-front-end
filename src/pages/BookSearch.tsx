@@ -1,20 +1,28 @@
 import React from 'react';
-import { Container, Box, Alert, Skeleton, Stack, Button } from '@mui/material';
+import { Container, Box, Alert, Skeleton, Stack } from '@mui/material';
 import Header from '../components/common/Header';
 import BookListItem from '../components/book/BookListItem';
 import { useBookSearch } from '../hooks/useBookSearch';
 
 const BookSearch: React.FC = () => {
-  const { keyword, books, sliceInfo, loading, error, loadMore } = useBookSearch();
+  const { keyword, books, loading, error, lastBookElementRef } = useBookSearch();
 
   return (
     <Container maxWidth="md" sx={{ pb: 4 }}>
       <Header />
       
       <Box sx={{ mt: 4, minHeight: 500 }}>
-        {books.map(book => (
-             <BookListItem key={book.id} book={book} />
-        ))}
+        {books.map((book, index) => {
+          if (books.length === index + 1) {
+            return (
+              <div key={book.id} ref={lastBookElementRef}>
+                <BookListItem book={book} />
+              </div>
+            );
+          } else {
+            return <BookListItem key={book.id} book={book} />;
+          }
+        })}
 
         {loading && (
              <Stack spacing={2} sx={{ mt: 2 }}>
@@ -35,14 +43,6 @@ const BookSearch: React.FC = () => {
         
         {!loading && !error && books.length === 0 && keyword && (
             <Alert severity="info" sx={{ mt: 2 }}>검색 결과가 없습니다.</Alert>
-        )}
-
-        {!loading && sliceInfo && !sliceInfo.last && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                <Button variant="outlined" onClick={loadMore} fullWidth sx={{ py: 1.5 }}>
-                    더 보기
-                </Button>
-            </Box>
         )}
       </Box>
     </Container>

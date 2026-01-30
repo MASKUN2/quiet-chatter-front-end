@@ -21,7 +21,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction }) => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary' }}>
             <AccessTimeIcon fontSize="small" />
             <Typography variant="caption">
-              {new Date(talk.createdAt).toLocaleDateString()}
+              {new Date((talk as any).createdAt).toLocaleDateString()}
               {talk.is_modified && ' (수정됨)'}
             </Typography>
           </Box>
