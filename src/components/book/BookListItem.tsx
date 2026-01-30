@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Box, CardMedia, CardContent, Typography, Link as MuiLink } from '@mui/material';
+import { Card, Box, CardMedia, CardContent, Typography, Link as MuiLink, useTheme, useMediaQuery } from '@mui/material';
 import type { Book } from '../../types';
 
 interface BookListItemProps {
@@ -8,8 +8,18 @@ interface BookListItemProps {
 }
 
 const BookListItem: React.FC<BookListItemProps> = ({ book }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <Card sx={{ display: 'flex', mb: 2, alignItems: 'center' }}>
+    <Card sx={{ 
+      display: 'flex', 
+      mb: isMobile ? 0 : 2, 
+      alignItems: 'center',
+      borderRadius: isMobile ? 0 : 1,
+      boxShadow: isMobile ? 'none' : undefined,
+      borderBottom: isMobile ? '1px solid #eee' : undefined
+    }}>
         <Box sx={{ p: 2 }}>
             {book.thumbnailImageUrl ? (
                 <MuiLink component={Link} to={`/books/${book.id}`}>

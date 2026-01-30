@@ -46,8 +46,7 @@ const Header: React.FC = () => {
       return (
         <>
           <IconButton
-            size="large"
-            edge="end"
+            size="small"
             color="inherit"
             aria-label="menu"
             onClick={handleMenu}
@@ -69,84 +68,113 @@ const Header: React.FC = () => {
     }
 
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <AccountCircle fontSize="small" />
-        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-          {user.nickname}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          ({user.role})
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <AccountCircle fontSize="small" color="action" />
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+            {user.nickname}
+          </Typography>
+        </Box>
+        <Typography variant="caption" sx={{ 
+          bgcolor: 'grey.100', 
+          px: 1, 
+          py: 0.2, 
+          borderRadius: 1,
+          color: 'text.secondary',
+          fontWeight: 500
+        }}>
+          {user.role}
         </Typography>
       </Box>
     );
   };
 
   return (
-    <Paper 
-      elevation={1} 
-      sx={{ 
-        position: 'relative', 
-        p: 4, 
-        mt: 4, 
-        borderRadius: 2, 
-        backgroundColor: 'background.paper',
-        textAlign: 'center'
-      }}
-    >
-      <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-        {renderUserInfo()}
-      </Box>
-
-      <VoiceOfCustomerModal />
-
-      <Box sx={{ mb: 2 }}>
-        <a href="/home" onClick={(e) => { e.preventDefault(); navigate('/home'); }} style={{ display: 'inline-block' }}>
-          <img
-            alt="Quiet Chatter Icon"
-            src="/images/quiet-chatter-icon2.png"
-            style={{ width: '200px', height: '200px', marginBottom: '1rem', objectFit: 'contain' }}
-          />
-        </a>
-      </Box>
-      <form onSubmit={handleSearch}>
-        <Box sx={{ display: 'flex', gap: 1, maxWidth: 600, mx: 'auto' }}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="검색어를 입력하세요"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button 
-              type="submit" 
-              variant="contained" 
-              size="large"
-              sx={{
-                whiteSpace: 'nowrap',
-                minWidth: 'auto',
-                px: 3,
-                borderRadius: 1,
-                backgroundColor: '#546e7a',
-                boxShadow: 'none',
-                '&:hover': {
-                  backgroundColor: '#455a64',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                }
-              }}
-            >
-              검색
-            </Button>
+    <Box sx={{ width: '100%', mb: 2 }}>
+      {/* Top Bar Area */}
+      <Paper 
+        elevation={isMobile ? 0 : 1} 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          px: 2,
+          py: 1,
+          borderRadius: isMobile ? 0 : 2,
+          backgroundColor: 'background.paper',
+          minHeight: '56px',
+          borderBottom: isMobile ? '1px solid #eee' : 'none'
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <VoiceOfCustomerModal />
         </Box>
-      </form>
-    </Paper>
+        <Box>
+          {renderUserInfo()}
+        </Box>
+      </Paper>
+
+      {/* Main Search Area */}
+      <Paper 
+        elevation={isMobile ? 0 : 1} 
+        sx={{ 
+          p: isMobile ? 2 : 4, 
+          mt: isMobile ? 0 : 2,
+          borderRadius: isMobile ? 0 : 2, 
+          backgroundColor: 'background.paper',
+          textAlign: 'center',
+          borderBottom: isMobile ? '1px solid #eee' : 'none'
+        }}
+      >
+        <Box sx={{ mb: 2 }}>
+          <a href="/home" onClick={(e) => { e.preventDefault(); navigate('/home'); }} style={{ display: 'inline-block' }}>
+            <img
+              alt="Quiet Chatter Icon"
+              src="/images/quiet-chatter-icon2.png"
+              style={{ width: '180px', height: '180px', marginBottom: '1rem', objectFit: 'contain' }}
+            />
+          </a>
+        </Box>
+        <form onSubmit={handleSearch}>
+          <Box sx={{ display: 'flex', gap: 1, maxWidth: 600, mx: 'auto' }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="검색어를 입력하세요"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                required
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ bgcolor: 'white', borderRadius: 1 }}
+              />
+                          <Button 
+                            type="submit" 
+                            variant="outlined" 
+                            size="large"
+                            sx={{
+                              whiteSpace: 'nowrap',
+                              minWidth: 'auto',
+                              px: 3,
+                              borderRadius: 1,
+                              color: '#5c2d91',
+                              borderColor: '#5c2d91',
+                              '&:hover': {
+                                borderColor: '#4b0082',
+                                backgroundColor: 'rgba(92, 45, 145, 0.04)',
+                              }
+                            }}
+                          >
+                            검색
+                          </Button>          </Box>
+        </form>
+      </Paper>
+    </Box>
   );
 };
 

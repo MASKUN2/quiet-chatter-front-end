@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, Paper, useTheme, useMediaQuery } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import type { Book } from '../../types';
 
 interface BookInfoProps {
@@ -7,38 +8,78 @@ interface BookInfoProps {
 }
 
 const BookInfo: React.FC<BookInfoProps> = ({ book }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
-    <Grid container spacing={4}>
-      <Grid size={{ xs: 12, md: 4 }}>
-        {book.thumbnailImageUrl ? (
-          <img 
-            src={book.thumbnailImageUrl} 
-            alt={book.title} 
-            style={{ width: '100%', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} 
-          />
-        ) : (
-          <Box sx={{ width: '100%', height: 300, bgcolor: 'grey.200', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography color="text.secondary">No Image</Typography>
-          </Box>
-        )}
-      </Grid>
-      <Grid size={{ xs: 12, md: 8 }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>{book.title}</Typography>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          {book.author}
-        </Typography>
-        <Box sx={{ my: 2 }}>
-          <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
-            {book.description}
+    <Paper 
+      elevation={isMobile ? 0 : 1} 
+      sx={{
+        p: isMobile ? 2 : 4, 
+        borderRadius: isMobile ? 0 : 2, 
+        backgroundColor: 'background.paper',
+        borderBottom: isMobile ? '1px solid #eee' : 'none'
+      }}
+    >
+
+      <Grid container spacing={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          {book.thumbnailImageUrl ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <img 
+                src={book.thumbnailImageUrl} 
+                alt={book.title} 
+                style={{ 
+                  maxWidth: '100%', 
+                  maxHeight: '400px',
+                  borderRadius: 4, 
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)' 
+                }} 
+              />
+            </Box>
+          ) : (
+            <Box sx={{ width: '100%', height: 300, bgcolor: 'grey.200', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography color="text.secondary">No Image</Typography>
+            </Box>
+          )}
+        </Grid>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Typography variant="h4" gutterBottom color="text.primary">
+            {book.title}
           </Typography>
-        </Box>
-        {book.externalLinkUrl && (
-          <Button variant="outlined" href={book.externalLinkUrl} target="_blank">
-            더 보기
-          </Button>
-        )}
+          <Typography variant="body1" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
+            저자: {book.author}
+          </Typography>
+          
+          <Typography variant="h6" gutterBottom>
+            책 소개
+          </Typography>
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="body1" sx={{ whiteSpace: 'pre-line', color: 'text.primary' }}>
+              {book.description}
+            </Typography>
+          </Box>
+          
+          {book.externalLinkUrl && (
+            <Button 
+              variant="outlined" 
+              href={book.externalLinkUrl} 
+              target="_blank"
+              sx={{ 
+                color: '#5c2d91',
+                borderColor: '#5c2d91',
+                '&:hover': {
+                  borderColor: '#4b0082',
+                  backgroundColor: 'rgba(92, 45, 145, 0.04)'
+                }
+              }}
+            >
+              상세 정보 확인 (외부 링크)
+            </Button>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

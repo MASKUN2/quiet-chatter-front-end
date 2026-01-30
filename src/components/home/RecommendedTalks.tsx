@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemAvatar, ListItemText, Avatar, Typography, Stack, Box, Skeleton, Alert } from '@mui/material';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import type { Talk, Book } from '../../types';
 
@@ -69,9 +71,15 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
                   </>
                 }
               />
-              <Stack direction="row" spacing={1} sx={{ ml: 2, alignItems: 'center' }}>
-                  <Typography variant="caption" display="flex" alignItems="center"><ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5 }} /> {talk.like_count}</Typography>
-                  <Typography variant="caption" display="flex" alignItems="center"><FavoriteIcon fontSize="small" sx={{ mr: 0.5 }} /> {talk.support_count}</Typography>
+              <Stack direction="row" spacing={1.5} sx={{ ml: 2, alignItems: 'center' }}>
+                  <Typography variant="caption" display="flex" alignItems="center" color={talk.didILike ? "primary.main" : "text.secondary"}>
+                    {talk.didILike ? <ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5 }} /> : <ThumbUpOffAltIcon fontSize="small" sx={{ mr: 0.5 }} />}
+                    {talk.like_count}
+                  </Typography>
+                  <Typography variant="caption" display="flex" alignItems="center" color={talk.didISupport ? "error.main" : "text.secondary"}>
+                    {talk.didISupport ? <FavoriteIcon fontSize="small" sx={{ mr: 0.5 }} /> : <FavoriteBorderIcon fontSize="small" sx={{ mr: 0.5 }} />}
+                    {talk.support_count}
+                  </Typography>
               </Stack>
             </ListItemButton>
           </ListItem>

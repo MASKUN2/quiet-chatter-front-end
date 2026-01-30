@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton, Box } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { sendVocMessage } from '../../api/api';
 
@@ -37,24 +37,33 @@ const VoiceOfCustomerModal: React.FC = () => {
 
   return (
     <>
-      <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+      <Box>
         <Button 
           variant="outlined" 
-          color="secondary" 
           onClick={handleOpen}
           startIcon={<ChatBubbleOutlineIcon />}
-          sx={{ display: { xs: 'none', md: 'inline-flex' } }}
+          sx={{ 
+            display: { xs: 'none', md: 'inline-flex' },
+            color: '#5c2d91',
+            borderColor: '#5c2d91',
+            '&:hover': {
+              borderColor: '#4b0082',
+              backgroundColor: 'rgba(92, 45, 145, 0.04)'
+            }
+          }}
         >
           무엇이든 말씀해주세요
         </Button>
          <IconButton 
-          color="secondary" 
           onClick={handleOpen}
-          sx={{ display: { xs: 'inline-flex', md: 'none' } }}
+          sx={{ 
+            display: { xs: 'inline-flex', md: 'none' },
+            color: '#5c2d91'
+          }}
         >
           <ChatBubbleOutlineIcon />
         </IconButton>
-      </div>
+      </Box>
 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Voice of Customer</DialogTitle>
@@ -80,7 +89,19 @@ const VoiceOfCustomerModal: React.FC = () => {
               <Button onClick={handleClose} color="inherit">
                 취소
               </Button>
-              <Button type="submit" variant="contained" disabled={loading}>
+              <Button 
+                type="submit" 
+                variant="outlined" 
+                disabled={loading}
+                sx={{ 
+                  color: '#5c2d91', 
+                  borderColor: '#5c2d91',
+                  '&:hover': {
+                    borderColor: '#4b0082',
+                    backgroundColor: 'rgba(92, 45, 145, 0.04)'
+                  }
+                }}
+              >
                 {loading ? '전송 중...' : '전송'}
               </Button>
             </DialogActions>

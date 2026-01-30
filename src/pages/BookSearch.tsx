@@ -1,17 +1,19 @@
 import React from 'react';
-import { Container, Box, Alert, Skeleton, Stack } from '@mui/material';
+import { Container, Box, Alert, Skeleton, Stack, useTheme, useMediaQuery } from '@mui/material';
 import Header from '../components/common/Header';
 import BookListItem from '../components/book/BookListItem';
 import { useBookSearch } from '../hooks/useBookSearch';
 
 const BookSearch: React.FC = () => {
   const { keyword, books, loading, error, lastBookElementRef } = useBookSearch();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container maxWidth="md" sx={{ pb: 4 }}>
+    <Container maxWidth="md" disableGutters={isMobile} sx={{ pb: 6 }}>
       <Header />
       
-      <Box sx={{ mt: 4, minHeight: 500 }}>
+      <Box sx={{ mt: isMobile ? 2 : 4, minHeight: 500, px: isMobile ? 0 : 0 }}>
         {books.map((book, index) => {
           if (books.length === index + 1) {
             return (

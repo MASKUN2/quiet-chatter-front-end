@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Divider, Box, Typography, Pagination, Skeleton, Alert } from '@mui/material';
+import { Container, Divider, Box, Typography, Pagination, Skeleton, Alert, Paper, useTheme, useMediaQuery } from '@mui/material';
 import Header from '../components/common/Header';
 import BookInfo from '../components/book/BookInfo';
 import TalkForm from '../components/book/TalkForm';
@@ -9,6 +9,9 @@ import { useBookDetail } from '../hooks/useBookDetail';
 
 const BookDetail: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const { 
     book, 
     talks, 
@@ -27,68 +30,72 @@ const BookDetail: React.FC = () => {
 
   if (loadingBook) {
       return (
-        <>
+        <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
           <Header />
-          <Container maxWidth="md" sx={{ mt: 5 }}>
+          <Box sx={{ mt: isMobile ? 2 : 4, px: isMobile ? 2 : 0 }}>
             <Skeleton variant="rectangular" height={300} />
             <Skeleton height={40} sx={{ mt: 2 }} />
             <Skeleton height={20} width="60%" />
-          </Container>
-        </>
+          </Box>
+        </Container>
       );
   }
 
   if (!book) {
     return (
-      <>
+      <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
         <Header />
-        <Container maxWidth="md" sx={{ mt: 5 }}>
+        <Box sx={{ mt: isMobile ? 2 : 4, px: isMobile ? 2 : 0 }}>
           <Alert severity="error">책 정보를 찾을 수 없습니다.</Alert>
-        </Container>
-      </>
+        </Box>
+      </Container>
     );
   }
 
   return (
-    <>
+    <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
       <Header />
-      <Container maxWidth="md" sx={{ mt: 5, pb: 10 }}>
+      <Box sx={{ mt: isMobile ? 2 : 4 }}>
         <BookInfo book={book} />
         
-        <Divider sx={{ my: 6 }} />
+        <Divider sx={{ my: isMobile ? 4 : 6 }} />
 
-        <Box>
-          <Typography variant="h5" fontWeight="bold" gutterBottom>
-            Talks
-          </Typography>
-          
-          <TalkForm 
-            content={talkContent} 
-            setContent={setTalkContent} 
-            onSubmit={onPostTalk} 
-          />
+        <Box sx={{ px: isMobile ? 2 : 0 }}>
+          <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 2 : 4, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
+              Talks
+            </Typography>
 
-          <TalkList 
-            talks={talks} 
-            loading={loadingTalks} 
-            onReaction={onReaction} 
-            currentUserId={user?.id}
-            onUpdate={onTalkUpdate}
-          />
+            <TalkForm 
+              content={talkContent} 
+              setContent={setTalkContent} 
+              onSubmit={onPostTalk} 
+              nickname={user?.nickname}
+            />
 
-          {pageInfo && pageInfo.totalPages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-              <Pagination
-                count={pageInfo.totalPages}
-                page={talkPage + 1}
-                onChange={handlePageChange}
-                color="primary"
-              />
-            </Box>
-          )}
+            <TalkList 
+              talks={talks} 
+              loading={loadingTalks} 
+              onReaction={onReaction} 
+              currentUserId={user?.id}
+              onUpdate={onTalkUpdate}
+            />
+
+            {pageInfo && pageInfo.totalPages > 1 && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <Pagination
+                  count={pageInfo.totalPages}
+                  page={talkPage + 1}
+                  onChange={handlePageChange}
+                  color="primary"
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Box>
+            )}
+          </Paper>
         </Box>
-      </Container>
-    </>
+      </Box>
+    </Container>
   );
 };
 

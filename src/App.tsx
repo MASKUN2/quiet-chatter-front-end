@@ -9,10 +9,66 @@ import BookDetail from './pages/BookDetail';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#007bff', // Match original bootstrap primary if desired, or let MUI default
+      main: '#5c2d91', // Updated to Deep Violet to match button theme
     },
     background: {
       default: '#f8f9fa',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Pretendard',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'system-ui',
+      'Roboto',
+      '"Helvetica Neue"',
+      '"Segoe UI"',
+      '"Apple SD Gothic Neo"',
+      '"Noto Sans KR"',
+      '"Malgun Gothic"',
+      'sans-serif',
+    ].join(','),
+    h4: {
+      fontSize: '1.75rem', // 28px
+      fontWeight: 700,
+      lineHeight: 1.4,
+    },
+    h5: {
+      fontSize: '1.25rem', // 20px
+      fontWeight: 600,
+      lineHeight: 1.4,
+    },
+    h6: {
+      fontSize: '1.125rem', // 18px
+      fontWeight: 600,
+      lineHeight: 1.4,
+    },
+    body1: {
+      fontSize: '1rem', // 16px
+      lineHeight: 1.6,
+    },
+    body2: {
+      fontSize: '0.875rem', // 14px
+      lineHeight: 1.6,
+    },
+    caption: {
+      fontSize: '0.75rem', // 12px
+      lineHeight: 1.5,
+    },
+    button: {
+      textTransform: 'none', // Prevent all-caps on buttons
+      fontWeight: 600,
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+        }
+      `,
     },
   },
 });

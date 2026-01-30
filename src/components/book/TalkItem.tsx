@@ -76,10 +76,26 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
               onChange={(e) => setEditContent(e.target.value)}
               disabled={loading}
               sx={{ mb: 1 }}
+              inputProps={{ style: { fontSize: '1rem' } }}
             />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <Button size="small" onClick={() => setIsEditing(false)} disabled={loading}>취소</Button>
-              <Button size="small" variant="contained" onClick={handleUpdate} disabled={loading}>저장</Button>
+              <Button 
+                size="small" 
+                variant="outlined" 
+                onClick={handleUpdate} 
+                disabled={loading}
+                sx={{ 
+                  color: '#5c2d91', 
+                  borderColor: '#5c2d91',
+                  '&:hover': {
+                    borderColor: '#4b0082',
+                    backgroundColor: 'rgba(92, 45, 145, 0.04)'
+                  }
+                }}
+              >
+                저장
+              </Button>
             </Stack>
           </Box>
         ) : (
@@ -89,7 +105,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
                 {talk.content}
               </Typography>
               {isMine && (
-                <Box>
+                <Box sx={{ ml: 1 }}>
                   <IconButton size="small" onClick={() => setIsEditing(true)}>
                     <EditIcon fontSize="small" />
                   </IconButton>
@@ -104,12 +120,12 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
         
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary' }}>
-            <AccessTimeIcon fontSize="small" />
+            <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
             <Typography variant="caption">
               {new Date(talk.createdAt).toLocaleDateString()}
               {talk.is_modified && ' (수정됨)'}
             </Typography>
-            <Typography variant="caption" sx={{ ml: 1 }}>
+            <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>
               by {talk.nickname}
             </Typography>
           </Box>
