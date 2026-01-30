@@ -1,4 +1,4 @@
-import type { Book, PageResponse, SliceResponse, Talk } from '../types';
+import type { Book, PageResponse, SliceResponse, Talk, User } from '../types';
 
 async function handleJsonResponse(response: Response) {
   if (!response.ok) {
@@ -9,6 +9,10 @@ async function handleJsonResponse(response: Response) {
     });
   }
   return response.json();
+}
+
+export async function getMe(): Promise<User> {
+  return fetch('/api/v1/auth/me').then(handleJsonResponse);
 }
 
 export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
