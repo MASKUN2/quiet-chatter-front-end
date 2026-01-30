@@ -14,7 +14,15 @@ const TalkForm: React.FC<TalkFormProps> = ({ content, setContent, onSubmit, nick
   const today = new Date().toLocaleDateString();
 
   return (
-    <Box sx={{ mb: 4, p: 2.5, borderRadius: 2, bgcolor: 'grey.50', border: '1px solid', borderColor: 'grey.200' }}>
+    <Box sx={{ 
+      mb: 4, 
+      mx: 0, 
+      p: { xs: 2, sm: 2 }, 
+      borderRadius: 2, 
+      bgcolor: 'grey.50', 
+      border: '1px solid', 
+      borderColor: 'grey.200' 
+    }}>
       <Stack direction="row" spacing={2} sx={{ mb: 1.5, alignItems: 'center' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircleIcon fontSize="small" color="action" />

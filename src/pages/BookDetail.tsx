@@ -60,8 +60,8 @@ const BookDetail: React.FC = () => {
         
         <Divider sx={{ my: isMobile ? 4 : 6 }} />
 
-        <Box sx={{ px: isMobile ? 2 : 0 }}>
-          <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 2 : 4, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
+        <Box sx={{ px: isMobile ? 0 : 0 }}>
+          <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 1 : 2, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
               Talks
             </Typography>

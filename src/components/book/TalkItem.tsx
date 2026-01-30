@@ -64,8 +64,8 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
   };
 
   return (
-    <Card variant="outlined">
-      <CardContent>
+    <Card variant="outlined" sx={{ mx: 0 }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
         {isEditing ? (
           <Box sx={{ mb: 2 }}>
             <TextField

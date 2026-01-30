@@ -45,13 +45,13 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
 
         return (
           <ListItem key={talk.id} disablePadding sx={{ mb: 1 }}>
-            <ListItemButton component={Link} to={`/books/${book.id}`} sx={{ borderRadius: 1, border: '1px solid #e0e0e0' }}>
-              <ListItemAvatar sx={{ mr: 2 }}>
+            <ListItemButton component={Link} to={`/books/${book.id}`} sx={{ borderRadius: 1, border: '1px solid #e0e0e0', p: 1.5 }}>
+              <ListItemAvatar sx={{ mr: 1.5 }}>
                 <Avatar
                   variant="rounded"
                   src={book.thumbnailImageUrl || '/images/quiet-chatter-icon.png'}
                   alt={book.title}
-                  sx={{ width: 50, height: 75 }}
+                  sx={{ width: 45, height: 68 }}
                 />
               </ListItemAvatar>
               <ListItemText
