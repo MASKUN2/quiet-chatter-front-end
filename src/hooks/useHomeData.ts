@@ -20,8 +20,12 @@ export const useHomeData = () => {
           const booksData = await getBooksByIds(bookIds);
           setBooks(new Map(booksData.map(b => [b.id, b])));
         }
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('데이터를 불러오는 중 오류가 발생했습니다.');
+        }
       } finally {
         setLoading(false);
       }

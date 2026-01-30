@@ -24,8 +24,12 @@ const VoiceOfCustomerModal: React.FC = () => {
       alert('소중한 의견 감사합니다!');
       setMessage('');
       handleClose();
-    } catch (error: any) {
-      alert(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('메시지 전송에 실패했습니다.');
+      }
     } finally {
       setLoading(false);
     }

@@ -38,6 +38,8 @@ export type Book = {
 };
 
 // Talk 타입은 생성된 스키마 중 TalkListResponse에서 단일 항목을 추출하여 정의할 수도 있습니다.
-export type Talk = NonNullable<Schemas['TalkListResponse']>[number];
+export type Talk = NonNullable<Schemas['TalkListResponse']>[number] & {
+  createdAt: string;
+};
 
 export type User = Schemas['AuthMeResponse'];

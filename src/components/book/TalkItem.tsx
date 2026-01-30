@@ -35,8 +35,12 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
       await updateTalk(talk.id, editContent);
       setIsEditing(false);
       onUpdate();
-    } catch (error: any) {
-      alert(error.message || '수정에 실패했습니다.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('수정에 실패했습니다.');
+      }
     } finally {
       setLoading(false);
     }
@@ -49,8 +53,12 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
     try {
       await deleteTalk(talk.id);
       onUpdate();
-    } catch (error: any) {
-      alert(error.message || '삭제에 실패했습니다.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('삭제에 실패했습니다.');
+      }
       setLoading(false);
     }
   };
@@ -98,7 +106,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary' }}>
             <AccessTimeIcon fontSize="small" />
             <Typography variant="caption">
-              {new Date((talk as any).createdAt).toLocaleDateString()}
+              {new Date(talk.createdAt).toLocaleDateString()}
               {talk.is_modified && ' (수정됨)'}
             </Typography>
             <Typography variant="caption" sx={{ ml: 1 }}>
