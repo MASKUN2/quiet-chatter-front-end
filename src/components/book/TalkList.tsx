@@ -7,9 +7,11 @@ interface TalkListProps {
   talks: Talk[];
   loading: boolean;
   onReaction: (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => void;
+  currentUserId?: string | null;
+  onUpdate: () => void;
 }
 
-const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction }) => {
+const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction, currentUserId, onUpdate }) => {
   if (loading) {
     return (
       <Stack spacing={2}>
@@ -31,7 +33,13 @@ const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction }) => {
   return (
     <Stack spacing={2}>
       {talks.map((talk) => (
-        <TalkItem key={talk.id} talk={talk} onReaction={onReaction} />
+        <TalkItem 
+          key={talk.id} 
+          talk={talk} 
+          onReaction={onReaction} 
+          currentUserId={currentUserId}
+          onUpdate={onUpdate}
+        />
       ))}
     </Stack>
   );

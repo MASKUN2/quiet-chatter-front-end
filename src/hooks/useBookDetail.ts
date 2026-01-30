@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getBookDetails, getTalks, postTalk, handleReaction } from '../api/api';
-import type { Book, Talk, PageInfo } from '../types';
+import { getBookDetails, getTalks, postTalk, handleReaction, getMe } from '../api/api';
+import type { Book, Talk, PageInfo, User } from '../types';
 
 export const useBookDetail = (bookId: string | undefined) => {
   const [book, setBook] = useState<Book | null>(null);
   const [talks, setTalks] = useState<Talk[]>([]);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingTalks, setLoadingTalks] = useState(true);
   
@@ -14,6 +15,10 @@ export const useBookDetail = (bookId: string | undefined) => {
   
   // Current Talk Page
   const [talkPage, setTalkPage] = useState(0);
+
+  useEffect(() => {
+    getMe().then(setUser).catch(() => setUser(null));
+  }, []);
 
   const loadBook = useCallback(async (id: string) => {
     try {
@@ -120,6 +125,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     book,
     talks,
     pageInfo,
+    user,
     loadingBook,
     loadingTalks,
     talkContent,

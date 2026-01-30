@@ -13,6 +13,7 @@ const BookDetail: React.FC = () => {
     book, 
     talks, 
     pageInfo, 
+    user,
     loadingBook, 
     loadingTalks, 
     talkContent, 
@@ -20,6 +21,7 @@ const BookDetail: React.FC = () => {
     talkPage, 
     onPostTalk, 
     onReaction, 
+    onTalkUpdate,
     handlePageChange 
   } = useBookDetail(bookId);
 
@@ -70,6 +72,8 @@ const BookDetail: React.FC = () => {
             talks={talks} 
             loading={loadingTalks} 
             onReaction={onReaction} 
+            currentUserId={user?.id}
+            onUpdate={onTalkUpdate}
           />
 
           {pageInfo && pageInfo.totalPages > 1 && (
