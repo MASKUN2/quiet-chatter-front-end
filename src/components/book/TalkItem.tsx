@@ -87,7 +87,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
               onChange={(e) => setEditContent(e.target.value)}
               disabled={loading}
               sx={{ mb: 1 }}
-              inputProps={{ style: { fontSize: '1rem' } }}
+              slotProps={{ htmlInput: { style: { fontSize: '1rem' } } }}
             />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <Button size="small" onClick={() => setIsEditing(false)} disabled={loading}>취소</Button>
