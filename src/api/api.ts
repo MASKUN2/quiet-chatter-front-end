@@ -1,48 +1,64 @@
+import axios from 'axios';
 import type { Book, PageResponse, SliceResponse, Talk, User } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
-async function handleJsonResponse(response: Response) {
-  if (!response.ok) {
-    return response.json().then(err => {
-      throw new Error(err.message || 'API request failed.');
-    }).catch(() => {
-      throw new Error(`HTTP ${response.status}: API request failed.`);
-    });
+const apiClient = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+  timeout: 10000, // 10초 타임아웃
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// 응답 인터셉터: 공통 에러 처리
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // 서버에서 내려준 에러 메시지 우선 사용, 없으면 기본 메시지
+    const message = error.response?.data?.message || error.message || 'API request failed.';
+    return Promise.reject(new Error(message));
   }
-  return response.json();
-}
+);
 
 export async function getMe(): Promise<User> {
-  return fetch(`${BASE_URL}/api/v1/auth/me`).then(handleJsonResponse);
+  const response = await apiClient.get<User>('/api/v1/auth/me');
+  return response.data;
 }
 
 export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
-  return fetch(`${BASE_URL}/api/v1/books?keyword=${keyword}&page=${page}&sort=title,asc`)
-    .then(handleJsonResponse);
+  const response = await apiClient.get<SliceResponse<Book>>(`/api/v1/books`, {
+    params: { keyword, page, sort: 'title,asc' }
+  });
+  return response.data;
 }
 
 export async function getBookDetails(bookId: string): Promise<Book> {
-  return fetch(`${BASE_URL}/api/v1/books/${bookId}`)
-    .then(handleJsonResponse);
+  const response = await apiClient.get<Book>(`/api/v1/books/${bookId}`);
+  return response.data;
 }
 
 export async function getBooksByIds(bookIds: string[]): Promise<Book[]> {
   if (!bookIds || bookIds.length === 0) {
-    return Promise.resolve([]);
+    return [];
   }
-  return fetch(`${BASE_URL}/api/v1/books?id=${bookIds.join(',')}`)
-    .then(handleJsonResponse);
+  const response = await apiClient.get<Book[]>('/api/v1/books', {
+    params: { id: bookIds.join(',') }
+  });
+  return response.data;
 }
 
 export async function getTalks(bookId: string, page: number = 0): Promise<PageResponse<Talk>> {
-  return fetch(`${BASE_URL}/api/v1/talks?bookId=${bookId}&page=${page}&size=6&sort=createdAt,desc`)
-    .then(handleJsonResponse);
+  const response = await apiClient.get<PageResponse<Talk>>('/api/v1/talks', {
+    params: { bookId, page, size: 6, sort: 'createdAt,desc' }
+  });
+  return response.data;
 }
 
 export async function getRecommendedTalks(): Promise<Talk[]> {
-  return fetch(`${BASE_URL}/api/v1/talks/recommend`)
-    .then(handleJsonResponse);
+  const response = await apiClient.get<Talk[]>('/api/v1/talks/recommend');
+  return response.data;
 }
 
 export async function postTalk(bookId: string, content: string): Promise<Talk> {
@@ -50,55 +66,36 @@ export async function postTalk(bookId: string, content: string): Promise<Talk> {
   now.setUTCMonth(now.getUTCMonth() + 12);
   const hiddenTimestamp = now.toISOString();
 
-  return fetch(`${BASE_URL}/api/v1/talks`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bookId, content, hidden: hiddenTimestamp })
-  })
-    .then(handleJsonResponse);
+  const response = await apiClient.post<Talk>('/api/v1/talks', {
+    bookId,
+    content,
+    hidden: hiddenTimestamp
+  });
+  return response.data;
 }
 
-export async function handleReaction(talkId: string, reactionType: 'LIKE' | 'SUPPORT', hasReacted: boolean): Promise<Response> {
-  const method = hasReacted ? 'DELETE' : 'POST';
-  return fetch(`${BASE_URL}/api/v1/reactions`, {
-    method: method,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: reactionType, talkId: talkId })
-  });
+export async function handleReaction(talkId: string, reactionType: 'LIKE' | 'SUPPORT', hasReacted: boolean): Promise<void> {
+  // DELETE 요청 시 body 전송을 위해 data 옵션 사용
+  if (hasReacted) {
+    await apiClient.delete('/api/v1/reactions', {
+      data: { type: reactionType, talkId: talkId }
+    });
+  } else {
+    await apiClient.post('/api/v1/reactions', {
+      type: reactionType,
+      talkId: talkId
+    });
+  }
 }
 
 export async function sendVocMessage(content: string): Promise<void> {
-    const response = await fetch(`${BASE_URL}/api/v1/customer/messages`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({content: content})
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to send message.');
-    }
+  await apiClient.post('/api/v1/customer/messages', { content });
 }
 
 export async function updateTalk(talkId: string, content: string): Promise<void> {
-  const response = await fetch(`${BASE_URL}/api/v1/talks/${talkId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content })
-  });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
-    throw new Error(err.message || 'API request failed.');
-  }
+  await apiClient.put(`/api/v1/talks/${talkId}`, { content });
 }
 
 export async function deleteTalk(talkId: string): Promise<void> {
-  const response = await fetch(`${BASE_URL}/api/v1/talks/${talkId}`, {
-    method: 'DELETE'
-  });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}: API request failed.` }));
-    throw new Error(err.message || 'API request failed.');
-  }
+  await apiClient.delete(`/api/v1/talks/${talkId}`);
 }

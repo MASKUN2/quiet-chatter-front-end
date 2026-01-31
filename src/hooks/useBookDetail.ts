@@ -78,15 +78,7 @@ export const useBookDetail = (bookId: string | undefined) => {
 
   const onReaction = async (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => {
     try {
-      const response = await handleReaction(talkId, type, hasReacted);
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-            alert('로그인이 필요합니다.');
-        } else {
-            alert('리액션 처리에 실패했습니다.');
-        }
-        return;
-      }
+      await handleReaction(talkId, type, hasReacted);
       
       setTalks(prev => prev.map(t => {
         if (String(t.id) !== String(talkId)) return t;
