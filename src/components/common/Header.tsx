@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VoiceOfCustomerModal from './VoiceOfCustomerModal';
 import { 
@@ -8,21 +8,16 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { getMe } from '../../api/api';
-import type { User } from '../../types';
+import { useAuth } from '../../context/AuthContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const [user, setUser] = useState<User | null>(null);
+  const { user } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  useEffect(() => {
-    getMe().then(setUser).catch(() => setUser(null));
-  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,12 +139,14 @@ const Header: React.FC = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  },
                 }}
                 sx={{ bgcolor: 'white', borderRadius: 1 }}
               />

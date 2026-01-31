@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Home from './pages/Home';
 import BookSearch from './pages/BookSearch';
 import BookDetail from './pages/BookDetail';
+import { AuthProvider } from './context/AuthContext';
 
 const theme = createTheme({
   palette: {
@@ -77,14 +78,16 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/books/search" element={<BookSearch />} />
-          <Route path="/books/:bookId" element={<BookDetail />} />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/books/search" element={<BookSearch />} />
+            <Route path="/books/:bookId" element={<BookDetail />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
