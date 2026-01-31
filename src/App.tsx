@@ -65,10 +65,7 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: `
-        @font-face {
-          font-family: 'Pretendard';
-          src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
-        }
+        /* Font loaded via index.html */
       `,
     },
   },
