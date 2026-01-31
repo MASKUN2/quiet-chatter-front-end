@@ -66,6 +66,17 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
   return (
     <Card variant="outlined" sx={{ mx: 0 }}>
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', mb: 1.5 }}>
+          <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
+          <Typography variant="caption">
+            {new Date(talk.createdAt).toLocaleDateString()}
+            {talk.is_modified && ' (수정됨)'}
+          </Typography>
+          <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>
+            by {talk.nickname}
+          </Typography>
+        </Box>
+
         {isEditing ? (
           <Box sx={{ mb: 2 }}>
             <TextField
@@ -99,36 +110,24 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
             </Stack>
           </Box>
         ) : (
-          <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <Typography variant="body1" paragraph sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
-                {talk.content}
-              </Typography>
-              {isMine && (
-                <Box sx={{ ml: 1 }}>
-                  <IconButton size="small" onClick={() => setIsEditing(true)}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small" onClick={handleDelete} color="error">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              )}
-            </Box>
-          </>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+            <Typography variant="body1" sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
+              {talk.content}
+            </Typography>
+            {isMine && (
+              <Box sx={{ ml: 1, mt: -0.5 }}>
+                <IconButton size="small" onClick={() => setIsEditing(true)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={handleDelete} color="error">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            )}
+          </Box>
         )}
         
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary' }}>
-            <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
-            <Typography variant="caption">
-              {new Date(talk.createdAt).toLocaleDateString()}
-              {talk.is_modified && ' (수정됨)'}
-            </Typography>
-            <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>
-              by {talk.nickname}
-            </Typography>
-          </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button 
               size="small" 
