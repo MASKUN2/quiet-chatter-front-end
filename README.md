@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# Quiet Chatter Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Quiet Chatter 서비스의 웹 프론트엔드 프로젝트입니다.
+**"익명성과 휘발성을 결합한, 수줍은 이들을 위한 저자극 독서 나눔 SNS"**라는 가치를 사용자에게 전달하기 위해 편안하고 직관적인 UI/UX를 지향합니다.
 
-Currently, two official plugins are available:
+URL: https://quiet-chatter.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 기술 스택
 
-## React Compiler
+- **Core**: React 19, TypeScript, Vite
+- **UI Framework**: Material UI (MUI) v6
+- **Routing**: React Router DOM v7
+- **HTTP Client**: Axios
+- **Code Quality**: ESLint, Prettier
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 실행 방법
 
-## Expanding the ESLint configuration
+### 1. 사전 요구사항
+- Node.js (v18 이상 권장)
+- npm
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. 설치
+프로젝트 루트 디렉토리에서 의존성을 설치합니다.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 3. 개발 서버 실행
+로컬 개발 서버를 실행합니다. (기본 포트: 5173)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### 4. 백엔드 API 연동 (Proxy 설정)
+개발 시 백엔드 API와의 통신을 위해 `vite.config.ts`에 프록시가 설정되어 있습니다.
+기본적으로 `https://api.quiet-chatter.com` (운영 서버)을 바라보도록 설정되어 있으며, 로컬 백엔드 서버를 사용할 경우 타겟을 변경할 수 있습니다.
+
+## 📝 주요 스크립트
+
+- `npm run dev`: 개발 서버 실행
+- `npm run build`: 프로덕션 빌드 (TypeScript 컴파일 포함)
+- `npm run gen:types`: 백엔드 OpenAPI 스펙을 기반으로 TypeScript 타입 자동 생성
+- `npm run lint`: 린트 검사
+
+## 📂 문서
+
+AI 에이전트 및 개발자를 위한 가이드 문서는 `docs/guide` 디렉토리에 있습니다.
+
+- [**AI Agent Guide**](docs/guide/ai_agent_guide.md): 에이전트 작업 지침 및 API 연동 가이드
+- [Code Style Guide](docs/guide/code_style_guide.md): 코드 스타일 가이드
+- [Project History](docs/project_history.md): 개발 히스토리
+
+## 👥 팀
+
+- **개발**: 정인호
+- **기획**: 신정원
