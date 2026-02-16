@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import VoiceOfCustomerModal from './VoiceOfCustomerModal';
 import { 
   Box, TextField, Button, InputAdornment, Paper, 
-  IconButton, Typography, Menu, MenuItem, useMediaQuery, useTheme 
+  IconButton, Typography, Menu, MenuItem, useMediaQuery, useTheme,
+  Skeleton
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,7 +13,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   
   const navigate = useNavigate();
@@ -44,9 +45,18 @@ const Header: React.FC = () => {
   };
 
   const renderUserInfo = () => {
-    if (!user) return null;
+    // If loading and no cached user, show skeleton
+    if (loading && !user) {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Skeleton variant="circular" width={24} height={24} />
+          <Skeleton variant="text" width={60} height={20} />
+        </Box>
+      );
+    }
 
-    if (user.role === 'GUEST' || !user.isLoggedIn) {
+    // If no user (and not loading, or even if loading failed), show login button
+    if (!user || user.role === 'GUEST' || !user.isLoggedIn) {
       return (
         <Button 
           variant="outlined" 
