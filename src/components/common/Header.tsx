@@ -34,8 +34,38 @@ const Header: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const handleNaverLogin = () => {
+    const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+    const redirectUri = encodeURIComponent(import.meta.env.VITE_NAVER_REDIRECT_URI);
+    const state = Math.random().toString(36).substring(7); // 임시 state 생성
+    
+    const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+    window.location.href = naverAuthUrl;
+  };
+
   const renderUserInfo = () => {
-    if (!user || !user.isLoggedIn) return null;
+    if (!user) return null;
+
+    if (user.role === 'GUEST' || !user.isLoggedIn) {
+      return (
+        <Button 
+          variant="outlined" 
+          size="small" 
+          onClick={handleNaverLogin}
+          sx={{ 
+            color: '#03C75A', 
+            borderColor: '#03C75A',
+            '&:hover': {
+              borderColor: '#02b350',
+              backgroundColor: 'rgba(3, 199, 90, 0.04)'
+            },
+            fontWeight: 600
+          }}
+        >
+          네이버 로그인
+        </Button>
+      );
+    }
 
     if (isMobile) {
       return (

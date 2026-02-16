@@ -284,6 +284,15 @@ export interface components {
             /** @description Created Talk ID */
             id: string;
         };
+        /** TalkCreateRequest */
+        TalkCreateRequest: {
+            /** @description Hidden Date (Instant) */
+            hidden?: string | null;
+            /** @description Talk Content */
+            content: string;
+            /** @description Book ID */
+            bookId: string;
+        };
         /** AuthMeResponse */
         AuthMeResponse: {
             /** @description User Role */
@@ -294,15 +303,6 @@ export interface components {
             isLoggedIn: boolean;
             /** @description User ID */
             id?: (string | never) | null;
-        };
-        /** TalkCreateRequest */
-        TalkCreateRequest: {
-            /** @description Hidden Date (Instant) */
-            hidden?: string | null;
-            /** @description Talk Content */
-            content: string;
-            /** @description Book ID */
-            bookId: string;
         };
         /** BookListResponse */
         BookListResponse: {

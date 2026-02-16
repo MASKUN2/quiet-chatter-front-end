@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Home from './pages/Home';
 import BookSearch from './pages/BookSearch';
 import BookDetail from './pages/BookDetail';
+import NaverCallback from './pages/NaverCallback';
 import { AuthProvider } from './context/AuthContext';
 
 const theme = createTheme({
@@ -82,6 +83,7 @@ const App: React.FC = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/books/search" element={<BookSearch />} />
             <Route path="/books/:bookId" element={<BookDetail />} />
+            <Route path="/auth/login/naver/callback" element={<NaverCallback />} />
           </Routes>
         </Router>
       </AuthProvider>
