@@ -8,10 +8,10 @@ interface AuthContextType {
   refreshUser: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({ 
-  user: null, 
+const AuthContext = createContext<AuthContextType>({
+  user: null,
   loading: true,
-  refreshUser: async () => {} 
+  refreshUser: async () => { }
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -38,14 +38,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     let isMounted = true;
-    
+
     const initAuth = async () => {
       // If we already have a user from localStorage, we don't strictly need to "load",
       // but we still want to fetch fresh data.
       // We can set loading to false immediately if we have cached data,
       // or keep it true if we want to wait for the verification.
       // To prevent flickering, we trust the cache initially and update in background.
-      
+
       await refreshUser();
       if (isMounted) {
         setLoading(false);

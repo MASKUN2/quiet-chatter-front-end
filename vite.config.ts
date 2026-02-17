@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'https://api.quiet-chatter.com',
         changeOrigin: true,
         secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
         configure: (proxy) => {
           proxy.on('error', (err) => {
             console.log('proxy error', err);
@@ -23,7 +24,7 @@ export default defineConfig({
             // 쿠키 보안 설정 제거 (로컬 http 환경에서 쿠키를 허용하기 위함)
             const setCookie = proxyRes.headers['set-cookie'];
             if (setCookie) {
-              proxyRes.headers['set-cookie'] = setCookie.map(cookie => 
+              proxyRes.headers['set-cookie'] = setCookie.map(cookie =>
                 cookie
                   .replace(/Secure/gi, '')
                   .replace(/SameSite=None/gi, 'SameSite=Lax')

@@ -13,6 +13,13 @@ export const useHomeData = () => {
       try {
         setLoading(true);
         const recommendedTalks = await getRecommendedTalks();
+
+        if (!Array.isArray(recommendedTalks)) {
+          console.error('recommendedTalks is not an array:', recommendedTalks);
+          setTalks([]);
+          return;
+        }
+
         setTalks(recommendedTalks);
 
         if (recommendedTalks.length > 0) {
