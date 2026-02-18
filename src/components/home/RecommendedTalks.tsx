@@ -37,26 +37,39 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
   if (talks.length === 0) return <Typography color="textSecondary">최근 등록된 북톡이 없습니다.</Typography>;
 
   return (
-    <List>
+    <List sx={{ py: 0 }}>
       {talks.map(talk => {
         const book = books.get(talk.bookId);
         if (!book) return null;
         const truncatedContent = talk.content.length > 100 ? talk.content.substring(0, 100) + '...' : talk.content;
 
         return (
-          <ListItem key={talk.id} disablePadding sx={{ mb: 1 }}>
-            <ListItemButton component={Link} to={`/books/${book.id}`} sx={{ borderRadius: 1, border: '1px solid #e0e0e0', p: 1.5 }}>
-              <ListItemAvatar sx={{ mr: 1.5 }}>
+          <ListItem key={talk.id} disablePadding sx={{ mb: 1.5 }}>
+            <ListItemButton 
+              component={Link} 
+              to={`/books/${book.id}`} 
+              sx={{ 
+                borderRadius: 2, 
+                border: '1px solid',
+                borderColor: 'divider',
+                p: { xs: 1.5, sm: 2 },
+                '&:hover': {
+                  borderColor: 'primary.light',
+                  backgroundColor: 'rgba(92, 45, 145, 0.02)'
+                }
+              }}
+            >
+              <ListItemAvatar sx={{ mr: { xs: 1, sm: 2 } }}>
                 <Avatar
                   variant="rounded"
                   src={book.thumbnailImageUrl || '/images/quiet-chatter-icon.png'}
                   alt={book.title}
-                  sx={{ width: 45, height: 68 }}
+                  sx={{ width: 50, height: 75, boxShadow: 1 }}
                 />
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  <Typography variant="subtitle1" noWrap>
+                  <Typography variant="subtitle1" fontWeight="600" noWrap>
                       {book.title}
                   </Typography>
                 }
@@ -65,13 +78,13 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
                     <Typography variant="body2" color="text.secondary" noWrap component="span" display="block">
                       {book.author}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap component="span" display="block" sx={{ fontStyle: 'italic', mt: 0.5 }}>
+                    <Typography variant="body2" color="text.primary" noWrap component="span" display="block" sx={{ fontStyle: 'italic', mt: 0.5, opacity: 0.8 }}>
                       "{truncatedContent}"
                     </Typography>
                   </>
                 }
               />
-              <Stack direction="row" spacing={1.5} sx={{ ml: 2, alignItems: 'center' }}>
+              <Stack direction="row" spacing={1.5} sx={{ ml: 2, alignItems: 'center', display: { xs: 'none', sm: 'flex' } }}>
                   <Typography variant="caption" display="flex" alignItems="center" color={talk.didILike ? "primary.main" : "text.secondary"}>
                     {talk.didILike ? <ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5 }} /> : <ThumbUpOffAltIcon fontSize="small" sx={{ mr: 0.5 }} />}
                     {talk.like_count}

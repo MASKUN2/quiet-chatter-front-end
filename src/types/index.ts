@@ -27,19 +27,11 @@ export interface SliceResponse<T> extends SliceInfo {
   content: T[];
 }
 
-export type Book = {
-  id: string;
-  title: string;
-  author: string;
-  isbn: string;
-  description: string;
-  thumbnailImageUrl: string | null;
-  externalLinkUrl: string | null;
-};
+export type Book = components['schemas']['BookResponse'];
 
-// Talk 타입은 생성된 스키마 중 TalkListResponse에서 단일 항목을 추출하여 정의할 수도 있습니다.
-export type Talk = NonNullable<Schemas['TalkListResponse']>[number] & {
-  createdAt: string;
+// Talk 타입은 생성된 스키마 중 TalkListResponse에서 단일 항목을 추출하여 정의합니다.
+export type Talk = components['schemas']['TalkListResponse'][number] & {
+  createdAt: string; // ISO String
 };
 
 export type Member = components['schemas']['AuthMeResponse'];
