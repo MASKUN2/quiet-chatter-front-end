@@ -80,8 +80,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get current authenticated user info
-         * @description Get current authenticated user info
+         * Get anonymous user info
+         * @description Get anonymous user info
          */
         get: operations["auth-me"];
         put?: never;
@@ -176,41 +176,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/auth/login/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Naver Login (Not Registered)
+         * @description Naver Login (Not Registered)
+         */
+        post: operations["auth-login-naver-"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/auth/signup/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Naver Signup
+         * @description Naver Signup
+         */
+        post: operations["auth-signup-naver"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** TalkListResponse */
-        TalkListResponse: {
-            /** @description Like Count (alias) */
-            like_count?: number | null;
-            /** @description Support Count */
-            supportCount: number;
-            /** @description Like Count */
-            likeCount: number;
-            /** @description Content */
-            content: string;
-            /** @description Date to be hidden */
-            dateToHidden: string;
-            /** @description Book ID */
-            bookId: string;
-            /** @description Did I Like */
-            didILike: boolean;
-            /** @description Is Modified */
-            isModified: boolean;
-            /** @description Did I Support */
-            didISupport: boolean;
-            /** @description Nickname */
-            nickname: string;
-            /** @description Support Count (alias) */
-            support_count?: number | null;
-            /** @description Talk ID */
-            id: string;
-            /** @description Is Modified (alias) */
-            is_modified?: boolean | null;
-            /** @description Member ID */
-            memberId: string;
-        }[];
         /** TalkPageResponse */
         TalkPageResponse: {
             /** @description Page Number */
@@ -279,11 +288,6 @@ export interface components {
             /** @description Talk ID */
             talkId: string;
         };
-        /** IdResponse */
-        IdResponse: {
-            /** @description Created Talk ID */
-            id: string;
-        };
         /** TalkCreateRequest */
         TalkCreateRequest: {
             /** @description Hidden Date (Instant) */
@@ -293,6 +297,76 @@ export interface components {
             /** @description Book ID */
             bookId: string;
         };
+        /** TalkUpdateRequest */
+        TalkUpdateRequest: {
+            /** @description New content */
+            content: string;
+        };
+        /** NaverLoginResponse */
+        NaverLoginResponse: {
+            /** @description Temporary nickname from provider */
+            tempNickname?: string | null;
+            /** @description Is registered user */
+            isRegistered: boolean;
+            /** @description Register token for signup */
+            registerToken?: string | null;
+        };
+        /** TalkListResponse */
+        TalkListResponse: {
+            /** @description Like Count (alias) */
+            like_count?: number | null;
+            /** @description Support Count */
+            supportCount: number;
+            /** @description Like Count */
+            likeCount: number;
+            /** @description Content */
+            content: string;
+            /** @description Date to be hidden */
+            dateToHidden: string;
+            /** @description Book ID */
+            bookId: string;
+            /** @description Did I Like */
+            didILike: boolean;
+            /** @description Is Modified */
+            isModified: boolean;
+            /** @description Did I Support */
+            didISupport: boolean;
+            /** @description Nickname */
+            nickname: string;
+            /** @description Support Count (alias) */
+            support_count?: number | null;
+            /** @description Talk ID */
+            id: string;
+            /** @description Is Modified (alias) */
+            is_modified?: boolean | null;
+            /** @description Member ID */
+            memberId: string;
+        }[];
+        /** IdResponse */
+        IdResponse: {
+            /** @description Created Talk ID */
+            id: string;
+        };
+        /** AuthMeResponse */
+        AuthMeResponse: {
+            /** @description User Role */
+            role: string;
+            /** @description User Nickname */
+            nickname: string;
+            /** @description Login status */
+            isLoggedIn: boolean;
+            /** @description User ID */
+            id?: (string | never) | null;
+        };
+        /** SignupRequest */
+        SignupRequest: {
+            /** @description Desired Nickname */
+            nickname: string;
+            /** @description Register Token from Login API */
+            registerToken: string;
+        };
+        /** NaverLoginRequest */
+        NaverLoginRequest: Record<string, never>;
         /** BookListResponse */
         BookListResponse: {
             /** @description Page number */
@@ -338,26 +412,10 @@ export interface components {
             /** @description Is empty */
             empty: boolean;
         };
-        /** TalkUpdateRequest */
-        TalkUpdateRequest: {
-            /** @description New content */
-            content: string;
-        };
         /** CustomerMessageRequest */
         CustomerMessageRequest: {
             /** @description Message content */
             content: string;
-        };
-        /** AuthMeResponse */
-        AuthMeResponse: {
-            /** @description User Role */
-            role: string;
-            /** @description User Nickname */
-            nickname: string;
-            /** @description Login status */
-            isLoggedIn: boolean;
-            /** @description User ID (null for anonymous) */
-            id?: (never | string) | null;
         };
         /** BookResponse */
         BookResponse: {
@@ -633,6 +691,52 @@ export interface operations {
         responses: {
             /** @description 204 */
             204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "auth-login-naver-": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["NaverLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NaverLoginResponse"];
+                };
+            };
+        };
+    };
+    "auth-signup-naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["SignupRequest"];
+            };
+        };
+        responses: {
+            /** @description 201 */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

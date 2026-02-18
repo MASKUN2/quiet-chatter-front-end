@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Book, PageResponse, SliceResponse, Talk, Member } from '../types';
+import type { Book, PageResponse, SliceResponse, Talk, Member, Schemas } from '../types';
 import { API, MESSAGES, PAGINATION } from '../constants';
 
 const apiClient = axios.create({
@@ -24,8 +24,15 @@ export async function getMe(): Promise<Member> {
   return response.data;
 }
 
-export async function loginWithNaver(code: string, state: string): Promise<void> {
-  await apiClient.post('/v1/auth/login/naver', { code, state });
+export type NaverLoginResponse = Schemas['NaverLoginResponse'];
+
+export async function loginWithNaver(code: string, state: string): Promise<NaverLoginResponse> {
+  const response = await apiClient.post<NaverLoginResponse>('/v1/auth/login/naver', { code, state });
+  return response.data;
+}
+
+export async function signupWithNaver(nickname: string, registerToken: string): Promise<void> {
+  await apiClient.post('/v1/auth/signup/naver', { nickname, registerToken });
 }
 
 export async function logout(): Promise<void> {

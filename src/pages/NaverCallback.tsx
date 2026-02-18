@@ -1,46 +1,94 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, CircularProgress, Typography } from '@mui/material';
-import { loginWithNaver } from '../api/api';
+import { Box, CircularProgress, Typography, Snackbar, Alert } from '@mui/material';
+import { loginWithNaver, signupWithNaver } from '../api/api';
+import { useAuth } from '../context/AuthContext';
+import SignupModal from '../components/common/SignupModal';
 
 const NaverCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { refreshMember } = useAuth();
+
+  const [loading, setLoading] = useState(true);
+  const [statusMessage, setStatusMessage] = useState('로그인 중입니다...');
+  
+  // 회원가입 관련 상태
+  const [showSignup, setShowSignup] = useState(false);
+  const [registerToken, setRegisterToken] = useState('');
+  const [tempNickname, setTempNickname] = useState('');
+  const [signupLoading, setSignupLoading] = useState(false);
+
+  // Snackbar 상태
+  const [toast, setToast] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
 
   useEffect(() => {
     const code = searchParams.get('code');
     const state = searchParams.get('state');
 
-    console.log('Naver Login Callback params:', { code, state });
-
     if (code && state) {
-      console.log('Attempting login with Naver code...');
-      loginWithNaver(code, state)
-        .then(() => {
-          console.log('Naver login success');
-          // 로그인 성공 시 홈으로 이동 (쿠키는 브라우저에서 관리됨)
-          navigate('/home', { replace: true });
-        })
-        .catch((error) => {
-          console.error('Naver login failed:', error);
-          alert('네이버 로그인에 실패했습니다.');
-          navigate('/home', { replace: true });
-        });
+      handleLogin(code, state);
     } else {
-      console.warn('Missing code or state in callback');
-      // If code/state is missing, check if they are in the hash (old flow fallback logging)
-      const hash = window.location.hash;
-      if (hash) {
-        console.log('Found hash in URL:', hash);
-        if (hash.includes('access_token')) {
-          console.warn('Received access_token instead of code. Please ensure Naver SDK is configured with responseType: "code"');
-        }
-      }
-      // Redirect back if no valid params found after a short delay to allow logs to be seen
-      const timer = setTimeout(() => navigate('/home', { replace: true }), 2000);
-      return () => clearTimeout(timer);
+      showToast('잘못된 접근입니다.', 'error');
+      setTimeout(() => navigate('/home', { replace: true }), 2000);
     }
-  }, [searchParams, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleLogin = async (code: string, state: string) => {
+    try {
+      const response = await loginWithNaver(code, state);
+      
+      if (response.isRegistered) {
+        await completeLogin('반갑습니다! 로그인되었습니다.');
+      } else {
+        // 미가입: 회원가입 모달 오픈
+        setRegisterToken(response.registerToken || '');
+        setTempNickname(response.tempNickname || '');
+        setShowSignup(true);
+        setLoading(false);
+        setStatusMessage('회원가입을 진행합니다.');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      showToast('로그인에 실패했습니다.', 'error');
+      setTimeout(() => navigate('/home', { replace: true }), 2000);
+    }
+  };
+
+  const completeLogin = async (message: string) => {
+    setStatusMessage('로그인 완료! 홈으로 이동합니다...');
+    await refreshMember();
+    showToast(message, 'success');
+    setTimeout(() => navigate('/home', { replace: true }), 1500);
+  };
+
+  const handleSignup = async (nickname: string) => {
+    setSignupLoading(true);
+    try {
+      await signupWithNaver(nickname, registerToken);
+      setShowSignup(false);
+      await completeLogin('환영합니다! 회원가입이 완료되었습니다.');
+    } catch (error) {
+      console.error('Signup failed:', error);
+      showToast('회원가입에 실패했습니다.', 'error');
+      setSignupLoading(false);
+    }
+  };
+
+  const handleSignupCancel = () => {
+    setShowSignup(false);
+    showToast('회원가입이 취소되었습니다.', 'error');
+    navigate('/home', { replace: true });
+  };
+
+  const showToast = (message: string, severity: 'success' | 'error') => {
+    setToast({ open: true, message, severity });
+  };
 
   return (
     <Box sx={{
@@ -50,8 +98,31 @@ const NaverCallback: React.FC = () => {
       justifyContent: 'center',
       height: '100vh'
     }}>
-      <CircularProgress sx={{ color: '#5c2d91', mb: 2 }} />
-      <Typography variant="body1">로그인 중입니다...</Typography>
+      {loading && (
+        <>
+          <CircularProgress sx={{ color: '#5c2d91', mb: 2 }} />
+          <Typography variant="body1">{statusMessage}</Typography>
+        </>
+      )}
+
+      <SignupModal 
+        open={showSignup}
+        tempNickname={tempNickname}
+        onSignup={handleSignup}
+        onCancel={handleSignupCancel}
+        loading={signupLoading}
+      />
+
+      <Snackbar 
+        open={toast.open} 
+        autoHideDuration={3000} 
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity={toast.severity} variant="filled" sx={{ width: '100%' }}>
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
