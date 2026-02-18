@@ -48,13 +48,7 @@ const ComponentName: React.FC<ComponentProps> = ({ title, items }) => {
 export default ComponentName;
 ```
 
-## 4. 스타일링 (Styling)
-
-- **MUI System**: Material UI의 `sx` prop을 활용하여 스타일을 정의하는 것을 권장합니다.
-- **반응형**: `sx={{ width: { xs: '100%', md: '50%' } }}`와 같이 Breakpoint 객체를 사용하여 반응형 스타일을 적용합니다.
-- **색상**: 하드코딩된 색상 코드 대신 `theme`의 팔레트를 사용하려고 노력합니다. (예: `color="primary.main"`, `bgcolor="background.paper"`)
-
-## 5. API 호출 및 비동기 처리
+## 4. API 호출 및 비동기 처리
 
 - API 호출 로직은 컴포넌트 내부에 직접 작성하지 않고, `src/api/api.ts`에 정의된 함수를 import하여 사용합니다.
 - 복잡한 데이터 페칭 로직은 `src/hooks/` 폴더 내에 커스텀 훅(예: `useBookSearch.ts`)으로 분리합니다.

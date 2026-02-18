@@ -50,3 +50,10 @@ Material UI의 공식 아이콘 세트(`@mui/icons-material`)를 사용합니다
 - 시간: `AccessTime`
 - 리액션: `ThumbUp`, `Favorite`
 - 검색: `Search`
+
+## 6. 스타일링 구현 원칙 (Implementation)
+개발 시 일관된 스타일 적용을 위해 다음 원칙을 준수합니다.
+
+- **MUI System 활용**: 스타일 정의 시 가급적 MUI의 `sx` prop을 활용합니다.
+- **테마 팔레트 참조**: 하드코딩된 색상 코드 대신 `theme`의 팔레트 값을 사용합니다. (예: `color="primary.main"`, `bgcolor="background.paper"`)
+- **반응형 대응**: Breakpoint 객체를 사용하여 뷰포트별 스타일을 정의합니다. (예: `sx={{ width: { xs: '100%', md: '50%' } }}`)
