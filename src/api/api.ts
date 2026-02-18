@@ -29,6 +29,10 @@ export async function loginWithNaver(code: string, state: string): Promise<void>
   await apiClient.post('/v1/auth/login/naver', { code, state });
 }
 
+export async function logout(): Promise<void> {
+  await apiClient.post('/v1/auth/logout');
+}
+
 export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
   const response = await apiClient.get<SliceResponse<Book>>('/v1/books', {
     params: { keyword, page, sort: 'title,asc' }

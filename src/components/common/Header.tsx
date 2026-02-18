@@ -14,7 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const navigate = useNavigate();
@@ -26,6 +26,12 @@ const Header: React.FC = () => {
     if (keyword.trim()) {
       navigate(`/books/search?keyword=${encodeURIComponent(keyword)}&page=1`);
     }
+  };
+
+  const handleLogout = async () => {
+    handleClose();
+    await logout();
+    navigate('/home');
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -76,6 +82,7 @@ const Header: React.FC = () => {
               <Typography variant="body2">{user.nickname} ({user.role})</Typography>
             </MenuItem>
             <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
+            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
             {!user.isLoggedIn && (
               <MenuItem disableRipple>
                 <NaverLogin />
@@ -104,6 +111,14 @@ const Header: React.FC = () => {
         }}>
           {user.role}
         </Typography>
+        <Button 
+          variant="text" 
+          size="small" 
+          onClick={handleLogout}
+          sx={{ color: 'text.secondary', ml: 1 }}
+        >
+          로그아웃
+        </Button>
         {!user.isLoggedIn && (
           <Box sx={{ ml: 1 }}>
             <NaverLogin height={32} />
