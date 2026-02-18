@@ -14,6 +14,7 @@
 
 - **[AI Agent Development Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 개요, API 연동 절차, 작업 원칙
 - **[Code Style Guide](docs/guide/code_style_guide.md)**: 코드 포맷팅, 네이밍 컨벤션, 컴포넌트 구조
+- **[Design Guide](docs/guide/design_guide.md)**: 컬러 팔레트, 타이포그래피, UI 패턴 및 디자인 원칙
 - **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 아키텍처 설명
 
 ## 2. 작업 절차 요약
