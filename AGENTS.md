@@ -12,10 +12,11 @@
 
 작업을 시작하기 전에 아래 가이드 문서를 먼저 숙지하십시오.
 
-- **[AI Agent Development Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 개요, API 연동 절차, 작업 원칙
-- **[Code Style Guide](docs/guide/code_style_guide.md)**: 코드 포맷팅, 네이밍 컨벤션, 컴포넌트 구조
-- **[Design Guide](docs/guide/design_guide.md)**: 컬러 팔레트, 타이포그래피, UI 패턴 및 디자인 원칙
-- **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 아키텍처 설명
+- **[AI Agent Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 인프라, API 연동 및 작업 프로세스
+- **[Code Style Guide](docs/guide/code_style_guide.md)**: 코딩 표준, 컴포넌트 설계 및 에러 처리 원칙
+- **[Design Guide](docs/guide/design_guide.md)**: 시각적 정체성, 컬러 팔레트 및 UI 구현 가이드
+- **[Authentication Guide](docs/guide/authentication_guide.md)**: 멤버 체계, 로그인 흐름 및 권한 정책
+- **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 디렉토리 역할 설명
 
 ## 2. 작업 절차 요약
 
