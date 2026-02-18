@@ -12,7 +12,7 @@
 
 - **컴포넌트 파일**: PascalCase를 사용합니다. (예: `BookList.tsx`, `Header.tsx`)
 - **함수 및 변수**: camelCase를 사용합니다. (예: `handleSearch`, `fetchBooks`, `isLoading`)
-- **인터페이스 및 타입**: PascalCase를 사용합니다. (예: `Book`, `UserResponse`)
+- **인터페이스 및 타입**: PascalCase를 사용합니다. (예: `Book`, `MemberResponse`)
 - **상수**: `const`로 선언된 상수는 camelCase를 원칙으로 하되, 설정값이나 불변 상수는 UPPER_SNAKE_CASE를 허용합니다.
 
 ## 3. 컴포넌트 구조 (Component Structure)
