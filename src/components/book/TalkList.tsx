@@ -7,11 +7,11 @@ interface TalkListProps {
   talks: Talk[];
   loading: boolean;
   onReaction: (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => void;
-  currentUserId?: string | null;
+  currentMemberId?: string | null;
   onUpdate: () => void;
 }
 
-const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction, currentUserId, onUpdate }) => {
+const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction, currentMemberId, onUpdate }) => {
   if (loading) {
     return (
       <Stack spacing={2}>
@@ -37,7 +37,7 @@ const TalkList: React.FC<TalkListProps> = ({ talks, loading, onReaction, current
           key={talk.id} 
           talk={talk} 
           onReaction={onReaction} 
-          currentUserId={currentUserId}
+          currentMemberId={currentMemberId}
           onUpdate={onUpdate}
         />
       ))}

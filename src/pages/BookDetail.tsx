@@ -93,7 +93,7 @@ const BookDetail: React.FC = () => {
               talks={talks} 
               loading={loadingTalks} 
               onReaction={onReaction} 
-              currentUserId={member?.id}
+              currentMemberId={member?.id}
               onUpdate={onTalkUpdate}
             />
 

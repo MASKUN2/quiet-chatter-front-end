@@ -42,4 +42,4 @@ export type Talk = NonNullable<Schemas['TalkListResponse']>[number] & {
   createdAt: string;
 };
 
-export type Member = Schemas['AuthMeResponse'];
+export type Member = components['schemas']['AuthMeResponse'];

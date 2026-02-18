@@ -74,7 +74,7 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('An unknown error occurred while posting the talk.');
+        alert('톡 등록 중 오류가 발생했습니다.');
       }
     }
   };
@@ -110,7 +110,7 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('An unknown error occurred while processing the reaction.');
+        alert('반응 처리 중 오류가 발생했습니다.');
       }
       if (bookId) loadTalks(bookId, talkPage);
     }
