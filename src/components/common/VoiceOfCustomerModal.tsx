@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton, Box } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { sendVocMessage } from '../../api/api';
+import { MESSAGES } from '../../constants';
 
 const VoiceOfCustomerModal: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -14,21 +15,21 @@ const VoiceOfCustomerModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) {
-      alert('메시지를 입력해주세요.');
+      alert(MESSAGES.ERROR.INPUT_REQUIRED);
       return;
     }
 
     setLoading(true);
     try {
       await sendVocMessage(message);
-      alert('소중한 의견 감사합니다!');
+      alert(MESSAGES.SUCCESS.VOC_SENT);
       setMessage('');
       handleClose();
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('메시지 전송에 실패했습니다.');
+        alert(MESSAGES.ERROR.VOC_SEND_FAILED);
       }
     } finally {
       setLoading(false);

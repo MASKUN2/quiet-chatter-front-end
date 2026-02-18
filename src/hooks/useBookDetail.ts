@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { getBookDetails, getTalks, postTalk, handleReaction } from '../api/api';
 import type { Book, Talk, PageInfo } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { MESSAGES } from '../constants';
 
 export const useBookDetail = (bookId: string | undefined) => {
   const [book, setBook] = useState<Book | null>(null);
@@ -74,14 +75,14 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('톡 등록 중 오류가 발생했습니다.');
+        alert(MESSAGES.ERROR.TALK_POST_FAILED);
       }
     }
   };
 
   const onReaction = async (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => {
     if (!member?.isLoggedIn) {
-      alert('로그인이 필요한 기능입니다.');
+      alert(MESSAGES.ERROR.LOGIN_REQUIRED);
       return;
     }
     try {
@@ -110,7 +111,7 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('반응 처리 중 오류가 발생했습니다.');
+        alert(MESSAGES.ERROR.REACTION_FAILED);
       }
       if (bookId) loadTalks(bookId, talkPage);
     }

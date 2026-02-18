@@ -1,12 +1,11 @@
 import axios from 'axios';
 import type { Book, PageResponse, SliceResponse, Talk, Member } from '../types';
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+import { API, MESSAGES, PAGINATION } from '../constants';
 
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API.BASE_URL,
   withCredentials: true,
-  timeout: 10000,
+  timeout: API.TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +14,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message = error.response?.data?.detail || error.response?.data?.message || error.message || 'API 요청에 실패했습니다.';
+    const message = error.response?.data?.detail || error.response?.data?.message || error.message || MESSAGES.ERROR.API_REQUEST_FAILED;
     return Promise.reject(new Error(message));
   }
 );
@@ -57,7 +56,7 @@ export async function getBooksByIds(bookIds: string[]): Promise<Book[]> {
 
 export async function getTalks(bookId: string, page: number = 0): Promise<PageResponse<Talk>> {
   const response = await apiClient.get<PageResponse<Talk>>('/v1/talks', {
-    params: { bookId, page, size: 6, sort: 'createdAt,desc' }
+    params: { bookId, page, size: PAGINATION.TALK_LIST_SIZE, sort: 'createdAt,desc' }
   });
   return response.data;
 }
