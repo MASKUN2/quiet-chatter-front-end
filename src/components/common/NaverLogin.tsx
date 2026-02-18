@@ -14,7 +14,7 @@ const NaverLogin: React.FC<NaverLoginProps> = ({ height = 40 }) => {
         // CSRF 방지를 위해 state 저장 (선택 사항이나 권장됨)
         localStorage.setItem('naver_auth_state', state);
 
-        const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+        const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&locale=ko_KR`;
 
         window.location.href = naverAuthUrl;
     };
