@@ -15,10 +15,21 @@
 
 백엔드 API와 연동되는 기능을 수정하거나 추가할 때는 **OpenAPI 스펙 기반의 타입 안전성**을 유지해야 합니다.
 
-### 필수 확인 사항
+### 타입 생성 및 업데이트
 - **OpenAPI Spec URL**: `https://dev-api.quiet-chatter.com/v1/spec` (최신 작업 반영을 위해 Dev 서버 사용)
 - **타입 생성 명령어**: `npm run gen:types`
 - **경로 정책**: 모든 API 호출은 `/v1`으로 시작합니다. 로컬 개발 시에는 `vite.config.ts`의 프록시 설정을 통해 `/api` 접두사를 사용합니다.
+
+### 작업 절차 (Workflow)
+1. **스펙 변경 확인**: 작업을 시작하기 전 `npm run gen:types`를 실행하여 백엔드 API 변경 사항이 있는지 확인합니다.
+2. **타입 업데이트**: 변경 사항이 있다면 로컬의 `src/types/api-schema.d.ts`가 갱신됩니다.
+3. **영향도 분석**: 업데이트된 타입으로 인해 발생하는 컴파일 에러(`npm run build` 실행 권장)를 확인하고, 관련된 API 호출부(`src/api/api.ts`) 및 컴포넌트를 수정합니다.
+4. **코드 구현**: 최신화된 타입을 기반으로 비즈니스 로직 및 UI를 구현합니다.
+
+### 타입 정의 원칙
+- 자동 생성된 `src/types/api-schema.d.ts`는 절대 **직접 수정하지 마십시오.**
+- 공통 타입은 `src/types/index.ts`에서 `api-schema.d.ts`를 import하여 재정의하거나 조합하여 사용합니다.
+- `verbatimModuleSyntax` 설정에 따라 타입을 임포트할 때는 반드시 `import type` 구문을 사용하십시오.
 
 ### 환경 변수 (.env)
 배포 시 다음 환경 변수가 적절히 설정되어야 합니다.
