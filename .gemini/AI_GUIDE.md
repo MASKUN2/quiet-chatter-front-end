@@ -6,7 +6,7 @@
 
 백엔드 API와 연동되는 기능을 수정하거나 추가할 때는 반드시 최신 OpenAPI 스펙을 먼저 확인해야 합니다.
 
-- **OpenAPI Spec URL**: [https://quiet-chatter.com/api/v1/spec](https://quiet-chatter.com/api/v1/spec)
+- **OpenAPI Spec URL**: [https://dev-api.quiet-chatter.com/v1/spec](https://dev-api.quiet-chatter.com/v1/spec) (최신 작업분이 반영되는 개발 서버 기준)
 - **명령어**: `npm run gen:types`
 
 ### 작업 절차 (Workflow)

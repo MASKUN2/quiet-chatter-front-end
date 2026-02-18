@@ -2,6 +2,11 @@
 
 본 문서는 AI 에이전트가 `quiet-chatter-front-end` 프로젝트에서 작업을 수행하기 전 반드시 확인해야 할 진입점입니다.
 
+## 0. 프로젝트 현황 요약
+- **플랫폼**: React + TypeScript + Vite (Cloudflare Pages 배포)
+- **백엔드 스테이징**: `dev-api.quiet-chatter.com` (개발/테스트용), `api.quiet-chatter.com` (운영용)
+- **API 정책**: `/v1` 기반 경로 사용 (GUEST 로그인 폐지, 네이버 로그인 중심)
+
 ## 1. 필수 확인 문서
 
 작업을 시작하기 전에 아래 가이드 문서를 먼저 숙지하십시오.
