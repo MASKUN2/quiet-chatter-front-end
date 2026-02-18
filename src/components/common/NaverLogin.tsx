@@ -31,6 +31,7 @@ const NaverLogin: React.FC<NaverLoginProps> = ({ height = 40 }) => {
                 callbackUrl: import.meta.env.VITE_NAVER_REDIRECT_URI,
                 isPopup: false,
                 loginButton: { color: 'green', type: 3, height: height }, // Type 3 is "Naver Login" text with logo
+                responseType: 'code',
             });
 
             naverLogin.init();
