@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/v1/books": {
+    "/v1/books": {
         parameters: {
             query?: never;
             header?: never;
@@ -24,7 +24,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/reactions": {
+    "/v1/reactions": {
         parameters: {
             query?: never;
             header?: never;
@@ -48,7 +48,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks": {
+    "/v1/talks": {
         parameters: {
             query?: never;
             header?: never;
@@ -72,7 +72,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/auth/me": {
+    "/v1/auth/me": {
         parameters: {
             query?: never;
             header?: never;
@@ -80,8 +80,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get anonymous user info
-         * @description Get anonymous user info
+         * Get current authenticated user info
+         * @description Get current authenticated user info
          */
         get: operations["auth-me"];
         put?: never;
@@ -92,7 +92,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/books/{bookId}": {
+    "/v1/books/{bookId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -112,7 +112,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/customer/messages": {
+    "/v1/customer/messages": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks/recommend": {
+    "/v1/talks/recommend": {
         parameters: {
             query?: never;
             header?: never;
@@ -152,7 +152,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks/{talkId}": {
+    "/v1/talks/{talkId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -180,6 +180,37 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** TalkListResponse */
+        TalkListResponse: {
+            /** @description Like Count (alias) */
+            like_count?: number | null;
+            /** @description Support Count */
+            supportCount: number;
+            /** @description Like Count */
+            likeCount: number;
+            /** @description Content */
+            content: string;
+            /** @description Date to be hidden */
+            dateToHidden: string;
+            /** @description Book ID */
+            bookId: string;
+            /** @description Did I Like */
+            didILike: boolean;
+            /** @description Is Modified */
+            isModified: boolean;
+            /** @description Did I Support */
+            didISupport: boolean;
+            /** @description Nickname */
+            nickname: string;
+            /** @description Support Count (alias) */
+            support_count?: number | null;
+            /** @description Talk ID */
+            id: string;
+            /** @description Is Modified (alias) */
+            is_modified?: boolean | null;
+            /** @description Member ID */
+            memberId: string;
+        }[];
         /** TalkPageResponse */
         TalkPageResponse: {
             /** @description Page Number */
@@ -241,37 +272,6 @@ export interface components {
             /** @description Total Elements */
             totalElements: number;
         };
-        /** TalkListResponse */
-        TalkListResponse: {
-            /** @description Like Count (alias) */
-            like_count?: number | null;
-            /** @description Support Count */
-            supportCount: number;
-            /** @description Like Count */
-            likeCount: number;
-            /** @description Content */
-            content: string;
-            /** @description Date to be hidden */
-            dateToHidden: string;
-            /** @description Book ID */
-            bookId: string;
-            /** @description Did I Like */
-            didILike: boolean;
-            /** @description Is Modified */
-            isModified: boolean;
-            /** @description Did I Support */
-            didISupport: boolean;
-            /** @description Nickname */
-            nickname: string;
-            /** @description Support Count (alias) */
-            support_count?: number | null;
-            /** @description Talk ID */
-            id: string;
-            /** @description Is Modified (alias) */
-            is_modified?: boolean | null;
-            /** @description Member ID */
-            memberId: string;
-        }[];
         /** ReactionRequest */
         ReactionRequest: {
             /** @description Reaction Type (LIKE, SUPPORT) */
@@ -292,17 +292,6 @@ export interface components {
             content: string;
             /** @description Book ID */
             bookId: string;
-        };
-        /** AuthMeResponse */
-        AuthMeResponse: {
-            /** @description User Role */
-            role: string;
-            /** @description User Nickname */
-            nickname: string;
-            /** @description Login status */
-            isLoggedIn: boolean;
-            /** @description User ID */
-            id?: (string | never) | null;
         };
         /** BookListResponse */
         BookListResponse: {
@@ -358,6 +347,17 @@ export interface components {
         CustomerMessageRequest: {
             /** @description Message content */
             content: string;
+        };
+        /** AuthMeResponse */
+        AuthMeResponse: {
+            /** @description User Role */
+            role: string;
+            /** @description User Nickname */
+            nickname: string;
+            /** @description Login status */
+            isLoggedIn: boolean;
+            /** @description User ID (null for anonymous) */
+            id?: (never | string) | null;
         };
         /** BookResponse */
         BookResponse: {

@@ -49,9 +49,7 @@ const Header: React.FC = () => {
       );
     }
 
-    // If no user (and not loading, or even if loading failed), show login button
-    // Note: GUEST users are considered logged in for the purpose of showing info,
-    // but they also need the option to "real" login.
+    // 로그인하지 않은 사용자(또는 로딩 실패 시)에게 로그인 버튼 노출
     if (!user || !user.isLoggedIn) {
       return (
         <NaverLogin height={32} />
@@ -78,7 +76,7 @@ const Header: React.FC = () => {
               <Typography variant="body2">{user.nickname} ({user.role})</Typography>
             </MenuItem>
             <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
-            {user.role === 'GUEST' && (
+            {!user.isLoggedIn && (
               <MenuItem disableRipple>
                 <NaverLogin />
               </MenuItem>
@@ -106,7 +104,7 @@ const Header: React.FC = () => {
         }}>
           {user.role}
         </Typography>
-        {user.role === 'GUEST' && (
+        {!user.isLoggedIn && (
           <Box sx={{ ml: 1 }}>
             <NaverLogin height={32} />
           </Box>

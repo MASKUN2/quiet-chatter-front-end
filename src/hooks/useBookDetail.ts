@@ -33,7 +33,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     try {
       setLoadingTalks(true);
       
-      // Refresh user auth before loading talks (to capture guest session etc.)
+      // 톡 목록을 불러오기 전 사용자 인증 정보를 갱신 (최신 세션 정보 반영)
       if (page === 0) {
         await refreshUser();
       }
@@ -80,6 +80,10 @@ export const useBookDetail = (bookId: string | undefined) => {
   };
 
   const onReaction = async (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => {
+    if (!user?.isLoggedIn) {
+      alert('로그인이 필요한 기능입니다.');
+      return;
+    }
     try {
       await handleReaction(talkId, type, hasReacted);
       

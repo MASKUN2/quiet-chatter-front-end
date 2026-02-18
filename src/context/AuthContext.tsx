@@ -29,7 +29,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const userData = await getMe();
       setUser(userData);
-      localStorage.setItem('auth_user', JSON.stringify(userData));
+      if (userData.isLoggedIn) {
+        localStorage.setItem('auth_user', JSON.stringify(userData));
+      } else {
+        localStorage.removeItem('auth_user');
+      }
     } catch {
       setUser(null);
       localStorage.removeItem('auth_user');
