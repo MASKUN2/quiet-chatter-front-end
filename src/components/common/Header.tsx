@@ -115,7 +115,13 @@ const Header: React.FC = () => {
           variant="text" 
           size="small" 
           onClick={handleLogout}
-          sx={{ color: 'text.secondary', ml: 1 }}
+          sx={{ 
+            color: 'text.secondary', 
+            ml: 1,
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.04)'
+            }
+          }}
         >
           로그아웃
         </Button>
@@ -203,10 +209,10 @@ const Header: React.FC = () => {
                 minWidth: 'auto',
                 px: 3,
                 borderRadius: 1,
-                color: '#5c2d91',
-                borderColor: '#5c2d91',
+                color: 'primary.main',
+                borderColor: 'primary.main',
                 '&:hover': {
-                  borderColor: '#4b0082',
+                  borderColor: 'primary.dark',
                   backgroundColor: 'rgba(92, 45, 145, 0.04)',
                 }
               }}

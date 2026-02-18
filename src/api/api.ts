@@ -15,7 +15,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message = error.response?.data?.detail || error.response?.data?.message || error.message || 'API request failed.';
+    const message = error.response?.data?.detail || error.response?.data?.message || error.message || 'API 요청에 실패했습니다.';
     return Promise.reject(new Error(message));
   }
 );

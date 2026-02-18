@@ -66,10 +66,10 @@ const BookInfo: React.FC<BookInfoProps> = ({ book }) => {
               href={book.externalLinkUrl} 
               target="_blank"
               sx={{ 
-                color: '#5c2d91',
-                borderColor: '#5c2d91',
+                color: 'primary.main',
+                borderColor: 'primary.main',
                 '&:hover': {
-                  borderColor: '#4b0082',
+                  borderColor: 'primary.dark',
                   backgroundColor: 'rgba(92, 45, 145, 0.04)'
                 }
               }}

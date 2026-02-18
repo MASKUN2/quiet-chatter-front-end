@@ -27,7 +27,7 @@ const TalkForm: React.FC<TalkFormProps> = ({ content, setContent, onSubmit, nick
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircleIcon fontSize="small" color="action" />
           <Typography variant="body2" fontWeight="bold">
-            {nickname || '손님'}
+            {nickname || '익명 사용자'}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary' }}>

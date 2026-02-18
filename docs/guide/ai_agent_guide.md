@@ -16,7 +16,7 @@
 ### 타입 생성 및 업데이트
 - **OpenAPI Spec URL**: `https://dev-api.quiet-chatter.com/v1/spec` (최신 작업 반영을 위해 Dev 서버 사용)
 - **타입 생성 명령어**: `npm run gen:types`
-- **경로 정책**: 모든 API 호출은 `/v1`으로 시작합니다. 로컬 개발 시에는 `vite.config.ts`의 프록시 설정을 통해 브라우저 요청은 `/api`를 경유합니다.
+- **경로 정책**: 모든 API 호출은 버저닝 접두사(예: `/v1`, `/v2` 등)로 시작합니다. 로컬 개발 시에는 `vite.config.ts`의 프록시 설정을 통해 브라우저 요청은 `/api`를 경유하여 해당 버전의 엔드포인트로 전달됩니다.
 
 ### 타입 정의 원칙
 - 자동 생성된 `src/types/api-schema.d.ts`는 절대 **직접 수정하지 마십시오.**

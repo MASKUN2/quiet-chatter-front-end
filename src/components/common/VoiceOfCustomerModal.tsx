@@ -44,10 +44,10 @@ const VoiceOfCustomerModal: React.FC = () => {
           startIcon={<ChatBubbleOutlineIcon />}
           sx={{ 
             display: { xs: 'none', md: 'inline-flex' },
-            color: '#5c2d91',
-            borderColor: '#5c2d91',
+            color: 'primary.main',
+            borderColor: 'primary.main',
             '&:hover': {
-              borderColor: '#4b0082',
+              borderColor: 'primary.dark',
               backgroundColor: 'rgba(92, 45, 145, 0.04)'
             }
           }}
@@ -58,7 +58,7 @@ const VoiceOfCustomerModal: React.FC = () => {
           onClick={handleOpen}
           sx={{ 
             display: { xs: 'inline-flex', md: 'none' },
-            color: '#5c2d91'
+            color: 'primary.main'
           }}
         >
           <ChatBubbleOutlineIcon />
@@ -94,10 +94,10 @@ const VoiceOfCustomerModal: React.FC = () => {
                 variant="outlined" 
                 disabled={loading}
                 sx={{ 
-                  color: '#5c2d91', 
-                  borderColor: '#5c2d91',
+                  color: 'primary.main', 
+                  borderColor: 'primary.main',
                   '&:hover': {
-                    borderColor: '#4b0082',
+                    borderColor: 'primary.dark',
                     backgroundColor: 'rgba(92, 45, 145, 0.04)'
                   }
                 }}
