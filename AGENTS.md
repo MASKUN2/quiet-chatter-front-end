@@ -4,6 +4,7 @@
 
 ## 0. 프로젝트 현황 요약
 - **플랫폼**: React + TypeScript + Vite (Cloudflare Pages 배포)
+- **프론트엔드 스테이징**: `dev.quiet-chatter.com` (개발), `quiet-chatter.com` (운영)
 - **백엔드 스테이징**: `dev-api.quiet-chatter.com` (개발/테스트용), `api.quiet-chatter.com` (운영용)
 - **API 정책**: `/v1` 기반 경로 사용 (GUEST 로그인 폐지, 네이버 로그인 중심)
 

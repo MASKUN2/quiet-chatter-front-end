@@ -8,7 +8,7 @@
 - **배포 플랫폼**: Cloudflare Pages (정적 호스팅)
 - **스테이징 전략**:
     - **Production**: `https://quiet-chatter.com` (API: `https://api.quiet-chatter.com`)
-    - **Development**: 개발 브랜치 배포 (API: `https://dev-api.quiet-chatter.com`)
+    - **Development**: `https://dev.quiet-chatter.com` (API: `https://dev-api.quiet-chatter.com`)
 - **아키텍처**: React Functional Components + Hooks 기반의 SPA (Single Page Application)
 
 ## 2. API 연동 가이드 (매우 중요)
