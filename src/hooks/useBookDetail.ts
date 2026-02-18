@@ -7,7 +7,7 @@ export const useBookDetail = (bookId: string | undefined) => {
   const [book, setBook] = useState<Book | null>(null);
   const [talks, setTalks] = useState<Talk[]>([]);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
-  const { user, refreshUser } = useAuth();
+  const { member, refreshMember } = useAuth();
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingTalks, setLoadingTalks] = useState(true);
   
@@ -35,7 +35,7 @@ export const useBookDetail = (bookId: string | undefined) => {
       
       // 톡 목록을 불러오기 전 사용자 인증 정보를 갱신 (최신 세션 정보 반영)
       if (page === 0) {
-        await refreshUser();
+        await refreshMember();
       }
 
       const data = await getTalks(id, page);
@@ -47,7 +47,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     } finally {
       setLoadingTalks(false);
     }
-  }, [refreshUser]);
+  }, [refreshMember]);
 
   const onTalkUpdate = () => {
     if(bookId) {
@@ -80,7 +80,7 @@ export const useBookDetail = (bookId: string | undefined) => {
   };
 
   const onReaction = async (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => {
-    if (!user?.isLoggedIn) {
+    if (!member?.isLoggedIn) {
       alert('로그인이 필요한 기능입니다.');
       return;
     }
@@ -124,7 +124,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     book,
     talks,
     pageInfo,
-    user,
+    member,
     loadingBook,
     loadingTalks,
     talkContent,

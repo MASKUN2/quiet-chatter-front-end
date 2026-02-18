@@ -16,7 +16,7 @@ const BookDetail: React.FC = () => {
     book, 
     talks, 
     pageInfo, 
-    user,
+    member,
     loadingBook, 
     loadingTalks, 
     talkContent, 
@@ -66,12 +66,12 @@ const BookDetail: React.FC = () => {
               Talks
             </Typography>
 
-            {user?.isLoggedIn ? (
+            {member?.isLoggedIn ? (
               <TalkForm 
                 content={talkContent} 
                 setContent={setTalkContent} 
                 onSubmit={onPostTalk} 
-                nickname={user?.nickname}
+                nickname={member?.nickname}
               />
             ) : (
               <Box sx={{ 
@@ -93,7 +93,7 @@ const BookDetail: React.FC = () => {
               talks={talks} 
               loading={loadingTalks} 
               onReaction={onReaction} 
-              currentUserId={user?.id}
+              currentUserId={member?.id}
               onUpdate={onTalkUpdate}
             />
 

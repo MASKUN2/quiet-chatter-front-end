@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Book, PageResponse, SliceResponse, Talk, User } from '../types';
+import type { Book, PageResponse, SliceResponse, Talk, Member } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -20,8 +20,8 @@ apiClient.interceptors.response.use(
   }
 );
 
-export async function getMe(): Promise<User> {
-  const response = await apiClient.get<User>('/v1/auth/me');
+export async function getMe(): Promise<Member> {
+  const response = await apiClient.get<Member>('/v1/auth/me');
   return response.data;
 }
 

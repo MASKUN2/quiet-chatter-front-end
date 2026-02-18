@@ -14,7 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const { user, loading, logout } = useAuth();
+  const { member, loading, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const navigate = useNavigate();
@@ -44,9 +44,9 @@ const Header: React.FC = () => {
 
 
 
-  const renderUserInfo = () => {
+  const renderMemberInfo = () => {
     // If loading and no cached user, show skeleton
-    if (loading && !user) {
+    if (loading && !member) {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Skeleton variant="circular" width={24} height={24} />
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
     }
 
     // 로그인하지 않은 사용자(또는 로딩 실패 시)에게 로그인 버튼 노출
-    if (!user || !user.isLoggedIn) {
+    if (!member || !member.isLoggedIn) {
       return (
         <NaverLogin height={32} />
       );
@@ -79,11 +79,11 @@ const Header: React.FC = () => {
             onClose={handleClose}
           >
             <MenuItem disabled>
-              <Typography variant="body2">{user.nickname} ({user.role})</Typography>
+              <Typography variant="body2">{member.nickname} ({member.role})</Typography>
             </MenuItem>
             <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
             <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-            {!user.isLoggedIn && (
+            {!member.isLoggedIn && (
               <MenuItem disableRipple>
                 <NaverLogin />
               </MenuItem>
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircle fontSize="small" color="action" />
           <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-            {user.nickname}
+            {member.nickname}
           </Typography>
         </Box>
         <Typography variant="caption" sx={{
@@ -109,7 +109,7 @@ const Header: React.FC = () => {
           color: 'text.secondary',
           fontWeight: 500
         }}>
-          {user.role}
+          {member.role}
         </Typography>
         <Button 
           variant="text" 
@@ -119,7 +119,7 @@ const Header: React.FC = () => {
         >
           로그아웃
         </Button>
-        {!user.isLoggedIn && (
+        {!member.isLoggedIn && (
           <Box sx={{ ml: 1 }}>
             <NaverLogin height={32} />
           </Box>
@@ -149,7 +149,7 @@ const Header: React.FC = () => {
           <VoiceOfCustomerModal />
         </Box>
         <Box>
-          {renderUserInfo()}
+          {renderMemberInfo()}
         </Box>
       </Paper>
 
