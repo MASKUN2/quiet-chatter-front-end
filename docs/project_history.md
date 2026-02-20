@@ -35,3 +35,10 @@
 - **배포 자동화**: Cloudflare Pages를 통한 지속적 배포 환경을 구축했습니다.
 - **용어 및 정책 통일**: `User` 명칭을 백엔드 엔티티와 동일한 `Member`로 리팩토링했습니다. 또한, 보안 강화를 위해 자동 GUEST 승급 필터를 제거하고 네이버 로그인 사용자만 데이터를 생성할 수 있도록 정책을 변경했습니다.
 - **인증 기능 완성**: 네이버 로그인의 전 과정을 프론트엔드 콜백으로 처리하고, 서버 세션을 명확히 종료하는 **로그아웃** 기능을 구현 및 UI에 반영했습니다.
+
+### 릴리스 관리 자동화 체계 전환 (2026-02-20)
+- **배경**: 기존 `release-please` 방식에서 더 유연하고 플러그인 생태계가 풍부한 `semantic-release`로 전환하여 버전 관리와 릴리스 노트를 더 정교하게 관리하고자 했습니다.
+- **결정**:
+    - **Tools**: `semantic-release`, `@semantic-release/changelog`, `@semantic-release/github` 등을 도입했습니다.
+    - **Convention**: [Conventional Commits](https://www.conventionalcommits.org/)를 표준 커밋 컨벤션으로 채택하여 릴리스 타입(Major/Minor/Patch) 결정을 자동화했습니다.
+    - **Automation**: GitHub Actions를 통해 `main` 브랜치에 푸시될 때마다 자동으로 버전 태깅, `CHANGELOG.md` 업데이트, GitHub Release 생성이 이루어지도록 구축했습니다.
