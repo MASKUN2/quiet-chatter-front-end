@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.0.0...v1.0.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* **ci:** .releaserc.json의 잘못된 JSON 문법 수정 (이스케이프 문자) ([a6bc3cc](https://github.com/MASKUN2/quiet-chatter-front-end/commit/a6bc3cc18b0dbf327f77a0e24c7c5a98ac2a30a9))
+* **ci:** semantic-release를 위한 Node.js 요구 버전 수정 (v22) ([5bd7a91](https://github.com/MASKUN2/quiet-chatter-front-end/commit/5bd7a91d3f04c800c04969d36f8951c449616fae))
+
 # Changelog
 
 ## 1.0.0 (2026-02-20)
