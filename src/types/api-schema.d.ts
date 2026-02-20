@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/v1/books": {
+    "/v1/books": {
         parameters: {
             query?: never;
             header?: never;
@@ -24,7 +24,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/reactions": {
+    "/v1/reactions": {
         parameters: {
             query?: never;
             header?: never;
@@ -48,7 +48,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks": {
+    "/v1/talks": {
         parameters: {
             query?: never;
             header?: never;
@@ -72,7 +72,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/auth/me": {
+    "/v1/auth/me": {
         parameters: {
             query?: never;
             header?: never;
@@ -92,7 +92,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/books/{bookId}": {
+    "/v1/books/{bookId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -112,7 +112,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/customer/messages": {
+    "/v1/customer/messages": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks/recommend": {
+    "/v1/talks/recommend": {
         parameters: {
             query?: never;
             header?: never;
@@ -152,7 +152,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/talks/{talkId}": {
+    "/v1/talks/{talkId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -171,6 +171,46 @@ export interface paths {
          * @description Delete (hide) a talk
          */
         delete: operations["delete-talk"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/auth/login/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Naver Login (Not Registered)
+         * @description Naver Login (Not Registered)
+         */
+        post: operations["auth-login-naver-"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/auth/signup/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Naver Signup
+         * @description Naver Signup
+         */
+        post: operations["auth-signup-naver"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -241,6 +281,36 @@ export interface components {
             /** @description Total Elements */
             totalElements: number;
         };
+        /** ReactionRequest */
+        ReactionRequest: {
+            /** @description Reaction Type (LIKE, SUPPORT) */
+            type: string;
+            /** @description Talk ID */
+            talkId: string;
+        };
+        /** TalkCreateRequest */
+        TalkCreateRequest: {
+            /** @description Hidden Date (Instant) */
+            hidden?: string | null;
+            /** @description Talk Content */
+            content: string;
+            /** @description Book ID */
+            bookId: string;
+        };
+        /** TalkUpdateRequest */
+        TalkUpdateRequest: {
+            /** @description New content */
+            content: string;
+        };
+        /** NaverLoginResponse */
+        NaverLoginResponse: {
+            /** @description Temporary nickname from provider */
+            tempNickname?: string | null;
+            /** @description Is registered user */
+            isRegistered: boolean;
+            /** @description Register token for signup */
+            registerToken?: string | null;
+        };
         /** TalkListResponse */
         TalkListResponse: {
             /** @description Like Count (alias) */
@@ -272,26 +342,10 @@ export interface components {
             /** @description Member ID */
             memberId: string;
         }[];
-        /** ReactionRequest */
-        ReactionRequest: {
-            /** @description Reaction Type (LIKE, SUPPORT) */
-            type: string;
-            /** @description Talk ID */
-            talkId: string;
-        };
         /** IdResponse */
         IdResponse: {
             /** @description Created Talk ID */
             id: string;
-        };
-        /** TalkCreateRequest */
-        TalkCreateRequest: {
-            /** @description Hidden Date (Instant) */
-            hidden?: string | null;
-            /** @description Talk Content */
-            content: string;
-            /** @description Book ID */
-            bookId: string;
         };
         /** AuthMeResponse */
         AuthMeResponse: {
@@ -304,6 +358,15 @@ export interface components {
             /** @description User ID */
             id?: (string | never) | null;
         };
+        /** SignupRequest */
+        SignupRequest: {
+            /** @description Desired Nickname */
+            nickname: string;
+            /** @description Register Token from Login API */
+            registerToken: string;
+        };
+        /** NaverLoginRequest */
+        NaverLoginRequest: Record<string, never>;
         /** BookListResponse */
         BookListResponse: {
             /** @description Page number */
@@ -348,11 +411,6 @@ export interface components {
             }[];
             /** @description Is empty */
             empty: boolean;
-        };
-        /** TalkUpdateRequest */
-        TalkUpdateRequest: {
-            /** @description New content */
-            content: string;
         };
         /** CustomerMessageRequest */
         CustomerMessageRequest: {
@@ -633,6 +691,52 @@ export interface operations {
         responses: {
             /** @description 204 */
             204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "auth-login-naver-": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["NaverLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NaverLoginResponse"];
+                };
+            };
+        };
+    };
+    "auth-signup-naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["SignupRequest"];
+            };
+        };
+        responses: {
+            /** @description 201 */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

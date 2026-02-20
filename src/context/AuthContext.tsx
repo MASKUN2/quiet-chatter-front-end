@@ -1,38 +1,53 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { getMe } from '../api/api';
-import type { User } from '../types';
+import { getMe, logout as logoutApi } from '../api/api';
+import type { Member } from '../types';
 
 interface AuthContextType {
-  user: User | null;
+  member: Member | null;
   loading: boolean;
-  refreshUser: () => Promise<void>;
+  refreshMember: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
-  user: null,
+  member: null,
   loading: true,
-  refreshUser: async () => { }
+  refreshMember: async () => { },
+  logout: async () => { }
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
+  const [member, setMember] = useState<Member | null>(() => {
     try {
-      const savedUser = localStorage.getItem('auth_user');
-      return savedUser ? JSON.parse(savedUser) : null;
+      const savedMember = localStorage.getItem('auth_member');
+      return savedMember ? JSON.parse(savedMember) : null;
     } catch {
       return null;
     }
   });
   const [loading, setLoading] = useState(true);
 
-  const refreshUser = useCallback(async () => {
+  const refreshMember = useCallback(async () => {
     try {
-      const userData = await getMe();
-      setUser(userData);
-      localStorage.setItem('auth_user', JSON.stringify(userData));
+      const memberData = await getMe();
+      setMember(memberData);
+      if (memberData.isLoggedIn) {
+        localStorage.setItem('auth_member', JSON.stringify(memberData));
+      } else {
+        localStorage.removeItem('auth_member');
+      }
     } catch {
-      setUser(null);
-      localStorage.removeItem('auth_user');
+      setMember(null);
+      localStorage.removeItem('auth_member');
+    }
+  }, []);
+
+  const logout = useCallback(async () => {
+    try {
+      await logoutApi();
+    } finally {
+      setMember(null);
+      localStorage.removeItem('auth_member');
     }
   }, []);
 
@@ -40,13 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     let isMounted = true;
 
     const initAuth = async () => {
-      // If we already have a user from localStorage, we don't strictly need to "load",
-      // but we still want to fetch fresh data.
-      // We can set loading to false immediately if we have cached data,
-      // or keep it true if we want to wait for the verification.
-      // To prevent flickering, we trust the cache initially and update in background.
-
-      await refreshUser();
+      await refreshMember();
       if (isMounted) {
         setLoading(false);
       }
@@ -57,10 +66,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       isMounted = false;
     };
-  }, [refreshUser]);
+  }, [refreshMember]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, refreshUser }}>
+    <AuthContext.Provider value={{ member, loading, refreshMember, logout }}>
       {children}
     </AuthContext.Provider>
   );

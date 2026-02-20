@@ -12,15 +12,30 @@
 
 - **컴포넌트 파일**: PascalCase를 사용합니다. (예: `BookList.tsx`, `Header.tsx`)
 - **함수 및 변수**: camelCase를 사용합니다. (예: `handleSearch`, `fetchBooks`, `isLoading`)
-- **인터페이스 및 타입**: PascalCase를 사용합니다. (예: `Book`, `UserResponse`)
+- **인터페이스 및 타입**: PascalCase를 사용합니다. (예: `Book`, `MemberResponse`)
 - **상수**: `const`로 선언된 상수는 camelCase를 원칙으로 하되, 설정값이나 불변 상수는 UPPER_SNAKE_CASE를 허용합니다.
 
-## 3. 컴포넌트 구조 (Component Structure)
+## 3. 개발 및 설계 원칙
+
+### 컴포넌트 설계
+- **관심사 분리**: 하나의 파일에 너무 많은 로직을 담지 마십시오. 재사용 가능한 UI는 컴포넌트로, 복잡한 비즈니스 로직은 커스텀 훅(`useHook`)으로 분리합니다.
+- **반응형 디자인**: MUI의 `useMediaQuery`나 `sx` prop의 Breakpoint 객체를 활용하여 모바일 우선 디자인을 적용합니다.
+
+### 상태 관리 전략
+- **지역 상태 (`useState`)**: 컴포넌트 내부에서만 쓰이는 상태에 우선적으로 사용합니다.
+- **전역 상태 (`Context API`)**: 앱 전반에 걸쳐 공유가 필요한 정보(예: 인증 정보)에만 제한적으로 사용합니다.
+- **URL 상태 (`useSearchParams`)**: 검색어, 페이지 번호 등 공유 가능한 상태는 URL 파라미터를 진실의 원천(Source of Truth)으로 삼습니다.
+
+### 에러 처리 (Error Handling)
+- API 호출 실패 시 사용자에게 적절한 피드백(Alert, Toast 등)을 제공해야 합니다.
+- 비즈니스 로직 에러는 백엔드에서 내려오는 메시지를 그대로 보여주는 것을 기본으로 합니다.
+
+## 4. 컴포넌트 구조 (Component Structure)
 
 ```tsx
 import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import type { SomeType } from '../../types'; // 타입 import 시 type 키워드 사용
+import type { SomeType } from '../../types';
 
 interface ComponentProps {
   title: string;
@@ -48,13 +63,7 @@ const ComponentName: React.FC<ComponentProps> = ({ title, items }) => {
 export default ComponentName;
 ```
 
-## 4. 스타일링 (Styling)
-
-- **MUI System**: Material UI의 `sx` prop을 활용하여 스타일을 정의하는 것을 권장합니다.
-- **반응형**: `sx={{ width: { xs: '100%', md: '50%' } }}`와 같이 Breakpoint 객체를 사용하여 반응형 스타일을 적용합니다.
-- **색상**: 하드코딩된 색상 코드 대신 `theme`의 팔레트를 사용하려고 노력합니다. (예: `color="primary.main"`, `bgcolor="background.paper"`)
-
 ## 5. API 호출 및 비동기 처리
 
 - API 호출 로직은 컴포넌트 내부에 직접 작성하지 않고, `src/api/api.ts`에 정의된 함수를 import하여 사용합니다.
-- 복잡한 데이터 페칭 로직은 `src/hooks/` 폴더 내에 커스텀 훅(예: `useBookSearch.ts`)으로 분리합니다.
+- 복잡한 데이터 페칭 로직(무한 스크롤 등)은 `src/hooks/` 폴더 내에 별도 훅으로 분리합니다.

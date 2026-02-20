@@ -14,7 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const { user, loading } = useAuth();
+  const { member, loading, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const navigate = useNavigate();
@@ -28,6 +28,12 @@ const Header: React.FC = () => {
     }
   };
 
+  const handleLogout = async () => {
+    handleClose();
+    await logout();
+    navigate('/home');
+  };
+
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,9 +44,9 @@ const Header: React.FC = () => {
 
 
 
-  const renderUserInfo = () => {
+  const renderMemberInfo = () => {
     // If loading and no cached user, show skeleton
-    if (loading && !user) {
+    if (loading && !member) {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Skeleton variant="circular" width={24} height={24} />
@@ -49,10 +55,8 @@ const Header: React.FC = () => {
       );
     }
 
-    // If no user (and not loading, or even if loading failed), show login button
-    // Note: GUEST users are considered logged in for the purpose of showing info,
-    // but they also need the option to "real" login.
-    if (!user || !user.isLoggedIn) {
+    // 로그인하지 않은 사용자(또는 로딩 실패 시)에게 로그인 버튼 노출
+    if (!member || !member.isLoggedIn) {
       return (
         <NaverLogin height={32} />
       );
@@ -75,10 +79,11 @@ const Header: React.FC = () => {
             onClose={handleClose}
           >
             <MenuItem disabled>
-              <Typography variant="body2">{user.nickname} ({user.role})</Typography>
+              <Typography variant="body2">{member.nickname} ({member.role})</Typography>
             </MenuItem>
             <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
-            {user.role === 'GUEST' && (
+            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+            {!member.isLoggedIn && (
               <MenuItem disableRipple>
                 <NaverLogin />
               </MenuItem>
@@ -93,7 +98,7 @@ const Header: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircle fontSize="small" color="action" />
           <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-            {user.nickname}
+            {member.nickname}
           </Typography>
         </Box>
         <Typography variant="caption" sx={{
@@ -104,9 +109,23 @@ const Header: React.FC = () => {
           color: 'text.secondary',
           fontWeight: 500
         }}>
-          {user.role}
+          {member.role}
         </Typography>
-        {user.role === 'GUEST' && (
+        <Button 
+          variant="text" 
+          size="small" 
+          onClick={handleLogout}
+          sx={{ 
+            color: 'text.secondary', 
+            ml: 1,
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.04)'
+            }
+          }}
+        >
+          로그아웃
+        </Button>
+        {!member.isLoggedIn && (
           <Box sx={{ ml: 1 }}>
             <NaverLogin height={32} />
           </Box>
@@ -136,7 +155,7 @@ const Header: React.FC = () => {
           <VoiceOfCustomerModal />
         </Box>
         <Box>
-          {renderUserInfo()}
+          {renderMemberInfo()}
         </Box>
       </Paper>
 
@@ -190,10 +209,10 @@ const Header: React.FC = () => {
                 minWidth: 'auto',
                 px: 3,
                 borderRadius: 1,
-                color: '#5c2d91',
-                borderColor: '#5c2d91',
+                color: 'primary.main',
+                borderColor: 'primary.main',
                 '&:hover': {
-                  borderColor: '#4b0082',
+                  borderColor: 'primary.dark',
                   backgroundColor: 'rgba(92, 45, 145, 0.04)',
                 }
               }}

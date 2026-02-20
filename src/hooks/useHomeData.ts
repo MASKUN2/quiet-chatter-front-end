@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getRecommendedTalks, getBooksByIds } from '../api/api';
 import type { Talk, Book } from '../types';
+import { MESSAGES } from '../constants';
 
 export const useHomeData = () => {
   const [talks, setTalks] = useState<Talk[]>([]);
@@ -9,13 +10,16 @@ export const useHomeData = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         setLoading(true);
         const recommendedTalks = await getRecommendedTalks();
 
+        if (!isMounted) return;
+
         if (!Array.isArray(recommendedTalks)) {
-          console.error('recommendedTalks is not an array:', recommendedTalks);
           setTalks([]);
           return;
         }
@@ -25,19 +29,26 @@ export const useHomeData = () => {
         if (recommendedTalks.length > 0) {
           const bookIds = Array.from(new Set(recommendedTalks.map(t => t.bookId)));
           const booksData = await getBooksByIds(bookIds);
-          setBooks(new Map(booksData.map(b => [b.id, b])));
+          if (isMounted) {
+            setBooks(new Map(booksData.map(b => [b.id, b])));
+          }
         }
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('데이터를 불러오는 중 오류가 발생했습니다.');
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : MESSAGES.ERROR.DEFAULT);
         }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
+
     fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return { talks, books, loading, error };

@@ -1,12 +1,11 @@
 import axios from 'axios';
-import type { Book, PageResponse, SliceResponse, Talk, User } from '../types';
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+import type { Book, PageResponse, SliceResponse, Talk, Member, Schemas } from '../types';
+import { API, MESSAGES, PAGINATION } from '../constants';
 
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API.BASE_URL,
   withCredentials: true,
-  timeout: 10000,
+  timeout: API.TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,18 +14,29 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message = error.response?.data?.detail || error.response?.data?.message || error.message || 'API request failed.';
+    const message = error.response?.data?.detail || error.response?.data?.message || error.message || MESSAGES.ERROR.API_REQUEST_FAILED;
     return Promise.reject(new Error(message));
   }
 );
 
-export async function getMe(): Promise<User> {
-  const response = await apiClient.get<User>('/v1/auth/me');
+export async function getMe(): Promise<Member> {
+  const response = await apiClient.get<Member>('/v1/auth/me');
   return response.data;
 }
 
-export async function loginWithNaver(code: string, state: string): Promise<void> {
-  await apiClient.post('/v1/auth/login/naver', { code, state });
+export type NaverLoginResponse = Schemas['NaverLoginResponse'];
+
+export async function loginWithNaver(code: string, state: string): Promise<NaverLoginResponse> {
+  const response = await apiClient.post<NaverLoginResponse>('/v1/auth/login/naver', { code, state });
+  return response.data;
+}
+
+export async function signupWithNaver(nickname: string, registerToken: string): Promise<void> {
+  await apiClient.post('/v1/auth/signup/naver', { nickname, registerToken });
+}
+
+export async function logout(): Promise<void> {
+  await apiClient.post('/v1/auth/logout');
 }
 
 export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
@@ -53,7 +63,7 @@ export async function getBooksByIds(bookIds: string[]): Promise<Book[]> {
 
 export async function getTalks(bookId: string, page: number = 0): Promise<PageResponse<Talk>> {
   const response = await apiClient.get<PageResponse<Talk>>('/v1/talks', {
-    params: { bookId, page, size: 6, sort: 'createdAt,desc' }
+    params: { bookId, page, size: PAGINATION.TALK_LIST_SIZE, sort: 'createdAt,desc' }
   });
   return response.data;
 }

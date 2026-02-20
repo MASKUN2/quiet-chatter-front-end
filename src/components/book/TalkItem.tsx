@@ -13,16 +13,16 @@ import type { Talk } from '../../types';
 interface TalkItemProps {
   talk: Talk;
   onReaction: (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => void;
-  currentUserId?: string | null;
+  currentMemberId?: string | null;
   onUpdate: () => void;
 }
 
-const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, onUpdate }) => {
+const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(talk.content);
   const [loading, setLoading] = useState(false);
 
-  const isMine = currentUserId && String(talk.memberId) === String(currentUserId);
+  const isMine = currentMemberId && String(talk.memberId) === String(currentMemberId);
 
   const handleUpdate = async () => {
     if (!editContent.trim() || editContent === talk.content) {
@@ -97,10 +97,10 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentUserId, on
                 onClick={handleUpdate} 
                 disabled={loading}
                 sx={{ 
-                  color: '#5c2d91', 
-                  borderColor: '#5c2d91',
+                  color: 'primary.main', 
+                  borderColor: 'primary.main',
                   '&:hover': {
-                    borderColor: '#4b0082',
+                    borderColor: 'primary.dark',
                     backgroundColor: 'rgba(92, 45, 145, 0.04)'
                   }
                 }}

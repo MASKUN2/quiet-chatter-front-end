@@ -1,61 +1,42 @@
 # AI Agent Development Guide
 
-이 문서는 AI 에이전트가 `quiet-chatter-front-end` 프로젝트를 이해하고 개발을 보조하기 위한 가이드라인입니다.
+이 문서는 AI 에이전트가 `quiet-chatter-front-end` 프로젝트에서 작업을 수행할 때 반드시 준수해야 하는 **에이전트 전용 작업 지침**입니다. 일반적인 코드 스타일이나 설계 원칙은 별도의 가이드 문서를 참조하십시오.
 
-## 1. 프로젝트 개요
+## 1. 계획 및 설계 원칙 (Planning Principles)
 
-- **목표**: Quiet Chatter의 웹 프론트엔드 인터페이스 구현
-- **아키텍처**: React Functional Components + Hooks 기반의 SPA (Single Page Application)
-- **주요 기술 스택**:
-    - **Core**: React 19, TypeScript, Vite
-    - **UI Framework**: Material UI (MUI) v6
-    - **Style**: Emotion (MUI 내부 사용), CSS Modules (필요 시)
-    - **API Client**: Axios
-    - **Router**: React Router v7
+AI 에이전트는 작업을 시작하기 전, 반드시 다음 원칙에 따라 실행 계획을 수립하고 개발자의 승인을 받아야 합니다.
 
-## 2. API 연동 가이드 (매우 중요)
+- **단일 경로 제시**: "A 또는 B"와 같은 모호한 선택지를 배제하고, 현재 구조에서 가장 적합한 **단 하나의 구체적인 구현 경로**를 결정하여 명시하십시오.
+- **결정적 가이드**: 기술적인 의사결정(예: 특정 라이브러리 활용 여부, 컴포넌트 위치 등)을 계획 단계에서 확정하여 개발자가 즉시 검토할 수 있게 하십시오.
+- **업계 표준 준수**: 모던 React 및 TypeScript의 관례를 따르되, 상세한 스타일은 [**Code Style Guide**](code_style_guide.md) 및 [**Design Guide**](design_guide.md)의 원칙을 최우선으로 적용하십시오.
 
-백엔드 API와 연동되는 기능을 수정하거나 추가할 때는 **OpenAPI 스펙 기반의 타입 안전성**을 유지해야 합니다.
+## 2. API 연동 및 타입 동기화 (Essential)
+
+백엔드 API와 연동되는 기능을 수정하거나 추가할 때는 **OpenAPI 스펙 기반의 타입 안전성**을 유지하는 것이 가장 중요합니다.
 
 ### 필수 확인 사항
-- **OpenAPI Spec URL**: `https://quiet-chatter.com/api/v1/spec`
+- **OpenAPI Spec URL**: [https://quiet-chatter.com/api/v1/spec](https://quiet-chatter.com/api/v1/spec)
 - **타입 생성 명령어**: `npm run gen:types`
 
 ### 작업 절차 (Workflow)
-1. **스펙 변경 확인**: 작업을 시작하기 전 `npm run gen:types`를 실행하여 백엔드 API 변경 사항이 있는지 확인합니다.
-2. **타입 업데이트**: 변경 사항이 있다면 로컬의 `src/types/api-schema.d.ts`가 갱신됩니다.
-3. **영향도 분석**: 업데이트된 타입으로 인해 발생하는 컴파일 에러(`npm run build` 실행 권장)를 확인하고 수정합니다.
-4. **코드 구현**: 최신화된 타입을 기반으로 `src/api/api.ts` 및 관련 컴포넌트를 구현합니다.
+1. **스펙 확인**: `npm run gen:types`를 실행하여 백엔드 API 변경 사항을 로컬에 반영합니다.
+2. **영향도 분석**: `src/types/api-schema.d.ts`의 변경으로 인해 발생하는 컴파일 에러를 확인합니다.
+3. **코드 구현**: 최신화된 타입을 기반으로 `src/api/api.ts` 및 관련 컴포넌트를 수정하십시오. **자동 생성된 타입 파일은 절대 직접 수정하지 마십시오.**
 
-### 타입 정의 원칙
-- 자동 생성된 `src/types/api-schema.d.ts`는 절대 **직접 수정하지 마십시오.**
-- 공통 타입은 `src/types/index.ts`에서 `api-schema.d.ts`를 import하여 재정의하거나 조합하여 사용합니다.
+## 3. 관련 가이드 준수 (Delegation)
 
-## 3. 개발 원칙
+에이전트는 다음 문서들에 정의된 세부 규칙을 반드시 숙지하고 작업에 반영해야 합니다.
 
-- **컴포넌트 분리**: 하나의 파일에 너무 많은 로직을 담지 말고, 재사용 가능한 부분은 별도 컴포넌트로 분리합니다.
-- **상태 관리**: 전역 상태(`Context API`)는 꼭 필요한 경우(예: 인증 정보)에만 사용하고, 가능한 지역 상태(`useState`)나 커스텀 훅(`useHook`)을 활용합니다.
-- **반응형 디자인**: MUI의 `useMediaQuery`나 `sx={{ display: { xs: 'none', md: 'block' } }}` 등을 활용하여 모바일과 데스크톱 환경을 모두 고려합니다.
-- **에러 처리**: API 호출 실패 시 사용자에게 적절한 피드백(Alert, Toast 등)을 제공해야 합니다.
+- [**Code Style Guide**](code_style_guide.md): 컴포넌트 구조, 네이밍 컨벤션, 상태 관리 및 에러 처리 원칙.
+- [**Infrastructure Guide**](infrastructure_guide.md): 도메인 정보(운영/개발), API 스테이징 및 버저닝 정책.
+- [**Design Guide**](design_guide.md): MUI 활용 방식, 컬러 팔레트, 반응형 디자인 레이아웃 규칙.
+- [**Authentication Guide**](authentication_guide.md): 멤버 역할(Anonymous/Member) 및 권한 정책.
+- [**Project Structure**](project_structure.md): 디렉토리 역할 및 파일 위치 선정 기준.
 
-## 4. 검증 (Verification)
+## 4. 최종 검증 (Verification)
 
-작업 완료 후에는 다음 과정을 통해 코드 품질과 안정성을 반드시 검증해야 합니다.
+모든 작업 완료 후 에이전트는 다음 과정을 통해 결과물을 스스로 검증해야 합니다.
 
-### A. 타입 및 빌드 검증
-```bash
-npm run build
-```
-- TypeScript 컴파일 에러가 없는지 확인합니다.
-- 빌드 로그에 출력되는 **`deprecated` 경고**가 있는지 확인하고, 가능한 최신 API로 교체합니다.
-
-### B. 코드 스타일 및 린트 검사
-```bash
-npm run lint
-```
-- ESLint 규칙 위반이 없는지 확인합니다.
-- 단순한 포맷팅 문제는 린터가 제안하는 방식을 따르고, 잠재적인 버그(Unused variables 등)를 유발하는 경고는 반드시 수정합니다.
-
-### C. 브라우저 콘솔 확인
-- `npm run dev` 실행 후 브라우저 콘솔에 나타나는 React Warning(Key prop 누락, Invalid DOM attribute 등)이나 Deprecation 메시지를 확인하고 해결합니다.
-
+1. **빌드 테스트**: `npm run build` 실행 시 타입 에러나 경고가 없는지 확인.
+2. **린트 검사**: `npm run lint` 실행 시 컨벤션 위반이 없는지 확인.
+3. **런타임 확인**: `npm run dev` 실행 후 브라우저 콘솔의 경고나 API 통신 오류 여부 점검.

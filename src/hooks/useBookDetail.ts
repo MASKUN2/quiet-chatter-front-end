@@ -2,12 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { getBookDetails, getTalks, postTalk, handleReaction } from '../api/api';
 import type { Book, Talk, PageInfo } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { MESSAGES } from '../constants';
 
 export const useBookDetail = (bookId: string | undefined) => {
   const [book, setBook] = useState<Book | null>(null);
   const [talks, setTalks] = useState<Talk[]>([]);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
-  const { user, refreshUser } = useAuth();
+  const { member, refreshMember } = useAuth();
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingTalks, setLoadingTalks] = useState(true);
   
@@ -33,9 +34,9 @@ export const useBookDetail = (bookId: string | undefined) => {
     try {
       setLoadingTalks(true);
       
-      // Refresh user auth before loading talks (to capture guest session etc.)
+      // 톡 목록을 불러오기 전 사용자 인증 정보를 갱신 (최신 세션 정보 반영)
       if (page === 0) {
-        await refreshUser();
+        await refreshMember();
       }
 
       const data = await getTalks(id, page);
@@ -47,7 +48,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     } finally {
       setLoadingTalks(false);
     }
-  }, [refreshUser]);
+  }, [refreshMember]);
 
   const onTalkUpdate = () => {
     if(bookId) {
@@ -74,12 +75,16 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('An unknown error occurred while posting the talk.');
+        alert(MESSAGES.ERROR.TALK_POST_FAILED);
       }
     }
   };
 
   const onReaction = async (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => {
+    if (!member?.isLoggedIn) {
+      alert(MESSAGES.ERROR.LOGIN_REQUIRED);
+      return;
+    }
     try {
       await handleReaction(talkId, type, hasReacted);
       
@@ -106,7 +111,7 @@ export const useBookDetail = (bookId: string | undefined) => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('An unknown error occurred while processing the reaction.');
+        alert(MESSAGES.ERROR.REACTION_FAILED);
       }
       if (bookId) loadTalks(bookId, talkPage);
     }
@@ -120,7 +125,7 @@ export const useBookDetail = (bookId: string | undefined) => {
     book,
     talks,
     pageInfo,
-    user,
+    member,
     loadingBook,
     loadingTalks,
     talkContent,

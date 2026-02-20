@@ -2,13 +2,21 @@
 
 본 문서는 AI 에이전트가 `quiet-chatter-front-end` 프로젝트에서 작업을 수행하기 전 반드시 확인해야 할 진입점입니다.
 
+## 0. 프로젝트 현황 요약
+- **플랫폼**: React + TypeScript + Vite (Cloudflare Pages 배포)
+- **프론트엔드 스테이징**: `dev.quiet-chatter.com` (개발), `quiet-chatter.com` (운영)
+- **백엔드 스테이징**: `dev-api.quiet-chatter.com` (개발/테스트용), `api.quiet-chatter.com` (운영용)
+- **API 정책**: `/v1` 기반 경로 사용 (GUEST 로그인 폐지, 네이버 로그인 중심)
+
 ## 1. 필수 확인 문서
 
 작업을 시작하기 전에 아래 가이드 문서를 먼저 숙지하십시오.
 
-- **[AI Agent Development Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 개요, API 연동 절차, 작업 원칙
-- **[Code Style Guide](docs/guide/code_style_guide.md)**: 코드 포맷팅, 네이밍 컨벤션, 컴포넌트 구조
-- **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 아키텍처 설명
+- **[AI Agent Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 인프라, API 연동 및 작업 프로세스
+- **[Code Style Guide](docs/guide/code_style_guide.md)**: 코딩 표준, 컴포넌트 설계 및 에러 처리 원칙
+- **[Design Guide](docs/guide/design_guide.md)**: 시각적 정체성, 컬러 팔레트 및 UI 구현 가이드
+- **[Authentication Guide](docs/guide/authentication_guide.md)**: 멤버 체계, 로그인 흐름 및 권한 정책
+- **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 디렉토리 역할 설명
 
 ## 2. 작업 절차 요약
 

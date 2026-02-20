@@ -16,7 +16,7 @@ const BookDetail: React.FC = () => {
     book, 
     talks, 
     pageInfo, 
-    user,
+    member,
     loadingBook, 
     loadingTalks, 
     talkContent, 
@@ -66,18 +66,34 @@ const BookDetail: React.FC = () => {
               Talks
             </Typography>
 
-            <TalkForm 
-              content={talkContent} 
-              setContent={setTalkContent} 
-              onSubmit={onPostTalk} 
-              nickname={user?.nickname}
-            />
+            {member?.isLoggedIn ? (
+              <TalkForm 
+                content={talkContent} 
+                setContent={setTalkContent} 
+                onSubmit={onPostTalk} 
+                nickname={member?.nickname}
+              />
+            ) : (
+              <Box sx={{ 
+                mb: 4, 
+                p: 3, 
+                textAlign: 'center', 
+                bgcolor: 'grey.50', 
+                borderRadius: 2, 
+                border: '1px dashed', 
+                borderColor: 'grey.400' 
+              }}>
+                <Typography variant="body1" color="text.secondary">
+                  톡을 남기려면 로그인이 필요합니다.
+                </Typography>
+              </Box>
+            )}
 
             <TalkList 
               talks={talks} 
               loading={loadingTalks} 
               onReaction={onReaction} 
-              currentUserId={user?.id}
+              currentMemberId={member?.id}
               onUpdate={onTalkUpdate}
             />
 
