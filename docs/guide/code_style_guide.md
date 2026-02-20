@@ -67,3 +67,19 @@ export default ComponentName;
 
 - API 호출 로직은 컴포넌트 내부에 직접 작성하지 않고, `src/api/api.ts`에 정의된 함수를 import하여 사용합니다.
 - 복잡한 데이터 페칭 로직(무한 스크롤 등)은 `src/hooks/` 폴더 내에 별도 훅으로 분리합니다.
+
+## 6. 커밋 컨벤션 (Commit Convention)
+
+자동화된 릴리스 및 버전 관리를 위해 [Conventional Commits](https://www.conventionalcommits.org/) 규칙을 준수합니다.
+
+- **feat**: 새로운 기능 추가
+- **fix**: 버그 수정
+- **docs**: 문서 수정
+- **style**: 코드 포맷팅, 세미콜론 누락 등 (코드 변경 없음)
+- **refactor**: 코드 리팩토링
+- **test**: 테스트 코드 추가 및 수정
+- **chore**: 빌드 프로세스나 패키지 매니저 설정 변경 등
+- **ci**: CI 설정 파일 및 스크립트 수정
+
+**형식**: `<type>(<scope>): <subject>` (scope는 생략 가능)
+예시: `feat(auth): 네이버 로그인 연동 추가`

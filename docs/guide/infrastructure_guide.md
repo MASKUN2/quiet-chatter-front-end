@@ -8,6 +8,7 @@
 - **Frontend**: [https://quiet-chatter.com](https://quiet-chatter.com)
 - **Backend API**: [https://api.quiet-chatter.com](https://api.quiet-chatter.com)
 - **배포 플랫폼**: Cloudflare Pages (`main` 브랜치 자동 배포)
+- **릴리스 관리**: `semantic-release`를 통해 자동 버전 업그레이드 및 `CHANGELOG.md` 생성
 
 ### Development (개발)
 - **Frontend**: [https://dev.quiet-chatter.com](https://dev.quiet-chatter.com)
