@@ -1,12 +1,13 @@
 import React from 'react';
 import { Typography, Paper, Box, Stack, useTheme, useMediaQuery, Divider, Grid } from '@mui/material';
-import { ABOUT_INTRO, ABOUT_FEATURES, HISTORY_TIMELINE } from '../constants/history';
+import { ABOUT_INTRO, ABOUT_FEATURES, HISTORY_TIMELINE, SERVICE_PHILOSOPHY } from '../constants/about';
 import CircleIcon from '@mui/icons-material/Circle';
 import SecurityIcon from '@mui/icons-material/Security';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TimerIcon from '@mui/icons-material/Timer';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const iconMap: { [key: string]: React.ElementType } = {
     Security: SecurityIcon,
@@ -22,20 +23,64 @@ const AboutService: React.FC = () => {
 
     return (
         <Paper elevation={isMobile ? 0 : 1} sx={{ p: { xs: 2, md: 4 }, borderRadius: 2 }}>
-            <Stack spacing={{ xs: 4, md: 6 }}>
-                {/* Intro Section */}
+            <Stack spacing={{ xs: 4, md: 8 }}>
+                {/* Hero Section */}
+                <Box sx={{ textAlign: 'center', py: { xs: 2, md: 4 } }}>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            fontWeight: 800,
+                            mb: 2,
+                            color: 'primary.main',
+                            letterSpacing: '-0.02em'
+                        }}
+                    >
+                        "You Belong Here"
+                    </Typography>
+                    <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4, fontWeight: 500 }}>
+                        수줍음이 많은 사람들을 위한 조용한 독서 공간
+                    </Typography>
+                    <Box sx={{
+                        maxWidth: '700px',
+                        mx: 'auto',
+                        p: 3,
+                        bgcolor: 'rgba(92, 45, 145, 0.03)',
+                        borderRadius: 4,
+                        border: '1px solid',
+                        borderColor: 'primary.light',
+                        opacity: 0.9
+                    }}>
+                        <Typography variant="body1" sx={{ whiteSpace: 'pre-line', lineHeight: 1.8, color: 'text.primary', fontStyle: 'italic' }}>
+                            {ABOUT_INTRO}
+                        </Typography>
+                    </Box>
+                </Box>
+
+                {/* Philosophy Section */}
                 <Box>
-                    <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, color: 'primary.main' }}>
-                        서비스 소개
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 4, textAlign: 'center' }}>
+                        우리의 철학
                     </Typography>
-                    <Typography variant="body1" sx={{ whiteSpace: 'pre-line', lineHeight: 1.8, color: 'text.primary', fontSize: '1.1rem' }}>
-                        {ABOUT_INTRO}
-                    </Typography>
+                    <Grid container spacing={4}>
+                        {SERVICE_PHILOSOPHY.map((phil, index) => (
+                            <Grid item xs={12} md={4} key={index}>
+                                <Box sx={{ textAlign: 'center', px: 2 }}>
+                                    <FavoriteIcon color="primary" sx={{ fontSize: 40, mb: 2, opacity: 0.8 }} />
+                                    <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 2 }}>
+                                        {phil.title}
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                                        {phil.content}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Box>
 
                 {/* Features Section */}
                 <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: 'text.primary' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 4, textAlign: 'center' }}>
                         주요 기능
                     </Typography>
                     <Grid container spacing={3}>
@@ -44,17 +89,31 @@ const AboutService: React.FC = () => {
                             return (
                                 <Grid item xs={12} sm={6} key={index}>
                                     <Box sx={{
-                                        p: 3,
+                                        p: 4,
                                         height: '100%',
-                                        borderRadius: 2,
+                                        borderRadius: 3,
                                         border: '1px solid',
                                         borderColor: 'divider',
-                                        bgcolor: 'rgba(92, 45, 145, 0.02)',
-                                        transition: 'transform 0.2s',
-                                        '&:hover': { transform: 'translateY(-4px)', bgcolor: 'rgba(92, 45, 145, 0.05)' }
+                                        bgcolor: 'background.paper',
+                                        transition: 'all 0.3s ease',
+                                        '&:hover': {
+                                            transform: 'translateY(-8px)',
+                                            boxShadow: '0 12px 24px rgba(92, 45, 145, 0.08)',
+                                            borderColor: 'primary.light'
+                                        }
                                     }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-                                            {IconComponent && <IconComponent color="primary" sx={{ mr: 1 }} />}
+                                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                p: 1,
+                                                borderRadius: 2,
+                                                bgcolor: 'primary.light',
+                                                color: 'primary.main',
+                                                mr: 2,
+                                                opacity: 0.8
+                                            }}>
+                                                {IconComponent && <IconComponent />}
+                                            </Box>
                                             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                                                 {feature.title}
                                             </Typography>
@@ -73,13 +132,13 @@ const AboutService: React.FC = () => {
 
                 {/* History Timeline Section */}
                 <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 4, color: 'text.primary' }}>
-                        서비스 연혁
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 5, textAlign: 'center' }}>
+                        Quiet Chatter의 여정
                     </Typography>
-                    <Stack spacing={4}>
+                    <Stack spacing={4} sx={{ maxWidth: '800px', mx: 'auto' }}>
                         {HISTORY_TIMELINE.map((event, index) => (
                             <Box key={index} sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: { xs: 1, sm: 4 } }}>
-                                <Box sx={{ minWidth: 120, pt: { xs: 0, sm: 0.5 }, pb: { xs: 1, sm: 0 } }}>
+                                <Box sx={{ minWidth: 120, pt: { xs: 0, sm: 0.5 } }}>
                                     <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main' }}>
                                         {event.date}
                                     </Typography>
