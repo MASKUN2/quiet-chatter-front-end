@@ -10,9 +10,9 @@ const ServiceHistory: React.FC = () => {
 
     return (
         <Container maxWidth="md" disableGutters={isMobile} sx={{ pb: { xs: 2, md: 4 } }}>
-            <Header />
-
             <Stack spacing={{ xs: 2, md: 4 }} sx={{ px: isMobile ? 2 : 0 }}>
+                <Header />
+
                 <Paper elevation={isMobile ? 0 : 1} sx={{ p: { xs: 2, md: 4 }, borderRadius: 2 }}>
                     <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: 'primary.main' }}>
                         서비스 연혁
