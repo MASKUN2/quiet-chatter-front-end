@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Box, Button, Typography, Stack } from '@mui/material';
+import { TextField, Box, Button, Typography, Stack, Tooltip } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
@@ -30,12 +30,14 @@ const TalkForm: React.FC<TalkFormProps> = ({ content, setContent, onSubmit, nick
             {nickname || '익명 사용자'}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary' }}>
-          <AccessTimeIcon fontSize="small" />
-          <Typography variant="caption">
-            {today}
-          </Typography>
-        </Box>
+        <Tooltip title="1년후에 자동으로 숨겨집니다" placement="top" arrow>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', cursor: 'help' }}>
+            <AccessTimeIcon fontSize="small" />
+            <Typography variant="caption">
+              {today}
+            </Typography>
+          </Box>
+        </Tooltip>
       </Stack>
 
       <form onSubmit={onSubmit}>
