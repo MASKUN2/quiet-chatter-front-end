@@ -1,34 +1,34 @@
-# Talk 삭제 및 수정 기능 구현
+# Implementing Talk Delete and Edit Features
 
-## 1. 작업 내용
-사용자가 작성한 Talk(서평/댓글)에 대해 수정 및 삭제 기능을 UI에 노출하고 실제 동작하도록 구현합니다.
-작성자 본인인 경우에만 수정/삭제 버튼이 보여야 합니다.
+## 1. Task Description
+Expose edit and delete features in the UI for Talks (reviews/comments) written by users and implement their actual functionality.
+The edit/delete buttons should only be visible to the original author.
 
-## 2. 구현 방법
+## 2. Implementation Method
 
-### A. 데이터 모델 확인 및 업데이트
-`Talk` 데이터 모델에 작성자 식별 정보가 포함되어 있는지 확인합니다.
-만약 API 응답(`GET /api/v1/talks`)에 `isMine` 또는 `writerId` 같은 필드가 없다면 백엔드 API 확인이 필요하지만, 프론트엔드에서는 `getMe()`로 가져온 내 ID와 `Talk` 객체의 `writerId`를 비교하는 로직이 필요할 수 있습니다.
-(API 명세상 `auth/me`와 `talks`의 응답 구조를 매핑해야 함)
+### A. Verify and Update the Data Model
+Verify if author identification information is included in the `Talk` data model.
+If fields like `isMine` or `writerId` are missing from the API response (`GET /api/v1/talks`), backend API confirmation might be needed; however, the frontend may require logic to compare the user's own ID fetched via `getMe()` with the `writerId` of the `Talk` object.
+(The response structures of `auth/me` and `talks` must be mapped according to the API specification.)
 
-### B. `TalkItem` 컴포넌트 수정
-`src/components/book/TalkItem.tsx`를 수정합니다.
+### B. Modify the `TalkItem` Component
+Modify `src/components/book/TalkItem.tsx`.
 
-1. **권한 체크**: `props`로 전달받은 `talk` 데이터 또는 상위 컴포넌트에서 주입받은 `currentUser` 정보를 이용해 현재 렌더링되는 Talk가 내 글인지 판단합니다.
-2. **버튼 UI**: 내 글일 경우 수정(Edit) 및 삭제(Delete) 아이콘 버튼을 우측 상단이나 하단에 표시합니다.
-3. **수정 모드**:
-    *   수정 버튼 클릭 시, 텍스트 표시 영역을 `TextField`로 전환합니다.
-    *   "저장", "취소" 버튼을 노출합니다.
-    *   저장 시 `api.updateTalk(id, content)`를 호출합니다.
-4. **삭제 로직**:
-    *   삭제 버튼 클릭 시 `window.confirm` 또는 모달을 통해 재확인합니다.
-    *   확인 시 `api.deleteTalk(id)`를 호출하고, 리스트를 갱신합니다.
+1. **Permission Check**: Determine if the currently rendered Talk belongs to the current user using the `talk` data received via `props` or `currentUser` information injected from a parent component.
+2. **Button UI**: If it's the user's own post, display edit and delete icon buttons at the top right or bottom.
+3. **Edit Mode**:
+    *   When the edit button is clicked, switch the text display area to a `TextField`.
+    *   Expose "Save" and "Cancel" buttons.
+    *   Upon saving, call `api.updateTalk(id, content)`.
+4. **Delete Logic**:
+    *   When the delete button is clicked, reconfirm via `window.confirm` or a modal.
+    *   Upon confirmation, call `api.deleteTalk(id)` and refresh the list.
 
-### C. 리스트 갱신 처리
-수정이나 삭제가 성공하면 UI에도 즉시 반영되어야 합니다.
-*   **수정**: 로컬 state의 내용을 변경하거나 리스트를 다시 불러옵니다.
-*   **삭제**: 해당 아이템을 리스트에서 제거하거나 리스트를 다시 불러옵니다.
+### C. List Refresh Handling
+If an edit or delete is successful, it must be immediately reflected in the UI.
+*   **Edit**: Change the content in the local state or reload the list.
+*   **Delete**: Remove the item from the list or reload the list.
 
-## 3. UI/UX 고려사항
-*   **수정 중 UI**: 수정 모드 진입 시 기존 텍스트가 입력창에 채워져 있어야 합니다.
-*   **에러 처리**: 수정/삭제 실패 시 사용자에게 알림(Toast/Alert)을 제공합니다.
+## 3. UI/UX Considerations
+*   **Editing UI**: When entering edit mode, the existing text should be pre-filled in the input field.
+*   **Error Handling**: Provide notifications (Toast/Alert) to the user if an edit/delete fails.

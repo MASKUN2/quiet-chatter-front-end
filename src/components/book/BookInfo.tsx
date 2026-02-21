@@ -12,29 +12,38 @@ const BookInfo: React.FC<BookInfoProps> = ({ book }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Paper 
-      elevation={isMobile ? 0 : 1} 
+    <Paper
+      elevation={isMobile ? 0 : 1}
       sx={{
-        p: isMobile ? 2 : 4, 
-        borderRadius: isMobile ? 0 : 2, 
+        p: isMobile ? 2 : 4,
+        borderRadius: isMobile ? 0 : 2,
         backgroundColor: 'background.paper',
         borderBottom: isMobile ? '1px solid #eee' : 'none'
       }}
     >
+      {/* Section overline */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+          ABOUT THIS BOOK
+        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.01em', mt: 0.5 }}>
+          책 소개
+        </Typography>
+      </Box>
 
       <Grid container spacing={4}>
         <Grid size={{ xs: 12, md: 4 }}>
           {book.thumbnailImageUrl ? (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <img 
-                src={book.thumbnailImageUrl} 
-                alt={book.title} 
-                style={{ 
-                  maxWidth: '100%', 
+              <img
+                src={book.thumbnailImageUrl}
+                alt={book.title}
+                style={{
+                  maxWidth: '100%',
                   maxHeight: '400px',
-                  borderRadius: 4, 
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)' 
-                }} 
+                  borderRadius: 4,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
+                }}
               />
             </Box>
           ) : (
@@ -50,22 +59,19 @@ const BookInfo: React.FC<BookInfoProps> = ({ book }) => {
           <Typography variant="body1" color="text.secondary" gutterBottom sx={{ mb: 3 }}>
             저자: {book.author}
           </Typography>
-          
-          <Typography variant="h6" gutterBottom>
-            책 소개
-          </Typography>
+
           <Box sx={{ mb: 3 }}>
             <Typography variant="body1" sx={{ whiteSpace: 'pre-line', color: 'text.primary' }}>
               {book.description}
             </Typography>
           </Box>
-          
+
           {book.externalLinkUrl && (
-            <Button 
-              variant="outlined" 
-              href={book.externalLinkUrl} 
+            <Button
+              variant="outlined"
+              href={book.externalLinkUrl}
               target="_blank"
-              sx={{ 
+              sx={{
                 color: 'primary.main',
                 borderColor: 'primary.main',
                 '&:hover': {

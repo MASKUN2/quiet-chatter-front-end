@@ -16,23 +16,23 @@ interface RecommendedTalksProps {
 
 const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, talks, books }) => {
   if (loading) {
-     return (
-       <List>
-          {Array.from(new Array(3)).map((_, index) => (
-              <ListItem key={index} disablePadding>
-                  <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', py: 1 }}>
-                      <Skeleton variant="rectangular" width={50} height={75} sx={{ mr: 2, borderRadius: 1 }} />
-                      <Box sx={{ flexGrow: 1 }}>
-                          <Skeleton width="60%" />
-                          <Skeleton width="40%" />
-                      </Box>
-                  </Box>
-              </ListItem>
-          ))}
-       </List>
-     );
+    return (
+      <List>
+        {Array.from(new Array(6)).map((_, index) => (
+          <ListItem key={index} disablePadding>
+            <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', py: 1 }}>
+              <Skeleton variant="rectangular" width={50} height={75} sx={{ mr: 2, borderRadius: 1 }} />
+              <Box sx={{ flexGrow: 1 }}>
+                <Skeleton width="60%" />
+                <Skeleton width="40%" />
+              </Box>
+            </Box>
+          </ListItem>
+        ))}
+      </List>
+    );
   }
-  
+
   if (error) return <Alert severity="error">{error}</Alert>;
   if (talks.length === 0) return <Typography color="textSecondary">최근 등록된 북톡이 없습니다.</Typography>;
 
@@ -45,11 +45,11 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
 
         return (
           <ListItem key={talk.id} disablePadding sx={{ mb: 1.5 }}>
-            <ListItemButton 
-              component={Link} 
-              to={`/books/${book.id}`} 
-              sx={{ 
-                borderRadius: 2, 
+            <ListItemButton
+              component={Link}
+              to={`/books/${book.id}`}
+              sx={{
+                borderRadius: 2,
                 border: '1px solid',
                 borderColor: 'divider',
                 p: { xs: 1.5, sm: 2 },
@@ -70,7 +70,7 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
               <ListItemText
                 primary={
                   <Typography variant="subtitle1" fontWeight="600" noWrap>
-                      {book.title}
+                    {book.title}
                   </Typography>
                 }
                 secondary={
@@ -85,14 +85,14 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
                 }
               />
               <Stack direction="row" spacing={1.5} sx={{ ml: 2, alignItems: 'center', display: { xs: 'none', sm: 'flex' } }}>
-                  <Typography variant="caption" display="flex" alignItems="center" color={talk.didILike ? "primary.main" : "text.secondary"}>
-                    {talk.didILike ? <ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5 }} /> : <ThumbUpOffAltIcon fontSize="small" sx={{ mr: 0.5 }} />}
-                    {talk.like_count}
-                  </Typography>
-                  <Typography variant="caption" display="flex" alignItems="center" color={talk.didISupport ? "error.main" : "text.secondary"}>
-                    {talk.didISupport ? <FavoriteIcon fontSize="small" sx={{ mr: 0.5 }} /> : <FavoriteBorderIcon fontSize="small" sx={{ mr: 0.5 }} />}
-                    {talk.support_count}
-                  </Typography>
+                <Typography variant="caption" display="flex" alignItems="center" color={talk.didILike ? "primary.main" : "text.secondary"}>
+                  {talk.didILike ? <ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5 }} /> : <ThumbUpOffAltIcon fontSize="small" sx={{ mr: 0.5 }} />}
+                  {talk.like_count}
+                </Typography>
+                <Typography variant="caption" display="flex" alignItems="center" color={talk.didISupport ? "error.main" : "text.secondary"}>
+                  {talk.didISupport ? <FavoriteIcon fontSize="small" sx={{ mr: 0.5 }} /> : <FavoriteBorderIcon fontSize="small" sx={{ mr: 0.5 }} />}
+                  {talk.support_count}
+                </Typography>
               </Stack>
             </ListItemButton>
           </ListItem>

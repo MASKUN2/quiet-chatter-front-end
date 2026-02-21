@@ -1,3 +1,23 @@
+# [1.1.0](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.0.1...v1.1.0) (2026-02-21)
+
+
+### Bug Fixes
+
+* **ci:** .releaserc.json 커밋 메시지 줄바꿈 이스케이프 수정 ([32d63b9](https://github.com/MASKUN2/quiet-chatter-front-end/commit/32d63b9b248bc4b5807471b41c0487da515b536e))
+* move Header inside Stack on ServiceHistory page to fix missing gap ([119ca2e](https://github.com/MASKUN2/quiet-chatter-front-end/commit/119ca2e7b7d40fcf4b247f9639b2c828a585b134))
+
+
+### Features
+
+* **about:** redesign About Service page with philosophy, typography, and layout ([95c1a5e](https://github.com/MASKUN2/quiet-chatter-front-end/commit/95c1a5e6c6a1dc8b73ebc83ba2a66adedea78426))
+* add service history page and footer link ([1848420](https://github.com/MASKUN2/quiet-chatter-front-end/commit/18484202f1d73c6abac2bb2945049765ecd3d645))
+* complete About Service page with feature descriptions and reordered footer ([7b4eac0](https://github.com/MASKUN2/quiet-chatter-front-end/commit/7b4eac02eaa196811ba197c37834cc9166b2e30c))
+* enhance About Service page with philosophy and story ([76aa3f6](https://github.com/MASKUN2/quiet-chatter-front-end/commit/76aa3f6db628c9f21c207c261b38f4241ad93440))
+* enhance Home dashboard with auto-refresh and curated updates ([0a7abb6](https://github.com/MASKUN2/quiet-chatter-front-end/commit/0a7abb6407e77a77a935744e9aaf2fc2526ca738))
+* implement versioned Terms of Service and mandatory signup agreement ([c37c1db](https://github.com/MASKUN2/quiet-chatter-front-end/commit/c37c1db509ebdf00116deff5231ebc5c1fa75169))
+* improve authentication flow and component navigation ([aca1d69](https://github.com/MASKUN2/quiet-chatter-front-end/commit/aca1d697af6c84d7aa91d64dba9f167dea7df7dd))
+* 북톡 시계 아이콘 툴팁 추가 및 프록시 설정 수정 [skip ci] ([7c9c666](https://github.com/MASKUN2/quiet-chatter-front-end/commit/7c9c666b8899b6d3ab986f1b8746184e3b2d711e))
+
 ## [1.0.1](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.0.0...v1.0.1) (2026-02-20)
 
 

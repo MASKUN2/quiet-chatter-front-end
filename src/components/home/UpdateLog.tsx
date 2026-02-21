@@ -2,27 +2,25 @@ import React from 'react';
 import { Paper, Typography, List, ListItem, ListItemText } from '@mui/material';
 
 const updates = [
-    '이제부터 시간을 두고 랜덤으로 북톡이 추천됩니다',
-    '일부 ui가 깨지는 현상을 수정했습니다',
-    '보호를 위해 API rate limit를 설정했습니다',
-    '홈 화면의 사용법 안내가 이제 동영상으로 표시되어 더 빠르게 보여집니다',
-    '데이터를 불러오는 중의 화면 깜빡임 문제를 해결했습니다',
-    '최근 북톡의 좋아요, 응원해요 개수가 화면에 더 잘 보이도록 수정했습니다',
-    '북톡에 반응을 남기는 버튼 디자인을 개선했습니다',
-    '북톡의 줄바꿈 표시가 가능해졌습니다'
+  '홈 화면 "당신을 위한 북톡" 영역에 부드러운 45초 타이머 자동 갱신 기능을 도입했습니다',
+  '추천 북톡을 불러올 때 화면이 덜컹거리는 현상을 막기 위해 초기 뼈대(Skeleton) UI를 개선했습니다',
+  '네이버 로그인 혹은 회원가입 완료 시, 홈으로 튕기지 않고 보던 페이지로 바로 돌아가도록 UX를 개선했습니다',
+  '책 상세 페이지에서 비로그인 사용자도 쉽게 네이버 로그인을 띄울 수 있도록 전용 버튼을 추가했습니다',
+  '로그아웃 시에도 현재 보고 있던 페이지 흐름이 끊기지 않도록 직관적인 알림(Toast) 메시지를 추가했습니다',
+  '데이터를 비동기로 불러오는 중 발생하는 작은 화면 깜빡임(Flickering) 문제들을 근본적으로 해결했습니다',
 ];
 
 const UpdateLog: React.FC = () => {
   return (
-    <Paper elevation={1} sx={{ p: 3, mt: 4, borderRadius: 2 }}>
+    <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
       <Typography variant="h5" component="h2" align="center" gutterBottom>
         최근 업데이트 내용
       </Typography>
       <List dense>
         {updates.map((text, idx) => (
-            <ListItem key={idx}>
-              <ListItemText primary={`- ${text}`} />
-            </ListItem>
+          <ListItem key={idx}>
+            <ListItemText primary={`- ${text}`} />
+          </ListItem>
         ))}
       </List>
     </Paper>

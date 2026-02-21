@@ -1,26 +1,26 @@
-# AI 에이전트 작업 지침
+# AI Agent Task Instructions
 
-본 문서는 AI 에이전트가 `quiet-chatter-front-end` 프로젝트에서 작업을 수행하기 전 반드시 확인해야 할 진입점입니다.
+This document is the mandatory entry point that AI agents must check before performing any tasks in the `quiet-chatter-front-end` project.
 
-## 0. 프로젝트 현황 요약
-- **플랫폼**: React + TypeScript + Vite (Cloudflare Pages 배포)
-- **프론트엔드 스테이징**: `dev.quiet-chatter.com` (개발), `quiet-chatter.com` (운영)
-- **백엔드 스테이징**: `dev-api.quiet-chatter.com` (개발/테스트용), `api.quiet-chatter.com` (운영용)
-- **API 정책**: `/v1` 기반 경로 사용 (GUEST 로그인 폐지, 네이버 로그인 중심)
+## 0. Project Status Summary
+- **Platform**: React + TypeScript + Vite (Deployed on Cloudflare Pages)
+- **Frontend Staging**: `dev.quiet-chatter.com` (Dev), `quiet-chatter.com` (Prod)
+- **Backend Staging**: `dev-api.quiet-chatter.com` (Dev/Test), `api.quiet-chatter.com` (Prod)
+- **API Policy**: Uses `/v1` base paths (GUEST login abolished, Naver login centric)
 
-## 1. 필수 확인 문서
+## 1. Mandatory Documents to Check
 
-작업을 시작하기 전에 아래 가이드 문서를 먼저 숙지하십시오.
+Before starting work, please familiarize yourself with the following guide documents.
 
-- **[AI Agent Guide](docs/guide/ai_agent_guide.md)**: 프로젝트 인프라, API 연동 및 작업 프로세스
-- **[Code Style Guide](docs/guide/code_style_guide.md)**: 코딩 표준, 컴포넌트 설계 및 에러 처리 원칙
-- **[Design Guide](docs/guide/design_guide.md)**: 시각적 정체성, 컬러 팔레트 및 UI 구현 가이드
-- **[Authentication Guide](docs/guide/authentication_guide.md)**: 멤버 체계, 로그인 흐름 및 권한 정책
-- **[Project Structure](docs/guide/project_structure.md)**: 폴더 구조 및 디렉토리 역할 설명
+- **[AI Agent Guide](docs/guide/ai_agent_guide.md)**: Project infrastructure, API integration, and work process.
+- **[Code Style Guide](docs/guide/code_style_guide.md)**: Coding standards, component design, and error handling principles.
+- **[Design Guide](docs/guide/design_guide.md)**: Visual identity, color palette, and UI implementation guide.
+- **[Authentication Guide](docs/guide/authentication_guide.md)**: Member system, login flow, and permission policies.
+- **[Project Structure](docs/guide/project_structure.md)**: Folder structure and description of directory roles.
 
-## 2. 작업 절차 요약
+## 2. Work Procedure Summary
 
-1. **문서 확인**: 위 링크된 문서들을 통해 프로젝트의 컨텍스트와 규칙을 파악합니다.
-2. **상태 파악**: `npm install` 및 `npm run dev`를 통해 프로젝트가 정상적으로 실행되는지 확인합니다.
-3. **API 동기화**: 백엔드 API와 연동되는 작업인 경우, 반드시 `npm run gen:types`를 실행하여 타입을 최신화합니다.
-4. **구현 및 테스트**: 가이드라인을 준수하여 기능을 구현하고, `npm run build`를 통해 빌드 오류가 없는지 검증합니다.
+1. **Check Documentation**: Understand the project context and rules through the linked documents above.
+2. **Identify Status**: Verify that the project runs normally via `npm install` and `npm run dev`.
+3. **API Synchronization**: If the task involves backend API integration, you MUST run `npm run gen:types` to update types to the latest version.
+4. **Implementation and Testing**: Implement features following the guidelines and verify there are no build errors via `npm run build`.

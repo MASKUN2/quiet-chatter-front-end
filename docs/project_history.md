@@ -1,44 +1,44 @@
-# 프로젝트 개발 히스토리
+# Project Development History
 
-본 문서는 `quiet-chatter-front-end` 프로젝트의 주요 변경 사항과 기술적 의사결정을 기록합니다.
+This document records the major changes and technical decisions of the `quiet-chatter-front-end` project.
 
-## 초기 구축 및 React 전환 (2026-01)
+## Initial Setup and Transition to React (2026-01)
 
-기존 백엔드(Spring Boot + Thymeleaf) 통합 구조에서 프론트엔드를 분리하여 별도 프로젝트로 구축했습니다.
+The frontend was separated from the existing backend (Spring Boot + Thymeleaf) integrated structure and established as a separate project.
 
-### 기술 스택 선정 및 프로젝트 셋업 : 2026-01-20
-- **배경**: 사용자 인터랙션이 많은 SNS형 서비스의 특성상 SPA(Single Page Application) 구조가 적합하다고 판단했습니다.
-- **결정**:
-    - **Build Tool**: 빠른 빌드 속도와 개발 경험을 제공하는 **Vite**를 선택했습니다.
-    - **Framework**: 생태계가 넓고 안정적인 **React**와 타입 안전성을 위한 **TypeScript**를 도입했습니다.
-    - **UI Library**: 빠른 프로토타이핑과 깔끔한 디자인 시스템 구축을 위해 **Material UI (MUI)**를 채택했습니다.
+### Tech Stack Selection and Project Setup: 2026-01-20
+- **Background**: Given the nature of the SNS-type service with high user interaction, an SPA (Single Page Application) structure was deemed appropriate.
+- **Decision**:
+    - **Build Tool**: Selected **Vite** for its fast build speeds and superior development experience.
+    - **Framework**: Adopted **React** for its large, stable ecosystem and **TypeScript** for type safety.
+    - **UI Library**: Chose **Material UI (MUI)** for rapid prototyping and a clean design system.
 
-### 인증 시스템 구현 : 2026-01-21
-- **내용**: JWT 기반 인증 시스템을 프론트엔드에서 처리하도록 구현했습니다.
-- **구현**:
-    - `AuthContext`를 통해 전역적으로 `Member` 로그인 상태를 관리합니다.
-    - 앱 실행 시 `/v1/auth/me`를 호출하여 세션(쿠키) 유효성을 검증하고 멤버 정보를 로드합니다.
-    - 초기에는 비로그인 상태에서 `Guest` 권한으로 자동 승격되는 방식을 사용했으나, 이후 네이버 로그인 도입과 함께 익명 유지 정책으로 변경되었습니다.
+### Authentication System Implementation: 2026-01-21
+- **Details**: Implemented a JWT-based authentication system managed on the frontend.
+- **Implementation**:
+    - Global `Member` login state is managed via `AuthContext`.
+    - Upon app execution, `/v1/auth/me` is called to verify session (cookie) validity and load member information.
+    - Initially, users were automatically promoted to `Guest` status when not logged in, but this policy was later changed to maintaining anonymity alongside the introduction of Naver login.
 
-### API 연동 자동화 도입 : 2026-01-30
-- **배경**: 백엔드 API 변경 시 프론트엔드 타입 정의를 수동으로 맞추는 비용이 발생하고 오류 가능성이 높았습니다.
-- **해결**: `openapi-typescript` 라이브러리를 도입하여 백엔드의 OpenAPI(Swagger) JSON 스펙을 기반으로 TypeScript 타입을 자동 생성하도록 파이프라인을 구축했습니다.
-- **효과**: `npm run gen:types` 명령어 하나로 백엔드 스펙 변경 사항을 즉시 반영하고, 컴파일 타임에 타입 불일치를 감지할 수 있게 되었습니다. 현재는 `dev-api.quiet-chatter.com`을 기준으로 동기화합니다.
+### Introduction of API Integration Automation: 2026-01-30
+- **Background**: Manually matching frontend type definitions with backend API changes was costly and error-prone.
+- **Solution**: Established a pipeline to automatically generate TypeScript types based on the backend's OpenAPI (Swagger) JSON spec using the `openapi-typescript` library.
+- **Effect**: Backend spec changes can now be reflected immediately with a single `npm run gen:types` command, detecting type mismatches at compile time. Currently synchronized against `dev-api.quiet-chatter.com`.
 
-### 주요 기능 구현 (스프린트 1) : 2026-01 ~ 2026-02
-- **도서 검색**: 네이버 도서 API를 경유하는 백엔드 API를 통해 도서 검색 기능을 구현하고, **Intersection Observer** API를 활용한 무한 스크롤을 적용하여 UX를 개선했습니다.
-- **북톡(Talk) CRUD**: 책에 대한 감상평을 남기고, 수정 및 삭제(Soft Delete)하는 기능을 구현했습니다. (로그인 필수)
-- **리액션**: 좋아요/공감해요 기능을 구현하고, 즉각적인 UI 반응을 위해 낙관적 업데이트(Optimistic Update) 패턴을 일부 적용했습니다.
+### Major Feature Implementation (Sprint 1): 2026-01 ~ 2026-02
+- **Book Search**: Implemented book search via a backend API routing through the Naver Book API, applying infinite scroll using the **Intersection Observer** API to improve UX.
+- **BookTalk (Talk) CRUD**: Implemented features to leave, edit, and (soft) delete reviews for books. (Login required)
+- **Reactions**: Implemented Like/Empathy features, applying optimistic update patterns to parts of the UI for instant feedback.
 
-### 인프라 고도화 및 인증 체계 개편 (2026-02)
-- **스테이징 전략 수립**: 백엔드의 `dev` 스테이지 분리에 따라 프론트엔드도 `dev.quiet-chatter.com` 및 `dev-api.quiet-chatter.com`을 사용하도록 설정을 분리하고 타입 생성 자동화를 업데이트했습니다.
-- **배포 자동화**: Cloudflare Pages를 통한 지속적 배포 환경을 구축했습니다.
-- **용어 및 정책 통일**: `User` 명칭을 백엔드 엔티티와 동일한 `Member`로 리팩토링했습니다. 또한, 보안 강화를 위해 자동 GUEST 승급 필터를 제거하고 네이버 로그인 사용자만 데이터를 생성할 수 있도록 정책을 변경했습니다.
-- **인증 기능 완성**: 네이버 로그인의 전 과정을 프론트엔드 콜백으로 처리하고, 서버 세션을 명확히 종료하는 **로그아웃** 기능을 구현 및 UI에 반영했습니다.
+### Infrastructure Advancement and Auth System Overhaul (2026-02)
+- **Staging Strategy**: Following the backend's `dev` stage separation, frontend configurations were split to use `dev.quiet-chatter.com` and `dev-api.quiet-chatter.com`, and type generation automation was updated.
+- **Deployment Automation**: Established a continuous deployment environment via Cloudflare Pages.
+- **Term and Policy Unification**: Refactored the term `User` to `Member` to match the backend entity. Additionally, to enhance security, the automatic GUEST promotion filter was removed, and policies were changed so only Naver-logged-in users can create data.
+- **Auth Completion**: Handled the entire Naver login process via frontend callbacks and implemented a **Logout** feature that clearly terminates the server session, reflecting it in the UI.
 
-### 릴리스 관리 자동화 체계 전환 (2026-02-20)
-- **배경**: 기존 `release-please` 방식에서 더 유연하고 플러그인 생태계가 풍부한 `semantic-release`로 전환하여 버전 관리와 릴리스 노트를 더 정교하게 관리하고자 했습니다.
-- **결정**:
-    - **Tools**: `semantic-release`, `@semantic-release/changelog`, `@semantic-release/github` 등을 도입했습니다.
-    - **Convention**: [Conventional Commits](https://www.conventionalcommits.org/)를 표준 커밋 컨벤션으로 채택하여 릴리스 타입(Major/Minor/Patch) 결정을 자동화했습니다.
-    - **Automation**: GitHub Actions를 통해 `main` 브랜치에 푸시될 때마다 자동으로 버전 태깅, `CHANGELOG.md` 업데이트, GitHub Release 생성이 이루어지도록 구축했습니다.
+### Transition to Automated Release Management (2026-02-20)
+- **Background**: Transitioned from the existing `release-please` method to `semantic-release` for its flexibility and rich plugin ecosystem, aiming for more sophisticated version management and release notes.
+- **Decision**:
+    - **Tools**: Introduced `semantic-release`, `@semantic-release/changelog`, `@semantic-release/github`, etc.
+    - **Convention**: Adopted [Conventional Commits](https://www.conventionalcommits.org/) as the standard commit convention to automate release type (Major/Minor/Patch) decisions.
+    - **Automation**: Configured via GitHub Actions to automatically perform version tagging, `CHANGELOG.md` updates, and GitHub Release creation whenever a push occurs to the `main` branch.
