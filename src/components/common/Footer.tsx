@@ -30,11 +30,11 @@ const Footer: React.FC = () => {
                     {' Quiet Chatter. All rights reserved.'}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <Link component={RouterLink} to="/about" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                        서비스 소개
+                    </Link>
                     <Link component={RouterLink} to="/terms" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
                         이용약관 및 개인정보처리방침
-                    </Link>
-                    <Link component={RouterLink} to="/history" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
-                        서비스 연혁
                     </Link>
                 </Box>
             </Paper>

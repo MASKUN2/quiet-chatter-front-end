@@ -8,7 +8,7 @@ import BookSearch from './pages/BookSearch';
 import BookDetail from './pages/BookDetail';
 import NaverCallback from './pages/NaverCallback';
 import TermsOfService from './pages/TermsOfService';
-import ServiceHistory from './pages/ServiceHistory';
+import AboutService from './pages/AboutService';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import { AuthProvider } from './context/AuthContext';
@@ -95,7 +95,7 @@ const AppContent: React.FC = () => {
               <Route path="/books/:bookId" element={<BookDetail />} />
               <Route path="/auth/login/naver/callback" element={<NaverCallback />} />
               <Route path="/terms" element={<TermsOfService />} />
-              <Route path="/history" element={<ServiceHistory />} />
+              <Route path="/about" element={<AboutService />} />
             </Routes>
           </Box>
         </Stack>
