@@ -16,6 +16,10 @@ interface TalkItemProps {
   currentMemberId?: string | null;
   onUpdate: () => void;
 }
+const formatDate = (dateString: string) => {
+  const d = new Date(dateString);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -70,7 +74,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', mb: 1.5, cursor: 'help', width: 'fit-content' }}>
             <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
             <Typography variant="caption">
-              {new Date(talk.createdAt).toLocaleDateString()}
+              {formatDate(talk.createdAt)}
               {talk.is_modified && ' (수정됨)'}
             </Typography>
             <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>

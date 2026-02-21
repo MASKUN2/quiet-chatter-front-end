@@ -12,7 +12,7 @@ const NaverCallback: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState('로그인 중입니다...');
-  
+
   // 회원가입 관련 상태
   const [showSignup, setShowSignup] = useState(false);
   const [registerToken, setRegisterToken] = useState('');
@@ -26,15 +26,22 @@ const NaverCallback: React.FC = () => {
     severity: 'success',
   });
 
+  const hasFetched = React.useRef(false);
+
   useEffect(() => {
     const code = searchParams.get('code');
     const state = searchParams.get('state');
+
+    if (hasFetched.current) return;
+    hasFetched.current = true;
 
     if (code && state) {
       handleLogin(code, state);
     } else {
       showToast('잘못된 접근입니다.', 'error');
-      setTimeout(() => navigate('/home', { replace: true }), 2000);
+      const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+      localStorage.removeItem('redirect_after_login');
+      setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -42,7 +49,7 @@ const NaverCallback: React.FC = () => {
   const handleLogin = async (code: string, state: string) => {
     try {
       const response = await loginWithNaver(code, state);
-      
+
       if (response.isRegistered) {
         await completeLogin('반갑습니다! 로그인되었습니다.');
       } else {
@@ -56,15 +63,20 @@ const NaverCallback: React.FC = () => {
     } catch (error) {
       console.error('Login failed:', error);
       showToast('로그인에 실패했습니다.', 'error');
-      setTimeout(() => navigate('/home', { replace: true }), 2000);
+      const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+      localStorage.removeItem('redirect_after_login');
+      setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
     }
   };
 
   const completeLogin = async (message: string) => {
-    setStatusMessage('로그인 완료! 홈으로 이동합니다...');
+    setStatusMessage('로그인 완료! 이동합니다...');
     await refreshMember();
     showToast(message, 'success');
-    setTimeout(() => navigate('/home', { replace: true }), 1500);
+    const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+    console.log('[DEBUG] completeLogin read redirectUrl (before remove):', redirectUrl);
+    localStorage.removeItem('redirect_after_login');
+    setTimeout(() => navigate(redirectUrl, { replace: true }), 1500);
   };
 
   const handleSignup = async (nickname: string) => {
@@ -83,7 +95,9 @@ const NaverCallback: React.FC = () => {
   const handleSignupCancel = () => {
     setShowSignup(false);
     showToast('회원가입이 취소되었습니다.', 'error');
-    navigate('/home', { replace: true });
+    const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+    localStorage.removeItem('redirect_after_login');
+    navigate(redirectUrl, { replace: true });
   };
 
   const showToast = (message: string, severity: 'success' | 'error') => {
@@ -105,7 +119,7 @@ const NaverCallback: React.FC = () => {
         </>
       )}
 
-      <SignupModal 
+      <SignupModal
         open={showSignup}
         tempNickname={tempNickname}
         onSignup={handleSignup}
@@ -113,9 +127,9 @@ const NaverCallback: React.FC = () => {
         loading={signupLoading}
       />
 
-      <Snackbar 
-        open={toast.open} 
-        autoHideDuration={3000} 
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={3000}
         onClose={() => setToast({ ...toast, open: false })}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >

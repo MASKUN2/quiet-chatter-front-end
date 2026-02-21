@@ -22,11 +22,13 @@ The project has two states, consistent with the backend member system:
 
 ### Login
 - Authentication is performed using a Naver OAuth 2.0 code.
-- The frontend callback page (`/auth/login/naver/callback`) calls the server API to establish a session.
+- Before opening the Naver login page, the current page URL is saved to `localStorage` under the key `redirect_after_login`.
+- The frontend callback page (`/auth/login/naver/callback`) calls the server API to establish a session, retrieves the saved URL, and redirects the user back to their original page.
 
 ### Logout
 - Call the `logout` function from `AuthContext`.
 - This invalidates the server session (cookie) and immediately deletes the `auth_member` cache from local storage.
+- The UX policy is to stay on the current page (e.g., Book Detail) after logout instead of returning to `/home`, and display a confirmation Toast message to the user.
 
 ### Persistence
 - Upon app initialization, the authentication verification API (e.g., `/v1/auth/me`) is called to verify the current session's validity and update the global state.
