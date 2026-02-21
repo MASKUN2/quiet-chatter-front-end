@@ -42,4 +42,17 @@ export const handlers = [
     http.get('/api/v1/talks/recommend', () => {
         return HttpResponse.json([]);
     }),
+    // Mock Naver Login (force signup flow)
+    http.post('/api/v1/auth/login/naver', async () => {
+        // To trigger the signup modal, we must return isRegistered: false
+        return HttpResponse.json({
+            isRegistered: false,
+            registerToken: 'mock-signup-token-12345',
+            tempNickname: 'NewQuietUser',
+        });
+    }),
+    // Mock Naver Signup
+    http.post('/api/v1/auth/signup/naver', async () => {
+        return HttpResponse.json({}, { status: 200 });
+    }),
 ];
