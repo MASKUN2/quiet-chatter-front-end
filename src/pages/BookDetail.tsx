@@ -53,9 +53,14 @@ const BookDetail: React.FC = () => {
         <Divider />
         <Box>
           <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 1 : 2, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
-              Talks
-            </Typography>
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+                BOOK TALK
+              </Typography>
+              <Typography variant="h5" fontWeight={800} sx={{ letterSpacing: '-0.02em', mt: 0.5 }}>
+                Talks
+              </Typography>
+            </Box>
 
             {member?.isLoggedIn ? (
               <TalkForm

@@ -15,30 +15,37 @@ const Home: React.FC = () => {
       <Paper
         elevation={isMobile ? 0 : 1}
         sx={{
-          p: isMobile ? 1 : 2,
           minHeight: 250,
           borderRadius: isMobile ? 0 : 2,
-          borderBottom: isMobile ? '1px solid #eee' : 'none'
+          borderBottom: isMobile ? '1px solid #eee' : 'none',
+          overflow: 'hidden',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
-          <Typography variant="h5" align="center">
-            당신을 위한 북톡 <Typography component="span" variant="caption" color="textSecondary">BookTalk</Typography>
-          </Typography>
-          {!loading && !error && (
-            <RecommendedTalksTimer
-              onRefresh={refreshData}
-              isRefreshing={isRefreshing}
-              intervalMs={45000}
-            />
-          )}
+        <Box sx={{ px: isMobile ? 1 : 2, pt: isMobile ? 2 : 3, pb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box>
+              <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+                FOR YOU
+              </Typography>
+              <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: '-0.02em', mt: 0.5 }}>
+                당신을 위한 북톡 <Typography component="span" variant="caption" color="text.secondary" sx={{ fontWeight: 400 }}>BookTalk</Typography>
+              </Typography>
+            </Box>
+            {!loading && !error && (
+              <RecommendedTalksTimer
+                onRefresh={refreshData}
+                isRefreshing={isRefreshing}
+                intervalMs={45000}
+              />
+            )}
+          </Box>
+          <RecommendedTalks
+            loading={loading}
+            error={error}
+            talks={talks}
+            books={books}
+          />
         </Box>
-        <RecommendedTalks
-          loading={loading}
-          error={error}
-          talks={talks}
-          books={books}
-        />
       </Paper>
 
       <UpdateLog />

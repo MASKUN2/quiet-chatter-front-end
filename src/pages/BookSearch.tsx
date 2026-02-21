@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Alert, Skeleton, Stack } from '@mui/material';
+import { Box, Alert, Skeleton, Stack, Typography } from '@mui/material';
 import BookListItem from '../components/book/BookListItem';
 import { useBookSearch } from '../hooks/useBookSearch';
 
@@ -8,6 +8,20 @@ const BookSearch: React.FC = () => {
 
   return (
     <Box sx={{ minHeight: 500 }}>
+      {/* Section header */}
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+          SEARCH RESULTS
+        </Typography>
+        <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: '-0.02em', mt: 0.5 }}>
+          {keyword ? `"${keyword}" 검색 결과` : '책 검색'}
+          {!loading && !error && books.length > 0 && (
+            <Typography component="span" variant="caption" color="text.secondary" sx={{ fontWeight: 400, ml: 1 }}>
+              {books.length}권
+            </Typography>
+          )}
+        </Typography>
+      </Box>
       {books.map((book, index) => {
         if (books.length === index + 1) {
           return (
