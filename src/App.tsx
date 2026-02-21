@@ -9,8 +9,10 @@ import BookDetail from './pages/BookDetail';
 import NaverCallback from './pages/NaverCallback';
 import TermsOfService from './pages/TermsOfService';
 import ServiceHistory from './pages/ServiceHistory';
+import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import { AuthProvider } from './context/AuthContext';
+import { Container, Stack, useTheme, useMediaQuery } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -76,26 +78,40 @@ const theme = createTheme({
   },
 });
 
+const AppContent: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Container maxWidth="md" disableGutters={isMobile} sx={{ flexGrow: 1 }}>
+        <Stack spacing={{ xs: 2, md: 4 }} sx={{ py: { xs: 0, md: 2 }, height: '100%' }}>
+          <Header />
+          <Box component="main" sx={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" replace />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/books/search" element={<BookSearch />} />
+              <Route path="/books/:bookId" element={<BookDetail />} />
+              <Route path="/auth/login/naver/callback" element={<NaverCallback />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/history" element={<ServiceHistory />} />
+            </Routes>
+          </Box>
+        </Stack>
+      </Container>
+      <Footer />
+    </Box>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
         <Router>
-          <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Box sx={{ flexGrow: 1, pt: { xs: 0, md: 2 }, pb: { xs: 2, md: 4 } }}>
-              <Routes>
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/books/search" element={<BookSearch />} />
-                <Route path="/books/:bookId" element={<BookDetail />} />
-                <Route path="/auth/login/naver/callback" element={<NaverCallback />} />
-                <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/history" element={<ServiceHistory />} />
-              </Routes>
-            </Box>
-            <Footer />
-          </Box>
+          <AppContent />
         </Router>
       </AuthProvider>
     </ThemeProvider>

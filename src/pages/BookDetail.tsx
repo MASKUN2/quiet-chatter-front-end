@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Divider, Box, Typography, Pagination, Skeleton, Alert, Paper, useTheme, useMediaQuery, Dialog, DialogContent, DialogTitle, Stack } from '@mui/material';
-import Header from '../components/common/Header';
+import { Divider, Box, Typography, Pagination, Skeleton, Alert, Paper, useTheme, useMediaQuery, Dialog, DialogContent, DialogTitle, Stack } from '@mui/material';
 import BookInfo from '../components/book/BookInfo';
 import TalkForm from '../components/book/TalkForm';
 import TalkList from '../components/book/TalkList';
@@ -33,41 +32,25 @@ const BookDetail: React.FC = () => {
 
   if (loadingBook) {
     return (
-      <Container maxWidth="md" disableGutters={isMobile}>
-        <Stack spacing={{ xs: 2, md: 4 }} sx={{ px: isMobile ? 2 : 0 }}>
-          <Header />
-          <Box>
-            <Skeleton variant="rectangular" height={300} />
-            <Skeleton height={40} sx={{ mt: 2 }} />
-            <Skeleton height={20} width="60%" />
-          </Box>
-        </Stack>
-      </Container>
+      <Box sx={{ mt: 2 }}>
+        <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
+      </Box>
     );
   }
 
   if (!book) {
     return (
-      <Container maxWidth="md" disableGutters={isMobile}>
-        <Stack spacing={{ xs: 2, md: 4 }} sx={{ px: isMobile ? 2 : 0 }}>
-          <Header />
-          <Box>
-            <Alert severity="error">책 정보를 찾을 수 없습니다.</Alert>
-          </Box>
-        </Stack>
-      </Container>
+      <Box sx={{ mt: 2 }}>
+        <Alert severity="error">책 정보를 찾을 수 없습니다.</Alert>
+      </Box>
     );
   }
 
   return (
-    <Container maxWidth="md" disableGutters={isMobile}>
+    <>
       <Stack spacing={{ xs: 2, md: 4 }}>
-        <Header />
-
         <BookInfo book={book} />
-
         <Divider />
-
         <Box>
           <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 1 : 2, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
@@ -130,7 +113,7 @@ const BookDetail: React.FC = () => {
           <NaverLogin />
         </DialogContent>
       </Dialog>
-    </Container>
+    </>
   );
 };
 
