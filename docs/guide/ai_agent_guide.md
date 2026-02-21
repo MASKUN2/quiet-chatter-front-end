@@ -33,6 +33,7 @@ Agents must be familiar with the detailed rules defined in the following documen
 - [**Design Guide**](design_guide.md): MUI usage, color palette, and responsive design layout rules.
 - [**Authentication Guide**](authentication_guide.md): Member roles (Anonymous/Member) and permission policies.
 - [**Project Structure**](project_structure.md): Directory roles and criteria for file placement.
+- **Global Layout Adherence**: Always respect the centralized layout in `src/App.tsx`. New pages must not include their own `Header` or `Container` wrappers; they should export only the specific page content.
 
 ## 4. Final Verification
 

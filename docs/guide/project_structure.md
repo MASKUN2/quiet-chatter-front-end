@@ -17,6 +17,7 @@ quiet-chatter-front-end/
 │   │   ├── book/        # Book-related components (search results, details, Talk creation, etc.)
 │   │   ├── common/      # Common components (Header, Modal, Layout, etc.)
 │   │   └── home/        # Home screen specific components (recommended Talks, update logs, etc.)
+│   ├── constants/       # Static data and UI constants (page intro text, timeline, feature lists, etc.)
 │   ├── context/         # Global state management (AuthContext, etc.)
 │   ├── hooks/           # Custom React Hooks (Separation of business logic)
 │   ├── pages/           # Route page components (Home, BookSearch, BookDetail)
@@ -37,6 +38,9 @@ Contains all functions for communicating with the backend server. Sets up the `a
 Manages reusable UI elements.
 - **book**: Components related to the book domain, such as book search, detail view, and Talk lists.
 - **common**: Components used throughout the application, like headers, footers, and common modals.
+
+### `src/constants`
+Stores static, non-API data used purely for rendering UI — such as page introduction text, service philosophy content, feature lists, and history timeline entries. Files are named after the page or domain they support (e.g., `about.ts`).
 
 ### `src/hooks`
 Custom hooks are used to separate business logic from components.
