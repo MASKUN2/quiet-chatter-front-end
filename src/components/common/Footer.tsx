@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Container, Link, Paper, useTheme, useMediaQuery } from '@mui/material';
+import { Typography, Container, Link, Paper, useTheme, useMediaQuery, Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer: React.FC = () => {
@@ -29,9 +29,14 @@ const Footer: React.FC = () => {
                     {new Date().getFullYear()}
                     {' Quiet Chatter. All rights reserved.'}
                 </Typography>
-                <Link component={RouterLink} to="/terms" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
-                    이용약관 및 개인정보처리방침
-                </Link>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <Link component={RouterLink} to="/terms" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                        이용약관 및 개인정보처리방침
+                    </Link>
+                    <Link component={RouterLink} to="/history" color="primary" variant="caption" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                        서비스 연혁
+                    </Link>
+                </Box>
             </Paper>
         </Container>
     );
