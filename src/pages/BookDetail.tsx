@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Divider, Box, Typography, Pagination, Skeleton, Alert, Paper, useTheme, useMediaQuery } from '@mui/material';
-import Header from '../components/common/Header';
+import { Divider, Box, Typography, Pagination, Skeleton, Alert, Paper, useTheme, useMediaQuery, Dialog, DialogContent, DialogTitle, Stack } from '@mui/material';
 import BookInfo from '../components/book/BookInfo';
 import TalkForm from '../components/book/TalkForm';
 import TalkList from '../components/book/TalkList';
+import NaverLogin from '../components/common/NaverLogin';
 import { useBookDetail } from '../hooks/useBookDetail';
 
 const BookDetail: React.FC = () => {
@@ -12,87 +12,77 @@ const BookDetail: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { 
-    book, 
-    talks, 
-    pageInfo, 
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+
+  const {
+    book,
+    talks,
+    pageInfo,
     member,
-    loadingBook, 
-    loadingTalks, 
-    talkContent, 
-    setTalkContent, 
-    talkPage, 
-    onPostTalk, 
-    onReaction, 
+    loadingBook,
+    loadingTalks,
+    talkContent,
+    setTalkContent,
+    talkPage,
+    onPostTalk,
+    onReaction,
     onTalkUpdate,
-    handlePageChange 
+    handlePageChange
   } = useBookDetail(bookId);
 
   if (loadingBook) {
-      return (
-        <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
-          <Header />
-          <Box sx={{ mt: isMobile ? 2 : 4, px: isMobile ? 2 : 0 }}>
-            <Skeleton variant="rectangular" height={300} />
-            <Skeleton height={40} sx={{ mt: 2 }} />
-            <Skeleton height={20} width="60%" />
-          </Box>
-        </Container>
-      );
+    return (
+      <Box sx={{ mt: 2 }}>
+        <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />
+      </Box>
+    );
   }
 
   if (!book) {
     return (
-      <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
-        <Header />
-        <Box sx={{ mt: isMobile ? 2 : 4, px: isMobile ? 2 : 0 }}>
-          <Alert severity="error">책 정보를 찾을 수 없습니다.</Alert>
-        </Box>
-      </Container>
+      <Box sx={{ mt: 2 }}>
+        <Alert severity="error">책 정보를 찾을 수 없습니다.</Alert>
+      </Box>
     );
   }
 
   return (
-    <Container maxWidth="md" disableGutters={isMobile} sx={{ mt: 0, pb: 6 }}>
-      <Header />
-      <Box sx={{ mt: isMobile ? 2 : 4 }}>
+    <>
+      <Stack spacing={{ xs: 2, md: 4 }}>
         <BookInfo book={book} />
-        
-        <Divider sx={{ my: isMobile ? 4 : 6 }} />
-
-        <Box sx={{ px: isMobile ? 0 : 0 }}>
+        <Divider />
+        <Box>
           <Paper elevation={isMobile ? 0 : 1} sx={{ p: isMobile ? 1 : 2, borderRadius: isMobile ? 0 : 2, backgroundColor: 'background.paper' }}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 }}>
-              Talks
-            </Typography>
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.2em', fontSize: '0.75rem', display: 'block', lineHeight: 1.4 }}>
+                BOOK TALK
+              </Typography>
+              <Typography variant="h5" fontWeight={800} sx={{ letterSpacing: '-0.02em', mt: 0.5 }}>
+                Talks
+              </Typography>
+            </Box>
 
             {member?.isLoggedIn ? (
-              <TalkForm 
-                content={talkContent} 
-                setContent={setTalkContent} 
-                onSubmit={onPostTalk} 
+              <TalkForm
+                content={talkContent}
+                setContent={setTalkContent}
+                onSubmit={onPostTalk}
                 nickname={member?.nickname}
               />
             ) : (
-              <Box sx={{ 
-                mb: 4, 
-                p: 3, 
-                textAlign: 'center', 
-                bgcolor: 'grey.50', 
-                borderRadius: 2, 
-                border: '1px dashed', 
-                borderColor: 'grey.400' 
-              }}>
-                <Typography variant="body1" color="text.secondary">
-                  톡을 남기려면 로그인이 필요합니다.
-                </Typography>
-              </Box>
+              <TalkForm
+                content={talkContent}
+                setContent={setTalkContent}
+                onSubmit={(e) => e.preventDefault()}
+                isGuest={true}
+                onLoginClick={() => setLoginModalOpen(true)}
+              />
             )}
 
-            <TalkList 
-              talks={talks} 
-              loading={loadingTalks} 
-              onReaction={onReaction} 
+            <TalkList
+              talks={talks}
+              loading={loadingTalks}
+              onReaction={onReaction}
               currentMemberId={member?.id}
               onUpdate={onTalkUpdate}
             />
@@ -110,8 +100,25 @@ const BookDetail: React.FC = () => {
             )}
           </Paper>
         </Box>
-      </Box>
-    </Container>
+      </Stack>
+
+      <Dialog
+        open={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+          로그인
+        </DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
+            서비스를 이용하시려면<br />로그인이 필요합니다.
+          </Typography>
+          <NaverLogin />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

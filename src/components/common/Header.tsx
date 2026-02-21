@@ -5,7 +5,7 @@ import NaverLogin from './NaverLogin';
 import {
   Box, TextField, Button, InputAdornment, Paper,
   IconButton, Typography, Menu, MenuItem, useMediaQuery, useTheme,
-  Skeleton
+  Skeleton, Snackbar, Alert
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -16,6 +16,7 @@ const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const { member, loading, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [toastOpen, setToastOpen] = useState(false);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -31,7 +32,7 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     handleClose();
     await logout();
-    navigate('/home');
+    setToastOpen(true);
   };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -111,12 +112,12 @@ const Header: React.FC = () => {
         }}>
           {member.role}
         </Typography>
-        <Button 
-          variant="text" 
-          size="small" 
+        <Button
+          variant="text"
+          size="small"
           onClick={handleLogout}
-          sx={{ 
-            color: 'text.secondary', 
+          sx={{
+            color: 'text.secondary',
             ml: 1,
             '&:hover': {
               backgroundColor: 'rgba(0, 0, 0, 0.04)'
@@ -135,7 +136,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: '100%' }}>
       {/* Top Bar Area */}
       <Paper
         elevation={isMobile ? 0 : 1}
@@ -154,7 +155,7 @@ const Header: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <VoiceOfCustomerModal />
         </Box>
-        <Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {renderMemberInfo()}
         </Box>
       </Paper>
@@ -221,6 +222,16 @@ const Header: React.FC = () => {
             </Button>          </Box>
         </form>
       </Paper>
+      <Snackbar
+        open={toastOpen}
+        autoHideDuration={3000}
+        onClose={() => setToastOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity="success" variant="filled" sx={{ width: '100%' }}>
+          로그아웃 되었습니다.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

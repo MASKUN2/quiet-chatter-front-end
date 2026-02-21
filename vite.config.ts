@@ -15,9 +15,9 @@ export default defineConfig({
           proxy.on('error', (err) => {
             console.log('proxy error', err);
           });
-          proxy.on('proxyReq', (proxyReq, req) => {
+          proxy.on('proxyReq', (_proxyReq, req) => {
             // Origin 헤더를 타겟 도메인으로 변경하여 서버가 로컬 요청을 거부하지 않도록 함
-            proxyReq.setHeader('Origin', 'https://dev-api.quiet-chatter.com');
+            // _proxyReq.setHeader('Origin', 'https://dev-api.quiet-chatter.com');
             console.log('Sending Request to the Target:', req.method, req.url);
           });
           proxy.on('proxyRes', (proxyRes, req) => {

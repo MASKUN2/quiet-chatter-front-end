@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Box, Button, TextField, IconButton, Stack } from '@mui/material';
+import { Card, CardContent, Typography, Box, Button, TextField, IconButton, Stack, Tooltip } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -16,6 +16,10 @@ interface TalkItemProps {
   currentMemberId?: string | null;
   onUpdate: () => void;
 }
+const formatDate = (dateString: string) => {
+  const d = new Date(dateString);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -66,16 +70,18 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
   return (
     <Card variant="outlined" sx={{ mx: 0 }}>
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', mb: 1.5 }}>
-          <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
-          <Typography variant="caption">
-            {new Date(talk.createdAt).toLocaleDateString()}
-            {talk.is_modified && ' (수정됨)'}
-          </Typography>
-          <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>
-            by {talk.nickname}
-          </Typography>
-        </Box>
+        <Tooltip title="1년후에 자동으로 숨겨집니다" placement="top" arrow>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', mb: 1.5, cursor: 'help', width: 'fit-content' }}>
+            <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
+            <Typography variant="caption">
+              {formatDate(talk.createdAt)}
+              {talk.is_modified && ' (수정됨)'}
+            </Typography>
+            <Typography variant="caption" sx={{ ml: 0.5, fontWeight: 500 }}>
+              by {talk.nickname}
+            </Typography>
+          </Box>
+        </Tooltip>
 
         {isEditing ? (
           <Box sx={{ mb: 2 }}>
@@ -91,13 +97,13 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <Button size="small" onClick={() => setIsEditing(false)} disabled={loading}>취소</Button>
-              <Button 
-                size="small" 
-                variant="outlined" 
-                onClick={handleUpdate} 
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={handleUpdate}
                 disabled={loading}
-                sx={{ 
-                  color: 'primary.main', 
+                sx={{
+                  color: 'primary.main',
                   borderColor: 'primary.main',
                   '&:hover': {
                     borderColor: 'primary.dark',
@@ -126,18 +132,18 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             )}
           </Box>
         )}
-        
+
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button 
-              size="small" 
+            <Button
+              size="small"
               color={talk.didILike ? "primary" : "inherit"}
               startIcon={talk.didILike ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
               onClick={() => onReaction(talk.id, 'LIKE', talk.didILike)}
             >
               {talk.like_count}
             </Button>
-            <Button 
+            <Button
               size="small"
               color={talk.didISupport ? "error" : "inherit"}
               startIcon={talk.didISupport ? <FavoriteIcon /> : <FavoriteBorderIcon />}

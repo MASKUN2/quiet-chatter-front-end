@@ -7,49 +7,44 @@ export const useHomeData = () => {
   const [talks, setTalks] = useState<Talk[]>([]);
   const [books, setBooks] = useState<Map<string, Book>>(new Map());
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let isMounted = true;
+  const fetchData = async (isBackground = false) => {
+    try {
+      if (!isBackground) setLoading(true);
+      else setIsRefreshing(true);
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const recommendedTalks = await getRecommendedTalks();
+      const recommendedTalks = await getRecommendedTalks();
 
-        if (!isMounted) return;
-
-        if (!Array.isArray(recommendedTalks)) {
-          setTalks([]);
-          return;
-        }
-
-        setTalks(recommendedTalks);
-
-        if (recommendedTalks.length > 0) {
-          const bookIds = Array.from(new Set(recommendedTalks.map(t => t.bookId)));
-          const booksData = await getBooksByIds(bookIds);
-          if (isMounted) {
-            setBooks(new Map(booksData.map(b => [b.id, b])));
-          }
-        }
-      } catch (err: unknown) {
-        if (isMounted) {
-          setError(err instanceof Error ? err.message : MESSAGES.ERROR.DEFAULT);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+      if (!Array.isArray(recommendedTalks)) {
+        setTalks([]);
+        return;
       }
-    };
 
-    fetchData();
+      setTalks(recommendedTalks);
 
-    return () => {
-      isMounted = false;
-    };
+      if (recommendedTalks.length > 0) {
+        const bookIds = Array.from(new Set(recommendedTalks.map(t => t.bookId)));
+        const booksData = await getBooksByIds(bookIds);
+        setBooks(new Map(booksData.map(b => [b.id, b])));
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : MESSAGES.ERROR.DEFAULT);
+    } finally {
+      if (!isBackground) setLoading(false);
+      else setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(false);
   }, []);
 
-  return { talks, books, loading, error };
+  const refreshData = async () => {
+    if (loading || isRefreshing) return;
+    await fetchData(true);
+  };
+
+  return { talks, books, loading, isRefreshing, refreshData, error };
 };
