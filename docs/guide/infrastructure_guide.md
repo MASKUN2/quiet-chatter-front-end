@@ -27,3 +27,11 @@ This document defines the infrastructure architecture and staging (Production/De
 - **Environment Variables (`.env`)**:
     - `VITE_API_BASE_URL`: Set to `/api` during local development to route through the proxy.
     - Actual Production/Dev builds will use the respective physical API server addresses.
+
+## 4. Local API Mocking (MSW)
+
+- **Mock Service Worker (MSW)**: Along with the Vite proxy, the project supports local API mocking using MSW.
+- **Usage**:
+    - Run `npm run dev` to use the **real dev-api** (via Proxy).
+    - Run `npm run dev:mock` to use **local mock data** (via MSW).
+- **Mock Handlers**: Defined in `src/mocks/handlers.ts`. Use this when you need to specifically test UI states (like logged-in user, error scenarios, etc.) without relying on the real backend state.

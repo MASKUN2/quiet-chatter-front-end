@@ -41,3 +41,4 @@ After completing all tasks, the agent must verify the results themselves through
 1. **Build Test**: Run `npm run build` to ensure there are no type errors or warnings.
 2. **Lint Check**: Run `npm run lint` to ensure no convention violations.
 3. **Runtime Check**: Run `npm run dev` and check for browser console warnings or API communication errors.
+4. **Mock Testing**: Use `npm run dev:mock` to verify UI components against specific mocked API scenarios defined in `src/mocks/handlers.ts` without needing a real backend.
