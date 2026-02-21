@@ -1,44 +1,44 @@
-# 요구사항 명세서 (Requirements Specification)
+# Requirements Specification
 
-## 1. 개요
-본 문서는 Quiet Chatter 웹 애플리케이션의 기능적 요구사항과 UI/UX 요구사항을 정의합니다.
+## 1. Overview
+This document defines the functional and UI/UX requirements for the Quiet Chatter web application.
 
-## 2. 화면 구성 및 기능
+## 2. Screen Configuration and Features
 
-### 2.1 홈 화면 (`/home`)
-- **북톡 추천**: 랜덤 알고리즘 기반으로 추천된 북톡(Talk) 카드를 리스트 형태로 표시합니다.
-- **서비스 소개**: 신규 사용자를 위한 짧은 소개 영상이나 가이드 영역을 제공합니다.
-- **업데이트 로그**: 최근 변경 사항을 사용자에게 알리는 섹션을 둡니다.
+### 2.1 Home Screen (`/home`)
+- **BookTalk Recommendations**: Displays recommended BookTalk cards in a list format based on a random algorithm.
+- **Service Introduction**: Provides a short intro video or guide area for new users.
+- **Update Log**: Includes a section to notify users of recent changes.
 
-### 2.2 도서 검색 (`/books/search`)
-- **검색창**: 키워드로 도서를 검색할 수 있는 입력 필드를 상단에 배치합니다.
-- **무한 스크롤**: 검색 결과 리스트는 스크롤이 하단에 도달하면 자동으로 다음 페이지를 로드합니다.
-- **결과 표시**: 책 표지, 제목, 저자 정보를 카드 형태로 간략히 보여줍니다.
+### 2.2 Book Search (`/books/search`)
+- **Search Bar**: An input field at the top where users can search for books by keywords.
+- **Infinite Scroll**: The search result list automatically loads the next page when the scroll reaches the bottom.
+- **Result Display**: Briefly shows the book cover, title, and author info in card format.
 
-### 2.3 도서 상세 (`/books/:bookId`)
-- **책 정보**: 책의 상세 정보(표지, 제목, 저자, 설명, 외부 링크 등)를 상단에 표시합니다.
-- **톡 작성**: 로그인한 사용자만 톡을 작성할 수 있습니다. 비로그인 사용자에게는 로그인 유도 메시지를 표시합니다.
-- **톡 리스트**: 해당 도서에 작성된 톡들을 최신순으로 나열합니다.
-- **리액션**: 로그인한 사용자는 각 톡에 대해 '좋아요', '공감해요' 버튼을 클릭할 수 있으며, 내 반응 여부를 시각적으로 표시합니다. 비로그인 시에는 반응 개수만 확인할 수 있습니다.
-- **수정/삭제**: 내가 작성한 톡인 경우 수정 및 삭제 버튼을 노출합니다.
+### 2.3 Book Detail (`/books/:bookId`)
+- **Book Information**: Displays detailed book information (cover, title, author, description, external links, etc.) at the top.
+- **Talk Creation**: Only logged-in users can create Talks. Non-logged-in users are shown a login inducement message.
+- **Talk List**: Lists Talks written for the book in reverse chronological order.
+- **Reactions**: Logged-in users can click 'Like' or 'Empathize' buttons on each Talk, with their reaction status visually indicated. If not logged in, only the reaction count is visible.
+- **Edit/Delete**: Author-exclusive edit and delete buttons are exposed for the user's own Talks.
 
-### 2.4 공통 요소 (Header/Navigation)
-- **로고**: 홈으로 이동하는 로고를 배치합니다.
-- **검색 바**: 어디서든 책 검색 페이지로 이동하거나 바로 검색할 수 있는 기능을 제공합니다.
-- **멤버 정보**: 현재 로그인된 멤버의 닉네임과 역할을 표시합니다. 로그아웃 기능을 제공하며, 비로그인 시에는 네이버 로그인 버튼을 노출합니다. 모바일에서는 햄버거 메뉴로 축소합니다.
-- **VOC**: 사용자 의견을 접수받는 모달 창 호출 버튼을 배치합니다.
+### 2.4 Common Elements (Header/Navigation)
+- **Logo**: A logo at the top that navigates to the Home screen.
+- **Search Bar**: Provides functionality to navigate to the book search page or search directly from anywhere.
+- **Member Information**: Displays the current logged-in member's nickname and role. Provides logout functionality and shows a Naver Login button if not logged in. Collapses into a hamburger menu on mobile.
+- **VOC**: A button to trigger a modal for receiving user feedback (Voice of Customer).
 
-## 3. 기술적 요구사항
+## 3. Technical Requirements
 
-### 3.1 인증 및 권한
-- **네이버 OAuth**: 네이버 계정을 통한 간편 로그인을 지원합니다.
-- **익명 권한**: 로그인하지 않은 사용자는 모든 컨텐츠를 조회할 수 있으나, 쓰기 작업(톡 작성, 리액션 등)은 제한됩니다.
-- **토큰 관리**: 액세스 토큰 만료 시 리프레시 토큰을 이용해 백그라운드에서 토큰을 갱신(Silent Refresh)해야 합니다. 로그아웃 시 서버와 클라이언트의 모든 세션 정보를 파기합니다.
+### 3.1 Authentication and Permissions
+- **Naver OAuth**: Supports simple login via Naver accounts.
+- **Anonymous Permissions**: Users who are not logged in can view all content but are restricted from write operations (Talk creation, reactions, etc.).
+- **Token Management**: Renew tokens in the background (Silent Refresh) via refresh tokens when access tokens expire. Invalidate all server and client session information upon logout.
 
-### 3.2 성능 및 UX
-- **반응형**: 데스크톱, 태블릿, 모바일 등 다양한 뷰포트에서 깨짐 없는 UI를 제공해야 합니다.
-- **스켈레톤 UI**: 데이터 로딩 중에는 빈 화면 대신 스켈레톤을 표시하여 체감 로딩 속도를 줄입니다.
-- **낙관적 업데이트**: 좋아요 등의 리액션은 서버 응답을 기다리지 않고 UI에 즉시 반영하여 빠른 반응성을 제공합니다.
+### 3.2 Performance and UX
+- **Responsive**: UI must remain intact across various viewports, including desktop, tablet, and mobile.
+- **Skeleton UI**: Display skeletons instead of blank screens during data loading to reduce perceived latency.
+- **Optimistic Updates**: Reactions like 'Likes' should be reflected in the UI immediately without waiting for a server response for faster responsiveness.
 
-### 3.3 데이터 통신
-- **OpenAPI 기반**: 백엔드 API 스펙과 일치하는 타입을 사용하여 통신 오류를 최소화합니다.
+### 3.3 Data Communication
+- **OpenAPI Based**: Minimize communication errors by using types that match the backend API specification.

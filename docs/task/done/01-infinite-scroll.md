@@ -1,31 +1,31 @@
-# 책 검색 무한 스크롤 구현
+# Implementing Infinite Scroll for Book Search
 
-## 1. 작업 내용
-현재 "더 보기" 버튼을 클릭하여 다음 페이지의 책 목록을 불러오는 방식을, 사용자가 스크롤을 내려 리스트의 하단에 도달했을 때 자동으로 다음 데이터를 불러오는 "무한 스크롤" 방식으로 변경합니다.
+## 1. Task Description
+Change the current method of loading the next page of the book list by clicking a "View More" button to an "Infinite Scroll" method, which automatically loads the next set of data when the user scrolls down to the bottom of the list.
 
-## 2. 구현 방법
+## 2. Implementation Method
 
-### A. Intersection Observer API 활용
-브라우저의 `IntersectionObserver` API를 사용하여 스크롤이 리스트의 마지막 요소(또는 하단 감지 영역)에 도달했는지 감지합니다.
+### A. Utilizing the Intersection Observer API
+Use the browser's `IntersectionObserver` API to detect when the scroll reaches the last element of the list (or a bottom detection area).
 
-### B. `useBookSearch` Hook 수정
-`src/hooks/useBookSearch.ts`를 수정하여 관찰 로직을 추가합니다.
+### B. Modifying the `useBookSearch` Hook
+Update `src/hooks/useBookSearch.ts` to include the observation logic.
 
-1. **Observer Ref 추가**: 마지막 요소를 참조할 `useRef`와 `useCallback`을 생성합니다.
-2. **Intersection Handler**: 관찰 대상이 화면에 들어오면(`isIntersecting`), `loadMore` 함수를 호출하도록 로직을 작성합니다.
-3. **상태 관리**: 데이터 로딩 중(`loading`)이거나 더 이상 데이터가 없는 경우(`sliceInfo.last`)에는 관찰 로직이 실행되지 않도록 방어 코드를 추가합니다.
+1. **Add Observer Ref**: Create a `useRef` and a `useCallback` to reference the last element.
+2. **Intersection Handler**: Write logic to call the `loadMore` function when the observed target enters the screen (`isIntersecting`).
+3. **State Management**: Add guard code to ensure the observation logic does not execute during data loading (`loading`) or if there is no more data (`sliceInfo.last`).
 
-### C. `BookSearch` 컴포넌트 수정
-`src/pages/BookSearch.tsx`의 UI를 업데이트합니다.
+### C. Modifying the `BookSearch` Component
+Update the UI in `src/pages/BookSearch.tsx`.
 
-1. **Target Element**: 리스트의 가장 마지막 아이템 혹은 리스트 하단에 보이지 않는 `div` 요소를 배치하고, `useBookSearch`에서 만든 `ref`를 연결합니다.
-2. **버튼 제거**: 기존의 "더 보기" 버튼을 제거합니다.
-3. **로딩 인디케이터**: 데이터를 불러오는 동안 하단에 스피너나 스켈레톤 UI가 표시되도록 유지합니다.
+1. **Target Element**: Place the last item of the list or an invisible `div` element at the bottom of the list and connect the `ref` created in `useBookSearch`.
+2. **Remove Button**: Remove the existing "View More" button.
+3. **Loading Indicator**: Maintain the spinner or skeleton UI at the bottom while data is being loaded.
 
-## 3. 예상 코드 스니펫
+## 3. Expected Code Snippet
 
 ```typescript
-// useBookSearch.ts 예시
+// useBookSearch.ts Example
 const observer = useRef<IntersectionObserver | null>(null);
 const lastBookElementRef = useCallback((node: HTMLDivElement) => {
   if (loading) return;

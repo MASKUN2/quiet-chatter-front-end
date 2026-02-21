@@ -1,59 +1,59 @@
 # Design Guide
 
-이 문서는 `quiet-chatter-front-end` 프로젝트의 시각적 언어와 디자인 원칙을 정의합니다. 일관된 사용자 경험(UX)과 브랜드 아이덴티티를 유지하기 위해 다음 가이드를 준수합니다.
+This document defines the visual language and design principles for the `quiet-chatter-front-end` project. We adhere to the following guide to maintain a consistent user experience (UX) and brand identity.
 
-## 1. 디자인 철학
-- **익명성과 휘발성**: 사용자가 부담 없이 참여할 수 있도록 차분하고 정적인 톤을 유지합니다.
-- **가독성 중심**: 텍스트(북톡) 중심의 서비스이므로 가독성이 높은 폰트와 충분한 여백을 사용합니다.
-- **반응형 최적화**: 모바일 사용자가 많은 서비스 특성상, 모든 컴포넌트는 모바일 환경에서 먼저 고려됩니다.
+## 1. Design Philosophy
+- **Anonymity and Ephemerality**: Maintain a calm and static tone so users can participate without burden.
+- **Readability Focused**: As a text-centric (BookTalk) service, use highly readable fonts and ample whitespace.
+- **Responsive Optimization**: Given the nature of the service with many mobile users, all components are considered for the mobile environment first.
 
-## 2. 컬러 팔레트 (Color Palette)
+## 2. Color Palette
 
-### 메인 컬러 (Primary)
-프로젝트의 정체성을 나타내는 핵심 색상입니다.
-- **Deep Violet**: `#5c2d91` (기본 버튼, 텍스트 하이라이트)
-- **Deep Indigo**: `#4b0082` (호버 상태, 강조)
-- **Light Violet**: `rgba(92, 45, 145, 0.04)` (버튼 배경 효과)
+### Primary Colors
+Core colors representing the project's identity.
+- **Deep Violet**: `#5c2d91` (Primary buttons, text highlights)
+- **Deep Indigo**: `#4b0082` (Hover states, emphasis)
+- **Light Violet**: `rgba(92, 45, 145, 0.04)` (Button background effects)
 
-### 배경 및 텍스트 (Background & Text)
-- **Default Background**: `#f8f9fa` (전체 앱 배경)
-- **Paper Background**: `#ffffff` (카드, 모달, 섹션 배경)
-- **Text Primary**: `rgba(0, 0, 0, 0.87)` (주요 본문)
-- **Text Secondary**: `rgba(0, 0, 0, 0.6)` (설명, 저자 정보, 날짜)
-- **Border**: `#eee` 또는 `grey.200` (구분선, 약한 테두리)
+### Background & Text
+- **Default Background**: `#f8f9fa` (Overall app background)
+- **Paper Background**: `#ffffff` (Cards, modals, section backgrounds)
+- **Text Primary**: `rgba(0, 0, 0, 0.87)` (Primary body text)
+- **Text Secondary**: `rgba(0, 0, 0, 0.6)` (Descriptions, author info, dates)
+- **Border**: `#eee` or `grey.200` (Dividers, light borders)
 
-## 3. 타이포그래피 (Typography)
-기본 폰트는 **Pretendard**를 사용하며, CDN을 통해 로드됩니다.
+## 3. Typography
+The default font is **Pretendard**, loaded via CDN.
 
-- **Heading (h4)**: 1.75rem (28px), Bold - 페이지 제목
-- **Sub-heading (h5/h6)**: 1.25rem ~ 1.125rem, Semi-bold - 섹션 제목, 책 제목
-- **Body 1**: 1rem (16px), Regular - 기본 본문, 톡 내용
-- **Body 2**: 0.875rem (14px) - 보조 정보, 리스트 항목
-- **Caption**: 0.75rem (12px) - 날짜, 작은 메타데이터
+- **Heading (h4)**: 1.75rem (28px), Bold - Page titles
+- **Sub-heading (h5/h6)**: 1.25rem ~ 1.125rem, Semi-bold - Section titles, book titles
+- **Body 1**: 1rem (16px), Regular - Primary body text, Talk content
+- **Body 2**: 0.875rem (14px) - Secondary info, list items
+- **Caption**: 0.75rem (12px) - Dates, small metadata
 
-## 4. 공통 UI 패턴 (Common UI Patterns)
+## 4. Common UI Patterns
 
-### 카드 및 컨테이너
-- **Shadow**: `elevation={1}`을 기본으로 사용하며, 모바일에서는 플랫하게(`elevation={0}`) 처리하기도 합니다.
+### Cards and Containers
+- **Shadow**: `elevation={1}` is used as the default; it may be flat (`elevation={0}`) on mobile.
 - **Border Radius**: 
-  - 일반 컨테이너: `2` (8px)
-  - 이미지 및 작은 요소: `1` (4px)
-- **Spacing**: MUI의 `spacing` 시스템을 따르며, 기본 간격은 8px의 배수를 사용합니다. (`p: 2` = 16px)
+  - Standard containers: `2` (8px)
+  - Images and small elements: `1` (4px)
+- **Spacing**: Follows MUI's `spacing` system, using multiples of 8px. (`p: 2` = 16px)
 
-### 인터랙션
-- **Buttons**: `textTransform: 'none'` 설정을 통해 대문자 변환을 방지하고 원래 텍스트를 유지합니다.
-- **Hover**: 마우스 오버 시 색상이 짙어지거나 투명한 배경색이 나타나는 피드백을 제공합니다.
+### Interaction
+- **Buttons**: Set to `textTransform: 'none'` to prevent uppercase conversion and maintain original text.
+- **Hover**: Provides feedback like colors deepening or a transparent background appearing on mouseover.
 
-## 5. 아이콘 (Icons)
-Material UI의 공식 아이콘 세트(`@mui/icons-material`)를 사용합니다.
-- 계정 정보: `AccountCircle`
-- 시간: `AccessTime`
-- 리액션: `ThumbUp`, `Favorite`
-- 검색: `Search`
+## 5. Icons
+Uses the official Material UI icon set (`@mui/icons-material`).
+- Account info: `AccountCircle`
+- Time: `AccessTime`
+- Reactions: `ThumbUp`, `Favorite`
+- Search: `Search`
 
-## 6. 스타일링 구현 원칙 (Implementation)
-개발 시 일관된 스타일 적용을 위해 다음 원칙을 준수합니다.
+## 6. Styling Implementation Principles
+To ensure consistent style application during development, adhere to the following principles:
 
-- **MUI System 활용**: 스타일 정의 시 가급적 MUI의 `sx` prop을 활용합니다.
-- **테마 팔레트 참조**: 하드코딩된 색상 코드 대신 `theme`의 팔레트 값을 사용합니다. (예: `color="primary.main"`, `bgcolor="background.paper"`)
-- **반응형 대응**: Breakpoint 객체를 사용하여 뷰포트별 스타일을 정의합니다. (예: `sx={{ width: { xs: '100%', md: '50%' } }}`)
+- **Utilize MUI System**: Use MUI's `sx` prop as much as possible when defining styles.
+- **Reference Theme Palette**: Use theme palette values instead of hardcoded color codes. (e.g., `color="primary.main"`, `bgcolor="background.paper"`)
+- **Responsive Support**: Define viewport-specific styles using Breakpoint objects. (e.g., `sx={{ width: { xs: '100%', md: '50%' } }}`)

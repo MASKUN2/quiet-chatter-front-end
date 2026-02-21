@@ -1,29 +1,29 @@
 # Infrastructure & Staging Guide
 
-이 문서는 Quiet Chatter 프론트엔드 프로젝트의 인프라 구조와 스테이징(운영/개발) 환경 정보를 정의합니다.
+This document defines the infrastructure architecture and staging (Production/Dev) environment information for the Quiet Chatter frontend project.
 
-## 1. 도메인 및 스테이징 정보 (Staging Strategy)
+## 1. Domain and Staging Information
 
-### Production (운영)
+### Production
 - **Frontend**: [https://quiet-chatter.com](https://quiet-chatter.com)
 - **Backend API**: [https://api.quiet-chatter.com](https://api.quiet-chatter.com)
-- **배포 플랫폼**: Cloudflare Pages (`main` 브랜치 자동 배포)
-- **릴리스 관리**: `semantic-release`를 통해 자동 버전 업그레이드 및 `CHANGELOG.md` 생성
+- **Deployment Platform**: Cloudflare Pages (Automatic deployment from `main` branch)
+- **Release Management**: Automatic version upgrades and `CHANGELOG.md` generation via `semantic-release`
 
-### Development (개발)
+### Development
 - **Frontend**: [https://dev.quiet-chatter.com](https://dev.quiet-chatter.com)
 - **Backend API**: [https://dev-api.quiet-chatter.com](https://dev-api.quiet-chatter.com)
-- **배포 플랫폼**: Cloudflare Pages (`dev` 브랜치 자동 배포)
+- **Deployment Platform**: Cloudflare Pages (Automatic deployment from `dev` branch)
 
-## 2. API 버저닝 및 경로 (API Versioning)
+## 2. API Versioning and Paths
 
-- **버저닝 전략**: URI Path Versioning을 사용합니다.
-- **현재 버전**: `/v1` (예: `GET /v1/talks`)
-- **주의 사항**: API 경로의 `/v1`은 단순한 접두사가 아니라 리소스의 버전을 의미합니다. 새로운 버전 도입 시 해당 경로가 변경될 수 있음을 고려하여 설계하십시오.
+- **Versioning Strategy**: Uses URI Path Versioning.
+- **Current Version**: `/v1` (e.g., `GET /v1/talks`)
+- **Notes**: The `/v1` in the API path is not just a prefix but represents the resource version. When introducing new versions, be aware that these paths may change.
 
-## 3. 로컬 개발 환경 (Local Development)
+## 3. Local Development Environment
 
-- **API 프록시**: 로컬 개발 서버(`npm run dev`) 실행 시, 브라우저의 `/api` 요청은 `vite.config.ts`에 설정된 타겟 API 서버로 프록시됩니다.
-- **환경 변수 (`.env`)**:
-    - `VITE_API_BASE_URL`: 로컬 개발 시 `/api`로 설정하여 프록시를 경유하게 합니다.
-    - 실제 운영/개발 빌드 시에는 각각의 API 서버 주소가 적용됩니다.
+- **API Proxy**: When running the local development server (`npm run dev`), browser requests to `/api` are proxied to the target API server configured in `vite.config.ts`.
+- **Environment Variables (`.env`)**:
+    - `VITE_API_BASE_URL`: Set to `/api` during local development to route through the proxy.
+    - Actual Production/Dev builds will use the respective physical API server addresses.
