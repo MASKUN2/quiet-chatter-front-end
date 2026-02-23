@@ -50,7 +50,7 @@ AI 에이전트 및 개발자를 위한 가이드 문서는 `docs/guide` 디렉�
 
 - [**AI Agent Guide**](docs/guide/ai_agent_guide.md): 에이전트 작업 지침 및 API 연동 가이드
 - [Code Style Guide](docs/guide/code_style_guide.md): 코드 스타일 가이드
-- [Project History](docs/project_history.md): 개발 히스토리
+- [**Project History**](https://github.com/maskun2/quiet-chatter-docs/blob/main/project_history.md): 개발 히스토리 (Shared Docs)
 
 ## 👥 팀
 

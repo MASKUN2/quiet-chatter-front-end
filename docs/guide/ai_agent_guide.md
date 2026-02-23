@@ -29,10 +29,10 @@ When modifying or adding features that integrate with the backend API, maintaini
 Agents must be familiar with the detailed rules defined in the following documents and reflect them in their work:
 
 - [**Code Style Guide**](code_style_guide.md): Component structure, naming conventions, state management, and error handling principles.
-- [**Infrastructure Guide**](infrastructure_guide.md): Domain information (Prod/Dev), API staging, and versioning policies.
 - [**Design Guide**](design_guide.md): MUI usage, color palette, and responsive design layout rules.
-- [**Authentication Guide**](authentication_guide.md): Member roles (Anonymous/Member) and permission policies.
-- [**Project Structure**](project_structure.md): Directory roles and criteria for file placement.
+- [**Auth Implementation Guide**](auth_guide.md): Login flow, session persistence, and permission handling code.
+- [**Project Structure & Env**](project_structure.md): Directory roles, file placement, and local dev setup.
+- [**Service & API Specs**](https://github.com/maskun2/quiet-chatter-docs): For Requirements, Project History, and API policies, please refer to the shared documentation repository.
 - **Global Layout Adherence**: Always respect the centralized layout in `src/App.tsx`. New pages must not include their own `Header` or `Container` wrappers; they should export only the specific page content.
 
 ## 4. Final Verification
