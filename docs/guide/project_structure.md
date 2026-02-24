@@ -1,66 +1,49 @@
-# Project Structure & Environment Guide
+# Project Directory Structure Guide
 
-This document explains the code organization and environment configuration for the `quiet-chatter-front-end` project. It will help you understand where to find specific files and how the application connects to the backend API.
+This specific document maps out exactly how the `quiet-chatter-front-end` codebase folders are organized. It helps you quickly figure out exactly where to put new files.
 
-## 1. Directory Structure
+*(For instructions on how to start the local Vite development server or run Tests, please read the **Workflow Guide**).*
 
-Here is a look at the main folders in our project:
+## 1. Top-Level Structure
+
+Here is a look at the main folders inside the project repository:
 
 ```text
 quiet-chatter-front-end/
-├── .gemini/             # AI agent configurations and chat history
-├── docs/                # Project documentation
-│   └── guide/           # Development guide documents (you are here!)
-├── public/              # Static resources (images, icons, mock worker)
-├── src/                 # Main source code
-│   ├── api/             # API request functions (Axios)
-│   ├── assets/          # Imported assets (SVG, images, etc.)
-│   ├── components/      # Reusable React UI components
-│   │   ├── book/        # Components related to Book views
-│   │   ├── common/      # Common components like Header, Footer, and Modals
-│   │   └── home/        # Components for the Home page
-│   ├── constants/       # Static text, config values, and API URLs
-│   ├── context/         # Global state management (AuthContext)
-│   ├── hooks/           # Custom React Hooks (Business Logic)
-│   ├── mocks/           # Mock Service Worker (MSW) logic for local dev
-│   ├── pages/           # Top-level Page Components for routing
-│   ├── types/           # TypeScript Definitions (api-schema.d.ts)
-│   ├── App.css          # Global CSS for App wrapper
-│   ├── App.tsx          # Main Layout, Theme setup, and Routing
-│   ├── index.css        # Base HTML CSS
-│   └── main.tsx         # React root entry point
-└── package.json         # Project dependencies and scripts
+├── .gemini/             # AI agent configuration data and chat history (Do Not Edit)
+├── docs/                # Project documentation and markdown blueprints
+│   └── guide/           # Specific development rules and guidelines (like this file)
+├── public/              # Static public resources (e.g., images, icons)
+├── src/                 # Main source code (Where 99% of your logic goes)
+└── package.json         # Project dependencies, scripts, and metadata
 ```
-
-### Key Directories Explained
-
-- **`src/api/`**: This folder handles all communication with our backend. Do not put User Interface (UI) code here. It uses Axios to send requests and handle responses.
-- **`src/hooks/`**: This folder contains custom hooks that handle complex features like fetching data (e.g., `useBookSearch`). Components should use these hooks instead of calling the API directly.
-- **`src/pages/`**: These are the main screens of our app (like Home, Search, Book Detail). They piece together smaller parts from the `components` folder.
-- **`src/types/`**: The `api-schema.d.ts` file here is automatically generated from our backend API rules. **Do not type or edit anything manually in this file.**
-- **`src/mocks/`**: Contains fake (mock) data setups using MSW, which is super helpful when testing parts of the UI without needing a real backend server.
 
 ---
 
-## 2. Infrastructure & Environment
+## 2. The `src/` Directory in Detail
 
-This section explains how to run the project locally on your computer and how it connects to the quiet-chatter backend.
+The `src/` folder is carefully organized by concern.
 
-### 2.1 Staging Environments
+```text
+src/
+├── api/             # API request definitions using Axios. No UI logic here.
+├── assets/          # Imported local assets (SVGs, static layout images, etc.)
+├── components/      # Reusable React UI components
+│   ├── book/        # UI components specifically for Book listing and detailing
+│   ├── common/      # System-wide components (Header, Footer, Spinners, generic Modals)
+│   └── home/        # Specific sections rendered on the Home page
+├── constants/       # Static strings, system configuration values, and URL routes
+├── context/         # Centralized React Context files (e.g., `AuthContext.tsx`)
+├── hooks/           # Custom React Hooks for encapsulating domain business logic
+├── mocks/           # Mock Service Worker (MSW) setup. Used for local testing without the backend.
+├── pages/           # High-level Screen components. The React Router loads these directly.
+├── types/           # TypeScript Definitions. `api-schema.d.ts` is generated automatically.
+├── App.css          # Global CSS layout logic used exclusively by `App.tsx`
+├── App.tsx          # The Main Application Layout, Theme Injection, and Master Router
+├── index.css        # Fundamental HTML/Body CSS variables and resets
+└── main.tsx         # The strict React `createRoot` entry point
+```
 
-We have different servers for testing (dev) and for real users (production).
-*(If you need to know about the specific web addresses or deployment rules, look at **[infrastructure_policy.md](https://github.com/maskun2/quiet-chatter-docs/blob/main/infrastructure_policy.md)** in the main maskun2 docs repository.)*
-
-### 2.2 Local Development Setup
-
-#### API Proxy (using Vite)
-When you are coding on your computer, your browser might block requests to a different server (this is called a CORS error). To fix this, our Vite server pretends to be the backend.
-- **Local URL**: When you go to `http://localhost:5173/api/...`, Vite secretly forwards it to our real **Backend API**.
-- **Configuration**: You can find this setup in `vite.config.ts`.
-- **Target**: This target address can be changed using a `.env` file, but it usually points to our production API by default.
-
-#### Mocking (with MSW)
-Sometimes you want to build the frontend, but the backend isn't ready or is down. We use **Mock Service Worker (MSW)** for this!
-- **How to start**: Run `npm run dev:mock` in your terminal.
-- **Where are the fakes?**: You can see and change the fake data rules in `src/mocks/handlers.ts`.
-- **Why use it?**: It lets you build the UI or test tricky error messages easily without needing a real working backend server.
+### Organizing Rules
+- **Do not place files randomly in the root of `src/`**: Everything new must fit logically into an existing folder like `components/`, `hooks/`, or `pages/`. 
+- **Component Sub-folders**: If a new feature is massive, create a new sub-folder inside `components/` (e.g., `components/profile/`) to keep its pieces grouped together cleanly.
