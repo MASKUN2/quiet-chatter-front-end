@@ -1,43 +1,46 @@
 # Design Guide
 
-This document defines the visual language and design principles for the `quiet-chatter-front-end` project. We adhere to the following guide to maintain a consistent user experience (UX) and brand identity.
+This document explains the colors, text styles, and structure used in the `quiet-chatter-front-end` project. We follow this guide to keep the app looking great and consistent for everyone!
 
 ## 1. Design Philosophy
-- **Anonymity and Ephemerality**: Maintain a calm and static tone so users can participate without burden.
-- **Readability Focused**: As a text-centric (BookTalk) service, use highly readable fonts and ample whitespace.
-- **Responsive Optimization**: Given the nature of the service with many mobile users, all components are considered for the mobile environment first.
+
+- **Anonymity and Relaxing Tone**: Keep colors and styles calm so users feel comfortable participating.
+- **Easy to Read**: Since this is a BookTalk service, readable text and good spacing (whitespace) are top priorities.
+- **Mobile First**: Many users are on phones. All pieces of the UI must look perfect on mobile first!
 
 ## 2. Color Palette
 
-### Primary Colors
-Core colors representing the project's identity.
-- **Deep Violet**: `#5c2d91` (Primary buttons, text highlights, overline labels)
-- **Deep Indigo**: `#4b0082` (Hover states, emphasis)
-- **Light Violet**: `rgba(92, 45, 145, 0.04)` (Button background effects)
-- **Highlight Tint**: `rgba(92, 45, 145, 0.07~0.12)` (Inline text highlight backgrounds)
+Here are the colors that define our project's look and feel:
 
-### Background & Text
-- **Default Background**: `#f8f9fa` (Overall app background)
-- **Paper Background**: `#ffffff` (Cards, modals, section backgrounds)
-- **Text Primary**: `rgba(0, 0, 0, 0.87)` (Primary body text)
-- **Text Secondary**: `rgba(0, 0, 0, 0.6)` (Descriptions, author info, dates)
-- **Border**: `#eee` or `grey.200` (Dividers, light borders)
+| Color Name | Hex / RGBA Code | Usage Example |
+| :--- | :--- | :--- |
+| **Deep Violet** | `#5c2d91` | Primary buttons, text highlights, overline labels |
+| **Deep Indigo** | `#4b0082` | Hover states, emphasis |
+| **Light Violet** | `rgba(92, 45, 145, 0.04)` | Button backgrounds and subtle effects |
+| **Highlight Tint** | `rgba(92, 45, 145, 0.07~0.12)`| Inline text highlight backgrounds |
+| **Default Background** | `#f8f9fa` | Overall app background |
+| **Paper Background** | `#ffffff` | Cards, modals, and section backgrounds |
+| **Text Primary** | `rgba(0, 0, 0, 0.87)` | Main body text |
+| **Text Secondary** | `rgba(0, 0, 0, 0.6)` | Descriptions, author info, or dates |
+| **Border Color** | `#eee` or `grey.200` | Dividers and light card borders |
 
-## 3. Typography
-The default font is **Pretendard**, loaded via CDN.
+## 3. Typography (Text Styles)
 
-### Scale
-- **Heading (h2)**: Used only for hero/brand pages (e.g., About). Gradient text + `fontWeight: 900`.
-- **Heading (h4/h5)**: Page and section titles. `fontWeight: 800`, `letterSpacing: '-0.02em'`.
-- **Sub-heading (h6)**: Sub-section titles. `fontWeight: 800`, `letterSpacing: '-0.01em'`.
-- **Body 1**: 1rem (16px), Regular - Primary body text, Talk content. `lineHeight: 1.6~2.2`.
-- **Body 2**: 0.875rem (14px) - Secondary info, list items.
-- **Caption**: 0.75rem (12px) - Dates, small metadata.
+The default font is **Pretendard**, loaded via a CDN. 
 
-### Section Header Pattern (Standard)
-Every named section in the UI **must** use the following two-line header pattern:
+### Scale Guide
+- **Heading (h2)**: Very large, used only for brand pages (like About). Use an exciting gradient text and `fontWeight: 900`.
+- **Heading (h4/h5)**: Standard page and section titles. Very bold (`fontWeight: 700/600`).
+- **Sub-heading (h6)**: Smaller section titles inside cards. 
+- **Body 1 (16px)**: Normal paragraph text or Talk content. Needs a nice line height for reading (`1.6`).
+- **Body 2 (14px)**: Secondary info or list items.
+- **Caption (12px)**: Tiny dates and metadata.
+
+### The Section Header Pattern (Very Important!)
+Whenever you create a new section of the app that needs a title, you **must** use this two-line pattern (an Overline and a main Title):
 
 ```tsx
+// 1. A tiny upper-case label
 <Typography variant="overline" sx={{
   color: 'primary.main',
   fontWeight: 800,
@@ -46,86 +49,41 @@ Every named section in the UI **must** use the following two-line header pattern
   display: 'block',
   lineHeight: 1.4
 }}>
-  SECTION LABEL   {/* Always uppercase English */}
+  SECTION LABEL   {/* Always uppercase English like "FOR YOU" or "BOOK TALK" */}
 </Typography>
+
+// 2. The main title text
 <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: '-0.02em', mt: 0.5 }}>
-  섹션 제목
+  섹션 제목 {/* E.g., "관심 있는 북톡" */}
 </Typography>
 ```
 
-**Applied examples:**
-| Page / Component | Overline | Title |
-|---|---|---|
-| Home | `FOR YOU` | 당신을 위한 북톡 |
-| BookDetail (Talks) | `BOOK TALK` | Talks |
-| BookInfo (description) | `ABOUT THIS BOOK` | 책 소개 |
-| BookSearch | `SEARCH RESULTS` | "{keyword}" 검색 결과 |
-| TermsOfService | `LEGAL` | 이용약관 및 개인정보처리방침 |
-| AboutService sections | `OUR PHILOSOPHY` / `KEY FEATURES` | 각 섹션 |
+> **Note on Gradients**: You can use a cool purple gradient text on special marketing pages (`AboutService`), but NEVER on data pages (lists or search results).
 
-### Gradient Headline (Brand/Info Pages Only)
-For marketing or information pages (e.g., `AboutService`), the hero headline may use a gradient:
+## 4. App Layout Structure
 
-```tsx
-<Typography variant="h2" sx={{
-  fontWeight: 900,
-  background: 'linear-gradient(135deg, #5c2d91 0%, #a29bfe 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  letterSpacing: '-0.04em',
-}}>
-  ...
-</Typography>
-```
+To make sure every page looks the same, the main wrapper is kept inside `src/App.tsx`. New pages export their content, and `App.tsx` handles wrapping them!
 
-> **Note**: Do NOT use gradient text on data-centric pages (lists, search results, detail views).
+### How it looks in `App.tsx`
+1. **Flex Wrapper**: A `Box` that covers the whole screen height (`minHeight: 100vh`).
+2. **Main Container**: `<Container maxWidth="md" disableGutters={isMobile}>`. This ensures the content has the correct maximum width.
+3. **Spacing Stack**: A layout stack containing the Header, Main Content Area, and Footer. 
 
-## 4. Global Layout & Spacing
-To ensure visual consistency, the overall structure and spacing of the application are centralized in `src/App.tsx`.
+### Layout Rules for New Pages
+- **Spacing**: Use `spacing={{ xs: 2, md: 4 }}` to space out different blocks inside your page.
+- **Responsive Padding**: The sides of the app touch the edges of the screen on mobile (`xs`), but have nice padding on desktop (`md` and up).
+- **Keep Pages Simple**: Your new page components (in `src/pages/*`) should **never** include a `<Container>` or `<Header>`. `App.tsx` already does that for you! Just return your content `<Stack>`.
 
-### App Layout Structure
-The root of every page follows this hierarchy:
-1. **Flex Wrapper**: `Box` with `flexDirection: column` and `minHeight: 100vh`.
-2. **Main Container**: `<Container maxWidth="md" disableGutters={isMobile}>`.
-3. **Spacing Stack**: `<Stack spacing={{ xs: 2, md: 4 }}>` wraps the `Header` and the `Routes`.
-4. **Header**: `<Header />` is persistent at the top of the stack.
-5. **Footer**: `<Footer />` follows the main container.
+## 5. UI Elements
 
-### Layout Technical Standards
-- **Standard Spacing**: Use `spacing={{ xs: 2, md: 4 }}` for the vertical gap between components (e.g., Header and Paper).
-- **Responsive Padding**: Set `disableGutters={isMobile}` on the main `Container` so that on mobile (xs), content fills the width, while on desktop (md/up), standard margins apply.
-- **Component Independence**: Page components (`src/pages/*`) must **not** include their own `Container` or `Header`. They should focus only on their specific content.
+- **Buttons**: Don't let buttons capitalize automatically! Keep `textTransform: 'none'`.
+- **Cards**: Use a tiny shadow (`elevation={1}`) by default. For mobile, it sometimes looks better flat (`elevation={0}`). The standard corner roundness (border-radius) is `2` (8px).
+- **Hover Effects**: When users hover over links or buttons, there should be a subtle effect (like a faint background appearing).
+- **Icons**: Always stick to the official Material UI icon set (`@mui/icons-material`), such as `<SearchIcon />`.
 
-## 5. Common UI Patterns
+## 6. Styling Code Rules
 
-### Cards and Containers
-- **Shadow**: `elevation={1}` is used as the default; it may be flat (`elevation={0}`) on mobile.
-- **Border Radius**:
-  - Standard cards (BookDetail, BookSearch, BookInfo): `2` (8px)
-  - Page-level wrapper cards (AboutService, TermsOfService): `4` (16px)
-  - Small elements (icons, tags): `1` (4px)
-- **Spacing**: Follows MUI's `spacing` system, using multiples of 8px. (`p: 2` = 16px)
-
-### Section Containers (Static Content Pages)
-For static information pages (e.g., `AboutService`, `TermsOfService`), all sections are wrapped in a single white `Paper` with `borderRadius: 4` and `elevation={isMobile ? 0 : 2}`. Sections inside are separated by `Divider` or alternating background colors (`rgba(92, 45, 145, 0.02)`).
-
-### Interaction
-- **Buttons**: Set to `textTransform: 'none'` to prevent uppercase conversion and maintain original text.
-- **Hover**: Provides feedback like colors deepening or a transparent background appearing on mouseover.
-- **Card Hover (Info pages)**: `translateY(-8px)` + `boxShadow` elevation for philosophy/feature cards.
-
-## 6. Icons
-Uses the official Material UI icon set (`@mui/icons-material`).
-- Account info: `AccountCircle`
-- Time: `AccessTime`
-- Reactions: `ThumbUp`, `Favorite`
-- Search: `Search`
-- Legal: `Gavel`
-
-## 7. Styling Implementation Principles
-To ensure consistent style application during development, adhere to the following principles:
-
-- **Utilize MUI System**: Use MUI's `sx` prop as much as possible when defining styles.
-- **Reference Theme Palette**: Use theme palette values instead of hardcoded color codes. (e.g., `color="primary.main"`, `bgcolor="background.paper"`)
-- **Responsive Support**: Define viewport-specific styles using Breakpoint objects. (e.g., `sx={{ width: { xs: '100%', md: '50%' } }}`)
-- **Section Header Mandatory**: Every user-visible section with a title **must** use the Overline + Title pattern defined in Section 3.
+When actually coding styles:
+- **Use MUI System**: Try to use the `sx` prop for everything layout-related.
+- **Reference Theme Palette**: Use the theme colors (`color="primary.main"`) instead of writing raw hex codes (`#5c2d91`).
+- **Responsive Easy Way**: Need different sizes based on phone vs computer? Use Breakpoint objects: `sx={{ width: { xs: '100%', md: '50%' } }}`.

@@ -1,26 +1,46 @@
 # AI Agent Task Instructions
 
-This document is the mandatory entry point that AI agents must check before performing any tasks in the `quiet-chatter-front-end` project.
+Welcome to the `quiet-chatter-front-end` project! This document is the ultimate starting point for any AI agent or developer joining the team. It tells you exactly how we build and review code here.
 
-## 0. Project Status Summary
-- **Platform**: React + TypeScript + Vite (Deployed on Cloudflare Pages)
-- **Frontend Staging**: `dev.quiet-chatter.com` (Dev), `quiet-chatter.com` (Prod)
-- **Backend Staging**: `dev-api.quiet-chatter.com` (Dev/Test), `api.quiet-chatter.com` (Prod)
-- **API Policy**: Uses `/v1` base paths (GUEST login abolished, Naver login centric)
+> **Before you write any code, read the related guide documents located in `docs/guide/`.**
 
-## 1. Mandatory Documents to Check
+## 1. Project Overview
+- **Core Technology**: React + TypeScript + Vite (It's deployed on Cloudflare Pages!)
+- **UI Framework**: Material UI (MUI) Version 6
+- **Environments**:
+    - **Frontend**: `dev.quiet-chatter.com` (Testing) -> `quiet-chatter.com` (Live)
+    - **Backend API**: `dev-api.quiet-chatter.com` (Testing) -> `api.quiet-chatter.com` (Live)
+- **API Specifics**: All real API calls go through `/v1` base paths. The single source of truth for the API rules is the OpenAPI specification: [quiet-chatter.com/api/v1/spec](https://quiet-chatter.com/api/v1/spec).
 
-Before starting work, please familiarize yourself with the following guide documents.
+## 2. Planning & Design Principles
+Whenever you get a task, decide how you will solve it by following these rules:
 
-- **[AI Agent Guide](docs/guide/ai_agent_guide.md)**: Project infrastructure, API integration, and work process.
-- **[Code Style Guide](docs/guide/code_style_guide.md)**: Coding standards, component design, and error handling principles.
-- **[Design Guide](docs/guide/design_guide.md)**: Visual identity, color palette, and UI implementation guide.
-- **[Authentication Guide](docs/guide/authentication_guide.md)**: Member system, login flow, and permission policies.
-- **[Project Structure](docs/guide/project_structure.md)**: Folder structure and description of directory roles.
+- **Use Industry Standards**: Recommend popular, reliable solutions that are widely used. Avoid obscure packages unless entirely necessary.
+- **Be Decisive (Single Path)**: Don't tell the user "We could do A, or B". Just pick the best one and loudly say *why* it's the best.
+- **Respect the Global Layout**: In this app, `src/App.tsx` handles the main Header, Footer, and page wrapper. If you're creating a new page in `src/pages/`, do not rewrite the layout wrappers for it! Let `App.tsx` do its job.
 
-## 2. Work Procedure Summary
+## 3. Mandatory Reference Documents
+Check these out before making massive scale changes!
 
-1. **Check Documentation**: Understand the project context and rules through the linked documents above.
-2. **Identify Status**: Verify that the project runs normally via `npm install` and `npm run dev`.
-3. **API Synchronization**: If the task involves backend API integration, you MUST run `npm run gen:types` to update types to the latest version.
-4. **Implementation and Testing**: Implement features following the guidelines and verify there are no build errors via `npm run build`.
+- **[Project Structure](docs/guide/project_structure.md)**: Find where files go (hooks, components, API files) and how to run the project.
+- **[Design Guide](docs/guide/design_guide.md)**: Color palettes, typography styles, and responsive layout rules.
+- **[Code Style Guide](docs/guide/code_style_guide.md)**: How to name variables, manage App state, and handle errors.
+- **[Authentication Guide](docs/guide/auth_guide.md)**: How Naver OAuth works, the AuthContext, and guarding UI pieces.
+
+## 4. Development Workflow
+
+### Phase 1: Preparation
+1. Ensure the app works correctly out of the box (`npm install` -> `npm run dev`).
+2. Read the specific guide matching your task (e.g. read Design Guide for a styling task).
+
+### Phase 2: API Integration (Crucial Rule)
+When interacting with the backend server, we enforce incredibly strict types.
+1. **Never mutate types**: If the API changes, run `npm run gen:types`. This will auto-build the TypeScript definitions based on the backend OpenAPI rule sheet. 
+2. **Never type by hand**: Look into `src/types/api-schema.d.ts` if you need hints, but NEVER manually modify this file.
+3. Update `src/api/api.ts` making sure all function returns properly trace back to the auto-generated types!
+
+### Phase 3: The Verification Checklist
+You are not done with code unless it passes all to the letter:
+- [ ] Build Test: `npm run build` exits with ZERO errors.
+- [ ] Code Quality: `npm run lint` exits with ZERO warnings.
+- [ ] Runtime Test: No sneaky console errors when you test it out manually or click through it on `npm run dev`.

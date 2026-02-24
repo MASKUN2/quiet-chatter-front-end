@@ -1,40 +1,45 @@
 # Code Style Guide
 
-This document defines the code style and writing principles for the `quiet-chatter-front-end` project. The goal is to maintain consistent code to improve maintainability and readability.
+This document explains the code style and writing rules for the `quiet-chatter-front-end` project. Following these rules makes our code easier to read and fix.
 
-## 1. Basic Principles
+## 1. Basic Rules
 
-- **Use TypeScript**: All files use `.ts` or `.tsx` extensions. Avoid using the `any` type and define explicit types.
-- **Functional Components**: All components are written as functional components (React.FC).
-- **ESLint/Prettier**: Comply with the linting rules configured in the project.
+- **Use TypeScript**: All files must end with `.ts` or `.tsx`. Try not to use the `any` type, and always give variables clear types.
+- **Functional Components**: All React components should be written as functional components (e.g., `React.FC`).
+- **Code Cleanliness (ESLint)**: We use tools like ESLint to automatically catch errors and style issues. Always fix these warnings!
 
 ## 2. Naming Convention
 
+How to name different parts of the code:
+- **Folders / Directories**: Always use lowercase, and use hyphens `-` for spaces (e.g., `book-detail` or `common-components`).
 - **Component Files**: Use PascalCase (e.g., `BookList.tsx`, `Header.tsx`).
 - **Functions and Variables**: Use camelCase (e.g., `handleSearch`, `fetchBooks`, `isLoading`).
 - **Interfaces and Types**: Use PascalCase (e.g., `Book`, `MemberResponse`).
-- **Constants**: Constants declared with `const` should generally use camelCase, but UPPER_SNAKE_CASE is allowed for configuration values or immutable constants.
+- **Constants**: Use camelCase normally, but if it is an important setting or configuration value that never changes, you can use UPPER_SNAKE_CASE (e.g., `API_BASE_URL`).
 
 ## 3. Development and Design Principles
 
 ### Component Design
-- **Separation of Concerns**: Do not pack too much logic into a single file. Separate reusable UI into components and complex business logic into custom hooks (`useHook`).
-- **Responsive Design**: Apply mobile-first design using MUI's `useMediaQuery` or the Breakpoint object in the `sx` prop.
+- **Keep it Simple**: Don't put too much code in one file. If a UI piece is used a lot, make it a separate component. If the logic gets crazy, move it to a custom hook in `src/hooks/`.
+- **Mobile First**: Always design for phones first! Use MUI's `useMediaQuery` or Breakpoints in the `sx` prop to adjust sizes for larger screens.
 
 ### State Management Strategy
-- **Local State (`useState`)**: Priorities for states used only within a component.
-- **Global State (`Context API`)**: Use limitedly only for information that needs to be shared across the entire app (e.g., authentication info).
-- **URL State (`useSearchParams`)**: Shareable states such as search keywords or page numbers should treat the URL parameters as the Source of Truth.
+- **Local State (`useState`)**: Best for data used in only one component (like typing in an input box).
+- **Global State (`Context API`)**: Only use this for data needed everywhere, like the user's login `AuthContext`.
+- **URL State (`useSearchParams`)**: If users need to share a link (like a search page or specific page number), put that state in the URL. The URL should be the main source of truth.
 
 ### Error Handling
-- When an API call fails, appropriate feedback (Alert, Toast, etc.) must be provided to the user.
-- For business logic errors, the default is to show the message sent from the backend as is.
+- If a background network request (API call) fails, tell the user! Use an Alert or Toast message.
+- For business logic errors, usually show the message sent from the backend as it is.
 
-## 4. Component Structure
+## 4. Component Structure Example
+
+This is exactly how a component file should look:
 
 ```tsx
 import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
+// Remember, use the auto-generated types!
 import type { SomeType } from '../../types';
 
 interface ComponentProps {
@@ -51,11 +56,11 @@ const ComponentName: React.FC<ComponentProps> = ({ title, items }) => {
     setActive(!active);
   };
 
-  // 3. Render
+  // 3. Render the UI
   return (
     <Box>
       <Typography variant="h1">{title}</Typography>
-      {/* ... */}
+      {/* ... Add other cool components here ... */}
     </Box>
   );
 };
@@ -63,23 +68,23 @@ const ComponentName: React.FC<ComponentProps> = ({ title, items }) => {
 export default ComponentName;
 ```
 
-## 5. API Calls and Asynchronous Processing
+## 5. API Calls and Hooks
 
-- API call logic should not be written directly inside components. Instead, use functions imported from `src/api/api.ts`.
-- Complex data fetching logic (e.g., infinite scroll) should be separated into individual hooks within the `src/hooks/` folder.
+- API call logic should not be written directly inside components. Instead, import and use the helper functions from `src/api/api.ts`.
+- Complex data fetching or logic (e.g., infinite scroll or complicated calculations) should be separated into individual hooks within the `src/hooks/` folder.
 
 ## 6. Commit Convention
 
-To automate releases and versioning, we follow the [Conventional Commits](https://www.conventionalcommits.org/) rules.
+To keep our GitHub history clean and easy to read, we follow these simple rules for commit messages:
+- **Format**: `<type>(<scope>): <subject>` (the `(scope)` part is optional)
+- **Example**: `feat(auth): Add Naver login integration`
 
-- **feat**: Add a new feature
-- **fix**: Bug fix
-- **docs**: Documentation changes
-- **style**: Formatting, missing semi-colons, etc. (no code changes)
-- **refactor**: Code refactoring
-- **test**: Adding or correcting tests
-- **chore**: Changes to the build process or package manager configuration, etc.
-- **ci**: CI configuration files and script changes
-
-**Format**: `<type>(<scope>): <subject>` (scope is optional)
-Example: `feat(auth): Add Naver login integration`
+**Types of Commits:**
+- **feat**: Add a completely new feature
+- **fix**: Fix a bug or broken piece of code
+- **docs**: Change only the documentation (`.md` files)
+- **style**: Change formatting (spacing, missing semi-colons, no actual code changes)
+- **refactor**: Rewrote some code to be better, but it does the same thing
+- **test**: Add or fix tests
+- **chore**: Update build tools, package manager config, or minor cleanups
+- **ci**: CI script updates
