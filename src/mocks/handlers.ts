@@ -11,8 +11,8 @@ export const handlers = [
         });
     }),
     // Mock Book Details
-    http.get('/api/v1/books/:bookId', (req) => {
-        const { bookId } = req.params;
+    http.get('/api/v1/books/:bookId', (info: any) => {
+        const { bookId } = info.params;
         return HttpResponse.json({
             id: bookId,
             title: 'Mock Book Title',
@@ -54,5 +54,49 @@ export const handlers = [
     // Mock Naver Signup
     http.post('/api/v1/auth/signup/naver', async () => {
         return HttpResponse.json({}, { status: 200 });
+    }),
+    // Mock Reactivate
+    http.post('/api/v1/auth/reactivate', async () => {
+        return HttpResponse.json({}, { status: 200 });
+    }),
+    // Mock My Talks
+    http.get('/api/v1/me/talks', () => {
+        return HttpResponse.json({
+            content: [
+                {
+                    id: 'mock-talk-1',
+                    content: 'This is my mock talk about a great book.',
+                    bookId: 'mock-book-1',
+                    memberId: 'mock-user-123',
+                    nickname: 'MockUser',
+                    like_count: 5,
+                    support_count: 2,
+                    didILike: true,
+                    didISupport: false,
+                    is_modified: false,
+                    createdAt: new Date().toISOString(),
+                    book: {
+                        id: 'mock-book-1',
+                        title: 'Mock Book Title',
+                        author: 'Mock Author',
+                        cover: 'https://via.placeholder.com/150'
+                    }
+                }
+            ],
+            page: {
+                first: true,
+                last: true,
+                number: 0,
+                totalPages: 1
+            }
+        });
+    }),
+    // Mock Profile Update
+    http.put('/api/v1/me/profile', async () => {
+        return HttpResponse.json({}, { status: 204 });
+    }),
+    // Mock Delete Account
+    http.delete('/api/v1/me', async () => {
+        return HttpResponse.json({}, { status: 204 });
     }),
 ];

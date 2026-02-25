@@ -11,6 +11,8 @@ import TermsOfService from './pages/TermsOfService';
 import AboutService from './pages/AboutService';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import MyPage from './pages/MyPage/MyPage';
+import ProfileEditPage from './pages/MyPage/ProfileEditPage';
 import { AuthProvider } from './context/AuthContext';
 import { Container, Stack, useTheme, useMediaQuery } from '@mui/material';
 
@@ -94,6 +96,8 @@ const AppContent: React.FC = () => {
               <Route path="/books/search" element={<BookSearch />} />
               <Route path="/books/:bookId" element={<BookDetail />} />
               <Route path="/auth/login/naver/callback" element={<NaverCallback />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/mypage/profile" element={<ProfileEditPage />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/about" element={<AboutService />} />
             </Routes>

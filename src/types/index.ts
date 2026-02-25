@@ -32,6 +32,12 @@ export type Book = components['schemas']['BookResponse'];
 // Talk 타입은 생성된 스키마 중 TalkListResponse에서 단일 항목을 추출하여 정의합니다.
 export type Talk = components['schemas']['TalkListResponse'][number] & {
   createdAt: string; // ISO String
+  book?: {
+    id: string;
+    title: string;
+    author: string;
+    cover: string;
+  };
 };
 
 export type Member = components['schemas']['AuthMeResponse'];
