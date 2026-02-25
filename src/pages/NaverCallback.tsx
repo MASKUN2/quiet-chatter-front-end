@@ -4,6 +4,7 @@ import { Box, CircularProgress, Typography, Snackbar, Alert } from '@mui/materia
 import { loginWithNaver, signupWithNaver } from '../api/api';
 import { useAuth } from '../context/AuthContext';
 import SignupModal from '../components/common/SignupModal';
+import ReactivationModal from '../components/common/ReactivationModal';
 
 const NaverCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -18,6 +19,10 @@ const NaverCallback: React.FC = () => {
   const [registerToken, setRegisterToken] = useState('');
   const [tempNickname, setTempNickname] = useState('');
   const [signupLoading, setSignupLoading] = useState(false);
+
+  // Reactivation 관련 상태
+  const [showReactivation, setShowReactivation] = useState(false);
+  const [reactivationToken, setReactivationToken] = useState('');
 
   // Snackbar 상태
   const [toast, setToast] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
@@ -60,8 +65,15 @@ const NaverCallback: React.FC = () => {
         setLoading(false);
         setStatusMessage('회원가입을 진행합니다.');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login failed:', error);
+      if (error.response?.data?.type === '/errors/member-deactivated' && error.response?.data?.reactivationToken) {
+        setReactivationToken(error.response.data.reactivationToken);
+        setShowReactivation(true);
+        setLoading(false);
+        setStatusMessage('계정 재활성화가 필요합니다.');
+        return;
+      }
       showToast('로그인에 실패했습니다.', 'error');
       const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
       localStorage.removeItem('redirect_after_login');
@@ -100,6 +112,27 @@ const NaverCallback: React.FC = () => {
     navigate(redirectUrl, { replace: true });
   };
 
+  const handleReactivated = async (message: string) => {
+    setShowReactivation(false);
+    await completeLogin(message);
+  };
+
+  const handleReactivationCancel = () => {
+    setShowReactivation(false);
+    showToast('로그인이 취소되었습니다.', 'error');
+    const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+    localStorage.removeItem('redirect_after_login');
+    navigate(redirectUrl, { replace: true });
+  };
+
+  const handleTokenExpired = () => {
+    setShowReactivation(false);
+    showToast('재활성화 토큰이 만료되었습니다. 다시 로그인해주세요.', 'error');
+    const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
+    localStorage.removeItem('redirect_after_login');
+    navigate(redirectUrl, { replace: true });
+  };
+
   const showToast = (message: string, severity: 'success' | 'error') => {
     setToast({ open: true, message, severity });
   };
@@ -125,6 +158,14 @@ const NaverCallback: React.FC = () => {
         onSignup={handleSignup}
         onCancel={handleSignupCancel}
         loading={signupLoading}
+      />
+
+      <ReactivationModal
+        open={showReactivation}
+        reactivationToken={reactivationToken}
+        onReactivated={handleReactivated}
+        onCancel={handleReactivationCancel}
+        onTokenExpired={handleTokenExpired}
       />
 
       <Snackbar

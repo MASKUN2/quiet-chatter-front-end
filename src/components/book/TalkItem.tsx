@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Box, Button, TextField, IconButton, Stack, Tooltip } from '@mui/material';
+import { Card, CardContent, Typography, Box, Button, TextField, IconButton, Stack, Tooltip, Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -15,13 +16,15 @@ interface TalkItemProps {
   onReaction: (talkId: string, type: 'LIKE' | 'SUPPORT', hasReacted: boolean) => void;
   currentMemberId?: string | null;
   onUpdate: () => void;
+  showBookInfo?: boolean;
+  isMyPageMode?: boolean;
 }
 const formatDate = (dateString: string) => {
   const d = new Date(dateString);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
-const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, onUpdate }) => {
+const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, onUpdate, showBookInfo, isMyPageMode }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(talk.content);
   const [loading, setLoading] = useState(false);
@@ -70,6 +73,35 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
   return (
     <Card variant="outlined" sx={{ mx: 0 }}>
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        {showBookInfo && talk.book && (
+          <Box sx={{ display: 'flex', gap: 2, mb: 1.5, pb: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Link to={`/books/${talk.book.id}`}>
+              <Avatar
+                variant="rounded"
+                src={talk.book.cover || '/images/quiet-chatter-icon.png'}
+                alt={talk.book.title}
+                sx={{ width: 44, height: 64, boxShadow: 1, '&:hover': { opacity: 0.8 } }}
+              />
+            </Link>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 0 }}>
+              <Typography
+                component={Link}
+                to={`/books/${talk.book.id}`}
+                variant="subtitle2"
+                fontWeight={700}
+                color="text.primary"
+                noWrap
+                sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, display: 'block' }}
+              >
+                {talk.book.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" noWrap>
+                {talk.book.author}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+
         <Tooltip title="1년후에 자동으로 숨겨집니다" placement="top" arrow>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', mb: 1.5, cursor: 'help', width: 'fit-content' }}>
             <AccessTimeIcon sx={{ fontSize: '0.875rem' }} />
@@ -120,11 +152,18 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             <Typography variant="body1" sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
               {talk.content}
             </Typography>
-            {isMine && (
+            {isMine && !isMyPageMode && (
               <Box sx={{ ml: 1, mt: -0.5 }}>
                 <IconButton size="small" onClick={() => setIsEditing(true)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
+                <IconButton size="small" onClick={handleDelete} color="error">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            )}
+            {isMine && isMyPageMode && (
+              <Box sx={{ ml: 1, mt: -0.5 }}>
                 <IconButton size="small" onClick={handleDelete} color="error">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
@@ -135,22 +174,37 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button
-              size="small"
-              color={talk.didILike ? "primary" : "inherit"}
-              startIcon={talk.didILike ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-              onClick={() => onReaction(talk.id, 'LIKE', talk.didILike)}
-            >
-              {talk.like_count}
-            </Button>
-            <Button
-              size="small"
-              color={talk.didISupport ? "error" : "inherit"}
-              startIcon={talk.didISupport ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              onClick={() => onReaction(talk.id, 'SUPPORT', talk.didISupport)}
-            >
-              {talk.support_count}
-            </Button>
+            {isMyPageMode ? (
+              <>
+                <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ThumbUpAltIcon fontSize="small" sx={{ mr: 0.5, color: 'text.disabled' }} />
+                  {talk.like_count || 0}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+                  <FavoriteIcon fontSize="small" sx={{ mr: 0.5, color: 'text.disabled' }} />
+                  {talk.support_count || 0}
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Button
+                  size="small"
+                  color={talk.didILike ? "primary" : "inherit"}
+                  startIcon={talk.didILike ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+                  onClick={() => onReaction(talk.id, 'LIKE', talk.didILike)}
+                >
+                  {talk.like_count}
+                </Button>
+                <Button
+                  size="small"
+                  color={talk.didISupport ? "error" : "inherit"}
+                  startIcon={talk.didISupport ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  onClick={() => onReaction(talk.id, 'SUPPORT', talk.didISupport)}
+                >
+                  {talk.support_count}
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </CardContent>

@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.1.0...v1.2.0) (2026-02-25)
+
+
+### Bug Fixes
+
+* **mypage:** fetch book details to display cover images correctly ([0ce8d4c](https://github.com/MASKUN2/quiet-chatter-front-end/commit/0ce8d4c2298a01d50becd8c8e04c593a1fa65c02))
+
+
+### Features
+
+* Add My Page UI and Account Management features ([534189e](https://github.com/MASKUN2/quiet-chatter-front-end/commit/534189e96082c831476458565c47a8f086b510b2))
+
 # [1.1.0](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.0.1...v1.1.0) (2026-02-21)
 
 
