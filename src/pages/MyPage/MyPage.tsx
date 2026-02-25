@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, Button, CircularProgress, Stack, Divider } from '@mui/material';
 import PagePaper from '../../components/common/PagePaper';
-import { getMyTalks, handleReaction } from '../../api/api';
+import { getMyTalks, handleReaction, getBooksByIds } from '../../api/api';
 import type { Talk } from '../../types';
 import TalkItem from '../../components/book/TalkItem';
 import WithdrawalDialog from './components/WithdrawalDialog';
@@ -28,7 +28,25 @@ const MyPage: React.FC = () => {
         try {
             if (isInitial) setLoading(true);
             const data = await getMyTalks(pageNum);
-            setTalks(prev => isInitial ? data.content : [...prev, ...data.content]);
+
+            const bookIds = Array.from(new Set(data.content.map(t => t.bookId)));
+            const booksData = await getBooksByIds(bookIds);
+            const booksMap = new Map(booksData.map(b => [b.id, b]));
+
+            const enrichedTalks = data.content.map(t => {
+                const book = booksMap.get(t.bookId);
+                return {
+                    ...t,
+                    book: book ? {
+                        id: book.id,
+                        title: book.title,
+                        author: book.author,
+                        cover: book.thumbnailImageUrl || ''
+                    } : undefined
+                };
+            });
+
+            setTalks(prev => isInitial ? enrichedTalks : [...prev, ...enrichedTalks]);
             setHasMore(!data.page.last);
         } catch (error) {
             console.error('Failed to fetch my talks:', error);
