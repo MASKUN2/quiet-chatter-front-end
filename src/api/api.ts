@@ -11,11 +11,20 @@ const apiClient = axios.create({
   },
 });
 
+export class ApiError extends Error {
+  response?: any;
+  constructor(message: string, response?: any) {
+    super(message);
+    this.name = 'ApiError';
+    this.response = response;
+  }
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     const message = error.response?.data?.detail || error.response?.data?.message || error.message || MESSAGES.ERROR.API_REQUEST_FAILED;
-    return Promise.reject(new Error(message));
+    return Promise.reject(new ApiError(message, error.response));
   }
 );
 
@@ -37,6 +46,10 @@ export async function signupWithNaver(nickname: string, registerToken: string): 
 
 export async function logout(): Promise<void> {
   await apiClient.post('/v1/auth/logout');
+}
+
+export async function reactivateAccount(token: string): Promise<void> {
+  await apiClient.post('/v1/auth/reactivate', { token });
 }
 
 export async function searchBooks(keyword: string, page: number = 0): Promise<SliceResponse<Book>> {
@@ -71,6 +84,21 @@ export async function getTalks(bookId: string, page: number = 0): Promise<PageRe
 export async function getRecommendedTalks(): Promise<Talk[]> {
   const response = await apiClient.get<Talk[]>('/v1/talks/recommend');
   return response.data;
+}
+
+export async function getMyTalks(page: number = 0): Promise<PageResponse<Talk>> {
+  const response = await apiClient.get<PageResponse<Talk>>('/v1/me/talks', {
+    params: { page, size: PAGINATION.TALK_LIST_SIZE, sort: 'createdAt,desc' }
+  });
+  return response.data;
+}
+
+export async function updateProfile(nickname: string): Promise<void> {
+  await apiClient.put('/v1/me/profile', { nickname });
+}
+
+export async function deactivateAccount(): Promise<void> {
+  await apiClient.delete('/v1/me');
 }
 
 export async function postTalk(bookId: string, content: string): Promise<Talk> {

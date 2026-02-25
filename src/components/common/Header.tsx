@@ -63,43 +63,15 @@ const Header: React.FC = () => {
       );
     }
 
-    if (isMobile) {
-      return (
-        <>
-          <IconButton
-            size="small"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleMenu}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem disabled>
-              <Typography variant="body2">{member.nickname} ({member.role})</Typography>
-            </MenuItem>
-            <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
-            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-            {!member.isLoggedIn && (
-              <MenuItem disableRipple>
-                <NaverLogin />
-              </MenuItem>
-            )}
-          </Menu>
-        </>
-      );
-    }
-
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircle fontSize="small" color="action" />
-          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-            {member.nickname}
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', display: { xs: 'none', sm: 'block' } }}>
+            {member?.nickname}
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', display: { xs: 'block', sm: 'none' } }}>
+            {member?.nickname && member.nickname.length > 5 ? member.nickname.substring(0, 5) + '...' : member?.nickname}
           </Typography>
         </Box>
         <Typography variant="caption" sx={{
@@ -110,27 +82,27 @@ const Header: React.FC = () => {
           color: 'text.secondary',
           fontWeight: 500
         }}>
-          {member.role}
+          {member?.role === 'ADMIN' ? '관리자' : member?.role}
         </Typography>
-        <Button
-          variant="text"
+
+        <IconButton
           size="small"
-          onClick={handleLogout}
-          sx={{
-            color: 'text.secondary',
-            ml: 1,
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)'
-            }
-          }}
+          color="inherit"
+          aria-label="menu"
+          onClick={handleMenu}
+          sx={{ ml: { xs: 0, sm: 0.5 } }}
         >
-          로그아웃
-        </Button>
-        {!member.isLoggedIn && (
-          <Box sx={{ ml: 1 }}>
-            <NaverLogin height={32} />
-          </Box>
-        )}
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={() => { handleClose(); navigate('/home'); }}>홈</MenuItem>
+          <MenuItem onClick={() => { handleClose(); navigate('/mypage'); }}>마이페이지</MenuItem>
+          <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+        </Menu>
       </Box>
     );
   };
