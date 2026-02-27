@@ -11,6 +11,7 @@ import TermsOfService from './pages/TermsOfService';
 import AboutService from './pages/AboutService';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import ScrollToTop from './components/common/ScrollToTop';
 import MyPage from './pages/MyPage/MyPage';
 import ProfileEditPage from './pages/MyPage/ProfileEditPage';
 import { AuthProvider } from './context/AuthContext';
@@ -115,6 +116,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <AppContent />
         </Router>
       </AuthProvider>

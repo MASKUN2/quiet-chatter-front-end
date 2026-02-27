@@ -10,6 +10,9 @@ export const PAGINATION = {
 
 export const VALIDATION = {
   TALK_MAX_LENGTH: 250,
+  NICKNAME_MIN_LENGTH: 1,
+  NICKNAME_MAX_LENGTH: 12,
+  NICKNAME_REGEX: /^[a-zA-Z0-9가-힣][a-zA-Z0-9가-힣 _-]*[a-zA-Z0-9가-힣]$|^[a-zA-Z0-9가-힣]$/,
 } as const;
 
 export const MESSAGES = {
@@ -21,6 +24,9 @@ export const MESSAGES = {
     VOC_SEND_FAILED: '메시지 전송에 실패했습니다.',
     LOGIN_REQUIRED: '로그인이 필요한 기능입니다.',
     INPUT_REQUIRED: '메시지를 입력해주세요.',
+    NICKNAME_REQUIRED: '닉네임을 입력해주세요.',
+    NICKNAME_LENGTH: '닉네임은 1~12자 사이여야 합니다.',
+    NICKNAME_SPECIAL_CHARS: '닉네임에 특수문자를 포함할 수 없습니다.',
   },
   SUCCESS: {
     VOC_SENT: '소중한 의견 감사합니다!',

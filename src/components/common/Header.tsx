@@ -67,11 +67,8 @@ const Header: React.FC = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1.5 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <AccountCircle fontSize="small" color="action" />
-          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', display: { xs: 'none', sm: 'block' } }}>
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
             {member?.nickname}
-          </Typography>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary', display: { xs: 'block', sm: 'none' } }}>
-            {member?.nickname && member.nickname.length > 5 ? member.nickname.substring(0, 5) + '...' : member?.nickname}
           </Typography>
         </Box>
         <Typography variant="caption" sx={{
