@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography, Box, FormControlLabel, Checkbox } from '@mui/material';
-import { MESSAGES } from '../../constants';
 import { LATEST_TERMS } from '../../constants/terms';
+import { validateNickname } from '../../utils/validation';
 
 interface SignupModalProps {
   open: boolean;
@@ -14,11 +14,14 @@ interface SignupModalProps {
 const SignupModal: React.FC<SignupModalProps> = ({ open, tempNickname, onSignup, onCancel, loading }) => {
   const [nickname, setNickname] = useState(tempNickname);
   const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nickname.trim()) {
-      alert(MESSAGES.ERROR.INPUT_REQUIRED);
+
+    const validation = validateNickname(nickname);
+    if (!validation.isValid) {
+      setError(validation.message || null);
       return;
     }
     if (!agreed) {
@@ -85,7 +88,12 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, tempNickname, onSignup,
             fullWidth
             variant="outlined"
             value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            onChange={(e) => {
+              setNickname(e.target.value);
+              if (error) setError(null);
+            }}
+            error={Boolean(error)}
+            helperText={error || '1~12자의 한글, 영문, 숫자, 공백, _, -를 사용할 수 있습니다. (공백/기호는 중간에만 가능)'}
             disabled={loading}
             required
           />
