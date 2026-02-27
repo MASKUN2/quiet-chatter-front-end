@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.2.0...v1.3.0) (2026-02-27)
+
+
+### Bug Fixes
+
+* show full nickname on mobile header instead of truncating ([d758ac6](https://github.com/MASKUN2/quiet-chatter-front-end/commit/d758ac60dc6b29b55593f5fbade3e42997fb8a1d))
+* use conditional rendering for SignupModal to sync tempNickname ([408c3e3](https://github.com/MASKUN2/quiet-chatter-front-end/commit/408c3e360eca116d65b21fc6c3ef63fac342734b))
+
+
+### Features
+
+* add ScrollToTop component to reset scroll position on navigation ([f7f4560](https://github.com/MASKUN2/quiet-chatter-front-end/commit/f7f456082740f2bc632d9faaf02c1d4921df1bd6))
+* implement reusable nickname validation rules (1-12 chars, alphanumeric/Korean, spaces/symbols in middle only) ([ccf939b](https://github.com/MASKUN2/quiet-chatter-front-end/commit/ccf939b8b2ea1ed00931dbc52c87b25fa980c1e9))
+
 # [1.2.0](https://github.com/MASKUN2/quiet-chatter-front-end/compare/v1.1.0...v1.2.0) (2026-02-25)
 
 
