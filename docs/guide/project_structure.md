@@ -38,6 +38,7 @@ src/
 ├── mocks/           # Mock Service Worker (MSW) setup. Used for local testing without the backend.
 ├── pages/           # High-level Screen components. The React Router loads these directly.
 ├── types/           # TypeScript Definitions. `api-schema.d.ts` is generated automatically.
+├── utils/           # Shared utility functions (e.g., validation rules, formatting).
 ├── App.css          # Global CSS layout logic used exclusively by `App.tsx`
 ├── App.tsx          # The Main Application Layout, Theme Injection, and Master Router
 ├── index.css        # Fundamental HTML/Body CSS variables and resets

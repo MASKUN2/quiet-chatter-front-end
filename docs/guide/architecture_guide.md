@@ -16,6 +16,7 @@ To make sure every page looks the same, the main application wrapper is centrali
 - **Page Content Wrapper (PagePaper)**: Always wrap the main content of your new page in the `<PagePaper>` component (`src/components/common/PagePaper.tsx`) for consistent card-like styling on desktop and mobile. Do not manually use `<Paper>` or `useMediaQuery` for page layout containers.
 - **Spacing**: Use `spacing={{ xs: 2, md: 4 }}` to space out different feature blocks inside your page.
 - **Responsive Padding**: The sides of the app touch the edges of the screen on mobile (`xs`), but have nice padding on desktop (`md` and up), handled automatically by the parent container.
+- **Scroll Behavior**: When navigating between major pages (like from home to terms or about), ensure the user starts at the top of the page. The app uses a global `ScrollToTop` utility component near the router to automatically reset scroll position entirely on path changes.
 
 ## 2. Component Structure
 
