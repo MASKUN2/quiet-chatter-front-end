@@ -60,7 +60,7 @@ const NaverCallback: React.FC = () => {
       } else {
         // 미가입: 회원가입 모달 오픈
         setRegisterToken(response.registerToken || '');
-        setTempNickname(response.tempNickname || '');
+        setTempNickname(response.tempNickname || '조용한 독서가');
         setShowSignup(true);
         setLoading(false);
         setStatusMessage('회원가입을 진행합니다.');
@@ -152,13 +152,15 @@ const NaverCallback: React.FC = () => {
         </>
       )}
 
-      <SignupModal
-        open={showSignup}
-        tempNickname={tempNickname}
-        onSignup={handleSignup}
-        onCancel={handleSignupCancel}
-        loading={signupLoading}
-      />
+      {showSignup && (
+        <SignupModal
+          open={showSignup}
+          tempNickname={tempNickname}
+          onSignup={handleSignup}
+          onCancel={handleSignupCancel}
+          loading={signupLoading}
+        />
+      )}
 
       <ReactivationModal
         open={showReactivation}

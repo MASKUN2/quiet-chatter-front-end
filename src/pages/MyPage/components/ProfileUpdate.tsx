@@ -3,6 +3,7 @@ import { Box, Typography, TextField, Button, Alert } from '@mui/material';
 import { updateProfile } from '../../../api/api';
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { validateNickname } from '../../../utils/validation';
 
 const ProfileUpdate: React.FC = () => {
     const { member, refreshMember } = useAuth();
@@ -13,7 +14,14 @@ const ProfileUpdate: React.FC = () => {
 
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!nickname.trim() || nickname === member?.nickname) return;
+
+        const validation = validateNickname(nickname);
+        if (!validation.isValid) {
+            setMessage({ text: validation.message || '올바르지 않은 닉네임입니다.', type: 'error' });
+            return;
+        }
+
+        if (nickname === member?.nickname) return;
 
         setLoading(true);
         setMessage(null);
@@ -21,8 +29,9 @@ const ProfileUpdate: React.FC = () => {
             await updateProfile(nickname);
             await refreshMember();
             setMessage({ text: '프로필이 성공적으로 업데이트되었습니다.', type: 'success' });
-        } catch (error: any) {
-            setMessage({ text: error.message || '프로필 업데이트에 실패했습니다.', type: 'error' });
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : '프로필 업데이트에 실패했습니다.';
+            setMessage({ text: errorMessage, type: 'error' });
         } finally {
             setLoading(false);
         }
@@ -39,6 +48,8 @@ const ProfileUpdate: React.FC = () => {
                     onChange={(e) => setNickname(e.target.value)}
                     disabled={loading}
                     fullWidth
+                    error={message?.type === 'error'}
+                    helperText={message?.type === 'error' ? message.text : '1~12자의 한글, 영문, 숫자, 공백, _, -를 사용할 수 있습니다. (공백/기호는 중간에만 가능)'}
                 />
                 <Button
                     variant="outlined"
