@@ -155,7 +155,7 @@ const Header: React.FC = () => {
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="검색어를 입력하세요"
+              placeholder="관심있는 책이나 작가를 찾아보세요"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               required
