@@ -63,7 +63,7 @@ export default ComponentName;
 We keep state management as simple and standard as possible:
 
 - **Local State (`useState`)**: Top priority for UI state that is only used within a single component (like toggling a modal, tracking an input field).
-- **Global Data State (`Context API`)**: Use extremely limitedly, only for information that needs to be accessed anywhere across the entire app (e.g., the `AuthContext` for user login data).
+- **Global Data State (`Context API`)**: Use extremely limitedly, only for information that needs to be accessed anywhere across the entire app (e.g., the `AuthContext` for user login data, or `OnboardingContext` to share DOM refs needed by the first-visit tooltip system).
 - **URL State (`useSearchParams`)**: If users need to be able to share a link that loads a specific state (like a search keyword page, or a specific page number in a list), put that state in the URL. The URL should be considered the primary source of truth for navigation variables.
 
 ## 4. API Calls and Data Logic

@@ -6,6 +6,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import type { Talk, Book } from '../../types';
+import { useOnboardingRefs } from '../../context/OnboardingContext';
 
 interface RecommendedTalksProps {
   loading: boolean;
@@ -15,6 +16,8 @@ interface RecommendedTalksProps {
 }
 
 const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, talks, books }) => {
+  const { recommendedTalkRef } = useOnboardingRefs();
+
   if (loading) {
     return (
       <List sx={{ py: 0 }}>
@@ -61,13 +64,13 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
 
   return (
     <List sx={{ py: 0 }}>
-      {talks.map(talk => {
+      {talks.map((talk, index) => {
         const book = books.get(talk.bookId);
         if (!book) return null;
         const truncatedContent = talk.content.length > 100 ? talk.content.substring(0, 100) + '...' : talk.content;
 
-        return (
-          <ListItem key={talk.id} disablePadding sx={{ mb: 1.5 }}>
+        const cardContent = (
+          <ListItem disablePadding sx={{ mb: 1.5 }}>
             <ListItemButton
               component={Link}
               to={`/books/${book.id}`}
@@ -120,6 +123,18 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
             </ListItemButton>
           </ListItem>
         );
+
+        // 첫 번째 카드에만 recommendedTalkRef를 부착한 Box를 감쌉니다 (온보딩 툴팁 anchor).
+        // plain div인 Box는 HTMLElement ref를 타입 제약 없이 받을 수 있습니다.
+        if (index === 0) {
+          return (
+            <Box key={talk.id} ref={recommendedTalkRef}>
+              {cardContent}
+            </Box>
+          );
+        }
+
+        return <React.Fragment key={talk.id}>{cardContent}</React.Fragment>;
       })}
     </List>
   );
