@@ -72,3 +72,4 @@ We keep state management as simple and standard as possible:
 - **Use the API Layer**: Import and use the helper functions explicitly defined in `src/api/api.ts`.
 - **Use Custom Hooks**: Complex data fetching logic (e.g., infinite scroll, debouncing searches) should be wrapped in individual custom hooks within the `src/hooks/` folder.
 - **Error Handling**: When a background network request fails, always provide appropriate feedback to the user using the global Toast system. **Never use native browser `alert()` popups**. Instead, import `useToast` from `@/hooks/useToast` and call `showToast('message', 'error')`. For business logic errors, usually show the message sent from the backend as it is.
+- **Error Boundaries**: To prevent the entire application from crashing due to unexpected JavaScript runtime errors or malformed data during rendering, the application is wrapped in an `<ErrorBoundary>`. Do not allow components to unmount the entire tree to a white screen.

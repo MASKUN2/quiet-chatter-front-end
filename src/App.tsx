@@ -111,6 +111,8 @@ const AppContent: React.FC = () => {
 };
 
 import { ToastProvider } from './providers/ToastProvider';
+import { ErrorBoundary } from 'react-error-boundary';
+import GlobalErrorFallback from './components/common/GlobalErrorFallback';
 
 const App: React.FC = () => {
   return (
@@ -118,10 +120,12 @@ const App: React.FC = () => {
       <CssBaseline />
       <ToastProvider>
         <AuthProvider>
-          <Router>
-            <ScrollToTop />
-            <AppContent />
-          </Router>
+          <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+            <Router>
+              <ScrollToTop />
+              <AppContent />
+            </Router>
+          </ErrorBoundary>
         </AuthProvider>
       </ToastProvider>
     </ThemeProvider>
