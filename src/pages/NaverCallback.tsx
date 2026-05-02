@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, CircularProgress, Typography, Snackbar, Alert } from '@mui/material';
-import { loginWithNaver, signupWithNaver } from '../api/api';
+import { loginWithNaver, signupWithNaver } from '../api/auth';
 import { useAuth } from '../context/AuthContext';
 import SignupModal from '../components/common/SignupModal';
 import ReactivationModal from '../components/common/ReactivationModal';

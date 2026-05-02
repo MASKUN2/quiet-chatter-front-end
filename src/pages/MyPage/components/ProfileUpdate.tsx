@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Alert } from '@mui/material';
-import { updateProfile } from '../../../api/api';
+import { updateProfile } from '../../../api/auth';
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { validateNickname } from '../../../utils/validation';

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { searchBooks } from '../api/api';
+import { searchBooks } from '../api/books';
 import type { Book, SliceInfo } from '../types';
 import { useIntersectionObserver } from './useIntersectionObserver';
 

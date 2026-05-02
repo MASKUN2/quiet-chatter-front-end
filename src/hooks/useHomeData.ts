@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getRecommendedTalks, getBooksByIds } from '../api/api';
+import { getRecommendedTalks } from '../api/talks';
+import { getBooksByIds } from '../api/books';
 import type { Talk, Book } from '../types';
 import { MESSAGES } from '../constants';
 

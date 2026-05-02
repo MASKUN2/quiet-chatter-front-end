@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getMyTalks, handleReaction, getBooksByIds } from '../api/api';
+import { getMyTalks, handleReaction } from '../api/talks';
+import { getBooksByIds } from '../api/books';
 import type { Talk } from '../types';
 import { useToast } from './useToast';
 import { useAuth } from '../context/AuthContext';

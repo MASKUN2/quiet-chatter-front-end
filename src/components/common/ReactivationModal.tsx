@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert } from '@mui/material';
-import { reactivateAccount, ApiError } from '../../api/api';
+import { reactivateAccount } from '../../api/auth';
+import { ApiError } from '../../api/client';
 
 interface ReactivationModalProps {
     open: boolean;

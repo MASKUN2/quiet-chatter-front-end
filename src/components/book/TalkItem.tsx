@@ -8,7 +8,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { updateTalk, deleteTalk } from '../../api/api';
+import { updateTalk, deleteTalk } from '../../api/talks';
 import type { Talk } from '../../types';
 import CharacterLimitedTextField from '../common/CharacterLimitedTextField';
 import { useToast } from '../../hooks/useToast';

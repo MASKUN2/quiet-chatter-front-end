@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getBookDetails, getTalks, postTalk, handleReaction } from '../api/api';
+import { getBookDetails } from '../api/books';
+import { getTalks, postTalk, handleReaction } from '../api/talks';
 import type { Book, Talk, PageInfo } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../hooks/useToast';

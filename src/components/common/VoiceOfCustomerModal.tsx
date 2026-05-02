@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, IconButton, Box } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { sendVocMessage } from '../../api/api';
+import { sendVocMessage } from '../../api/support';
 import { MESSAGES } from '../../constants';
 
 const VoiceOfCustomerModal: React.FC = () => {

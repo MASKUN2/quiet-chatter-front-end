@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert } from '@mui/material';
-import { deactivateAccount } from '../../../api/api';
+import { deactivateAccount } from '../../../api/auth';
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
