@@ -1,29 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { ReactNode } from 'react';
 import { Snackbar, Alert } from '@mui/material';
-import { ToastContext } from '../context/ToastContext';
-import type { Severity } from '../types/ToastTypes';
+import { useToastStore } from '../store/useToastStore';
 
 export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState('');
-    const [severity, setSeverity] = useState<Severity>('info');
-
-    const showToast = (msg: string, sev: Severity = 'info') => {
-        setMessage(msg);
-        setSeverity(sev);
-        setOpen(true);
-    };
+    const { open, message, severity, hideToast } = useToastStore();
 
     const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-        setOpen(false);
+        hideToast();
     };
 
     return (
-        <ToastContext.Provider value={{ showToast }}>
+        <>
             {children}
             <Snackbar
                 open={open}
@@ -35,6 +26,6 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                     {message}
                 </Alert>
             </Snackbar>
-        </ToastContext.Provider>
+        </>
     );
 };
