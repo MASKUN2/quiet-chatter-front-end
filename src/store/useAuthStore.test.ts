@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useAuthStore } from './useAuthStore';
 import * as authApi from '../api/auth';
+import type { Member } from '../types';
 
 // Mock the API module
 vi.mock('../api/auth', () => ({
@@ -22,8 +23,8 @@ describe('useAuthStore', () => {
     });
 
     it('refreshMember should update member on success', async () => {
-        const mockMember = { id: 'user-1', nickname: 'tester', role: 'REGULAR' };
-        vi.mocked(authApi.getMe).mockResolvedValue(mockMember as any);
+        const mockMember = { id: 'user-1', nickname: 'tester', role: 'REGULAR' } as Member;
+        vi.mocked(authApi.getMe).mockResolvedValue(mockMember);
 
         await useAuthStore.getState().refreshMember();
 
@@ -41,7 +42,7 @@ describe('useAuthStore', () => {
     });
 
     it('logout should clear member', async () => {
-        useAuthStore.setState({ member: { id: '1', nickname: 'user' } as any });
+        useAuthStore.setState({ member: { id: '1', nickname: 'user' } as Member });
         vi.mocked(authApi.logout).mockResolvedValue(undefined);
 
         await useAuthStore.getState().logout();
