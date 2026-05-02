@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.5.1...v1.5.2) (2026-05-02)
+
+
+### Bug Fixes
+
+* **frontend:** resolve security vulnerabilities via npm audit fix ([84d726f](https://github.com/MASKUN2/quietchatter-frontend/commit/84d726f00615fef71f70c8ff74bab5b9eb719b55))
+
 ## [1.5.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.5.0...v1.5.1) (2026-05-02)
 
 
