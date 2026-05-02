@@ -1,16 +1,17 @@
 # AI Agent Task Instructions
 
-QuietChatter 프론트엔드 레거시 프로젝트에 오신 것을 환영합니다. 이 문서는 에이전트가 코드를 작성, 스타일링 및 검토하는 방법을 정의합니다.
+QuietChatter 프론트엔드 프로젝트에 오신 것을 환영합니다. 이 문서는 에이전트가 코드를 작성, 스타일링 및 검토하는 방법을 정의합니다.
 
 작업을 시작하기 전, docs/guide/ 폴더 내의 관련 가이드 문서를 반드시 확인하십시오.
 
 ## 1. 프로젝트 개요
 - 핵심 기술: React, TypeScript, Vite (Cloudflare Pages 배포)
 - UI 프레임워크: Material UI (MUI) Version 6
+- 상태 관리: Zustand
 - 환경:
     - 프론트엔드: dev.quiet-chatter.com (Dev) -> quiet-chatter.com (Prod)
     - 백엔드 API: dev-api.quiet-chatter.com (Dev) -> api.quiet-chatter.com (Prod)
-- API 상세: 모든 실제 API 호출은 /v1 베이스 경로를 사용합니다. API 규칙의 단일 소스는 OpenAPI 스펙입니다.
+- API 상세: 모든 실제 API 호출은 /api 베이스 경로를 사용합니다. API 규칙의 단일 소스는 OpenAPI 스펙입니다.
 
 ## 2. 설계 원칙
 작업 수행 시 다음 규칙을 준수하십시오:

@@ -8,6 +8,7 @@ Quiet Chatter 서비스의 웹 프론트엔드 프로젝트입니다.
 ## 🛠 기술 스택
 
 - **Core**: React 19, TypeScript, Vite
+- **State Management**: Zustand
 - **UI Framework**: Material UI (MUI) v6
 - **Routing**: React Router DOM v7
 - **HTTP Client**: Axios
