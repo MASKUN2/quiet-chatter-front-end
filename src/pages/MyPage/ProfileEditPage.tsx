@@ -2,11 +2,11 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PagePaper from '../../components/common/PagePaper';
 import ProfileUpdate from './components/ProfileUpdate';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
 import { Navigate } from 'react-router-dom';
 
 const ProfileEditPage: React.FC = () => {
-    const { member } = useAuth();
+    const { member } = useAuthStore();
 
     if (!member) {
         return <Navigate to="/home" replace />;

@@ -10,14 +10,14 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
 import { useToast } from '../../hooks/useToast';
 import HomeOnboarding from '../home/HomeOnboarding';
 import { useOnboardingRefs } from '../../context/OnboardingContext';
 
 const Header: React.FC = () => {
   const [keyword, setKeyword] = useState('');
-  const { member, loading, logout } = useAuth();
+  const { member, loading, logout } = useAuthStore();
   const { showToast } = useToast();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

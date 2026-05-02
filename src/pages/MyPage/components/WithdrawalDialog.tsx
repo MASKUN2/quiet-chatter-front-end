@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert } from '@mui/material';
 import { deactivateAccount } from '../../../api/auth';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuthStore } from '../../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 
 interface WithdrawalDialogProps {
@@ -10,7 +10,7 @@ interface WithdrawalDialogProps {
 }
 
 const WithdrawalDialog: React.FC<WithdrawalDialogProps> = ({ open, onClose }) => {
-    const { refreshMember } = useAuth();
+    const { refreshMember } = useAuthStore();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errorInfo, setErrorInfo] = useState<string | null>(null);

@@ -3,12 +3,12 @@ import { getMyTalks, handleReaction } from '../api/talks';
 import { getBooksByIds } from '../api/books';
 import type { Talk } from '../types';
 import { useToast } from './useToast';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/useAuthStore';
 import { MESSAGES } from '../constants';
 
 export const useMyTalks = (isLoggedIn: boolean) => {
     const { showToast } = useToast();
-    const { member } = useAuth();
+    const { member } = useAuthStore();
 
     const [talks, setTalks] = useState<Talk[]>([]);
     const [loading, setLoading] = useState(true);

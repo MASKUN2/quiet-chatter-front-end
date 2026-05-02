@@ -17,7 +17,6 @@ import ScrollToTop from './components/common/ScrollToTop';
 import GlobalErrorFallback from './components/common/GlobalErrorFallback';
 import MyPage from './pages/MyPage/MyPage';
 import ProfileEditPage from './pages/MyPage/ProfileEditPage';
-import { AuthProvider } from './context/AuthContext';
 import { OnboardingProvider, useOnboardingRefsState } from './context/OnboardingContext';
 import { ToastProvider } from './providers/ToastProvider';
 
@@ -122,14 +121,12 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ToastProvider>
-        <AuthProvider>
-          <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
-            <Router>
-              <ScrollToTop />
-              <AppContent />
-            </Router>
-          </ErrorBoundary>
-        </AuthProvider>
+        <ErrorBoundary FallbackComponent={GlobalErrorFallback}>
+          <Router>
+            <ScrollToTop />
+            <AppContent />
+          </Router>
+        </ErrorBoundary>
       </ToastProvider>
     </ThemeProvider>
   );

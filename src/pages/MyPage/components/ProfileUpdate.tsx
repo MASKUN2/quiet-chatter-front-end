@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Alert } from '@mui/material';
 import { updateProfile } from '../../../api/auth';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuthStore } from '../../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { validateNickname } from '../../../utils/validation';
 
 const ProfileUpdate: React.FC = () => {
-    const { member, refreshMember } = useAuth();
+    const { member, refreshMember } = useAuthStore();
     const navigate = useNavigate();
     const [nickname, setNickname] = useState(member?.nickname || '');
     const [loading, setLoading] = useState(false);

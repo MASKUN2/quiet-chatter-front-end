@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { getBookDetails } from '../api/books';
 import { getTalks, postTalk, handleReaction } from '../api/talks';
 import type { Book, Talk, PageInfo } from '../types';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/useAuthStore';
 import { useToast } from '../hooks/useToast';
 import { MESSAGES } from '../constants';
 
@@ -10,7 +10,7 @@ export const useBookDetail = (bookId: string | undefined) => {
   const [book, setBook] = useState<Book | null>(null);
   const [talks, setTalks] = useState<Talk[]>([]);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
-  const { member, refreshMember } = useAuth();
+  const { member, refreshMember } = useAuthStore();
   const { showToast } = useToast();
   const [loadingBook, setLoadingBook] = useState(true);
   const [loadingTalks, setLoadingTalks] = useState(true);

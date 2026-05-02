@@ -3,12 +3,12 @@ import { Box, Typography, Button, CircularProgress, Stack, Divider } from '@mui/
 import PagePaper from '../../components/common/PagePaper';
 import TalkItem from '../../components/book/TalkItem';
 import WithdrawalDialog from './components/WithdrawalDialog';
-import { useAuth } from '../../context/AuthContext';
+import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { useMyTalks } from '../../hooks/useMyTalks';
 
 const MyPage: React.FC = () => {
-    const { member } = useAuth();
+    const { member } = useAuthStore();
     const navigate = useNavigate();
     const [isWithdrawalOpen, setIsWithdrawalOpen] = useState(false);
 

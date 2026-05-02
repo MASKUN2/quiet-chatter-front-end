@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, CircularProgress, Typography, Snackbar, Alert } from '@mui/material';
 import { loginWithNaver, signupWithNaver } from '../api/auth';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/useAuthStore';
 import SignupModal from '../components/common/SignupModal';
 import ReactivationModal from '../components/common/ReactivationModal';
 
 const NaverCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { refreshMember } = useAuth();
+  const { refreshMember } = useAuthStore();
 
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState('로그인 중입니다...');
