@@ -6,6 +6,7 @@ import UpdateLog from '../components/home/UpdateLog';
 import RecommendedTalksTimer from '../components/home/RecommendedTalksTimer';
 import { useHomeData } from '../hooks/useHomeData';
 import { useOnboardingRefs } from '../hooks/useOnboarding';
+import HomeOnboarding from '../components/home/HomeOnboarding';
 
 const Home: React.FC = () => {
   const { talks, books, loading, isRefreshing, refreshData, error } = useHomeData();
@@ -52,6 +53,8 @@ const Home: React.FC = () => {
       </PagePaper>
 
       <UpdateLog />
+
+      <HomeOnboarding />
     </Stack >
   );
 };

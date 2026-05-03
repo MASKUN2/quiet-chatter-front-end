@@ -12,7 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useToast } from '../../hooks/useToast';
-import HomeOnboarding from '../home/HomeOnboarding';
 import { useOnboardingRefs } from '../../hooks/useOnboarding';
 
 const Header: React.FC = () => {
@@ -209,11 +208,6 @@ const Header: React.FC = () => {
         </form>
       </Paper>
 
-      {/* ── 온보딩 툴팁 오케스트레이터 ────────────────────────────────────
-           Context에서 refs를 읽으므로 props 없이 사용합니다.
-           timerRef는 Home.tsx에서 직접 context에 등록됩니다.
-      ──────────────────────────────────────────────────────────────────── */}
-      <HomeOnboarding />
     </Box>
   );
 };
