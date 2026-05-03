@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/v1/books": {
+    "/api/auth/me": {
         parameters: {
             query?: never;
             header?: never;
@@ -12,10 +12,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get books by IDs
-         * @description Get books by IDs
+         * Get current authenticated user info
+         * @description Get current authenticated user info
          */
-        get: operations["get-books-by-idssearch-books"];
+        get: operations["auth-me"];
         put?: never;
         post?: never;
         delete?: never;
@@ -24,7 +24,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/reactions": {
+    "/api/members/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Withdraw membership (Deactivate account)
+         * @description Withdraw membership (Deactivate account)
+         */
+        delete: operations["withdraw"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/login/naver": {
         parameters: {
             query?: never;
             header?: never;
@@ -34,21 +54,37 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Add a reaction (LIKE, SUPPORT)
-         * @description Add a reaction (LIKE, SUPPORT)
+         * Login with Naver OAuth
+         * @description Login with Naver OAuth
          */
-        post: operations["add-reaction"];
-        /**
-         * Remove a reaction
-         * @description Remove a reaction
-         */
-        delete: operations["remove-reaction"];
+        post: operations["login-naver"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/v1/talks": {
+    "/api/members/me/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update member profile nickname
+         * @description Update member profile nickname
+         */
+        put: operations["update-profile"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/books": {
         parameters: {
             query?: never;
             header?: never;
@@ -56,10 +92,50 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get talks by book ID
-         * @description Get talks by book ID
+         * Search books by keyword (title, author, or ISBN)
+         * @description Search books by keyword (title, author, or ISBN)
          */
-        get: operations["get-talks-by-book"];
+        get: operations["search-books"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/books/{bookId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get detailed information of a specific book
+         * @description Get detailed information of a specific book
+         */
+        get: operations["get-book-detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/talks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get talks by member ID
+         * @description Get talks by member ID
+         */
+        get: operations["get-talks-by-member"];
         put?: never;
         /**
          * Create a new talk
@@ -72,87 +148,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/auth/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get anonymous user info
-         * @description Get anonymous user info
-         */
-        get: operations["auth-me"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/books/{bookId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get detailed information about a book
-         * @description Get detailed information about a book
-         */
-        get: operations["get-book-detail"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/customer/messages": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Send a message to customer service
-         * @description Send a message to customer service
-         */
-        post: operations["create-customer-message"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/talks/recommend": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get recommended talks
-         * @description Get recommended talks
-         */
-        get: operations["get-recommend-talks"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/talks/{talkId}": {
+    "/api/talks/{talkId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -161,42 +157,18 @@ export interface paths {
         };
         get?: never;
         /**
-         * Update a talk
-         * @description Update a talk
+         * Update an existing talk
+         * @description Update an existing talk
          */
         put: operations["update-talk"];
         post?: never;
-        /**
-         * Delete (hide) a talk
-         * @description Delete (hide) a talk
-         */
-        delete: operations["delete-talk"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/auth/login/naver": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Naver Login (Not Registered)
-         * @description Naver Login (Not Registered)
-         */
-        post: operations["auth-login-naver-"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/v1/auth/signup/naver": {
+    "/api/reactions/talks/{talkId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -206,10 +178,30 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Naver Signup
-         * @description Naver Signup
+         * Add a reaction to a talk
+         * @description Add a reaction to a talk
          */
-        post: operations["auth-signup-naver"];
+        post: operations["add-reaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/talks/book/{bookId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get talks by book ID
+         * @description Get talks by book ID
+         */
+        get: operations["get-talks-by-book"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -220,171 +212,50 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** TalkPageResponse */
-        TalkPageResponse: {
-            /** @description Page Number */
-            number: number;
-            /** @description Number of Elements */
-            numberOfElements: number;
-            /** @description Size */
-            size: number;
-            /** @description Is Last */
-            last: boolean;
-            /** @description Total Pages */
-            totalPages: number;
-            /** @description Pageable info */
-            pageable: string;
-            sort?: {
-                /** @description Sort Unsorted */
-                unsorted: boolean;
-                /** @description Sort Sorted */
-                sorted: boolean;
-                /** @description Sort Empty */
-                empty: boolean;
-            };
-            /** @description Is First */
-            first: boolean;
-            content?: {
-                /** @description Like Count (snake_case alias) */
-                like_count?: number | null;
-                /** @description Support Count */
-                supportCount: number;
-                /** @description Like Count */
-                likeCount: number;
-                /** @description Content */
-                content: string;
-                /** @description Date to be hidden */
-                dateToHidden: string;
-                /** @description Book ID */
-                bookId: string;
-                /** @description Did I Like */
-                didILike: boolean;
-                /** @description Created At */
-                createdAt: string;
-                /** @description Is Modified */
-                isModified: boolean;
-                /** @description Did I Support */
-                didISupport: boolean;
-                /** @description Nickname */
-                nickname: string;
-                /** @description Support Count (snake_case alias) */
-                support_count?: number | null;
-                /** @description Talk ID */
-                id: string;
-                /** @description Is Modified (snake_case alias) */
-                is_modified?: boolean | null;
-                /** @description Member ID */
-                memberId: string;
-            }[];
-            /** @description Is Empty */
-            empty: boolean;
-            /** @description Total Elements */
-            totalElements: number;
-        };
-        /** ReactionRequest */
-        ReactionRequest: {
-            /** @description Reaction Type (LIKE, SUPPORT) */
-            type: string;
-            /** @description Talk ID */
-            talkId: string;
-        };
-        /** TalkCreateRequest */
-        TalkCreateRequest: {
-            /** @description Hidden Date (Instant) */
-            hidden?: string | null;
-            /** @description Talk Content */
-            content: string;
-            /** @description Book ID */
-            bookId: string;
-        };
-        /** TalkUpdateRequest */
-        TalkUpdateRequest: {
-            /** @description New content */
-            content: string;
-        };
-        /** NaverLoginResponse */
-        NaverLoginResponse: {
-            /** @description Temporary nickname from provider */
-            tempNickname?: string | null;
-            /** @description Is registered user */
-            isRegistered: boolean;
-            /** @description Register token for signup */
-            registerToken?: string | null;
-        };
-        /** TalkListResponse */
-        TalkListResponse: {
-            /** @description Like Count (alias) */
-            like_count?: number | null;
-            /** @description Support Count */
-            supportCount: number;
-            /** @description Like Count */
-            likeCount: number;
-            /** @description Content */
-            content: string;
-            /** @description Date to be hidden */
-            dateToHidden: string;
-            /** @description Book ID */
-            bookId: string;
-            /** @description Did I Like */
-            didILike: boolean;
-            /** @description Is Modified */
-            isModified: boolean;
-            /** @description Did I Support */
-            didISupport: boolean;
-            /** @description Nickname */
+        "Member_api-members-me-profile-379648853": {
+            /** @description New nickname (2-10 chars, alphanumeric/hangeul) */
             nickname: string;
-            /** @description Support Count (alias) */
-            support_count?: number | null;
-            /** @description Talk ID */
-            id: string;
-            /** @description Is Modified (alias) */
-            is_modified?: boolean | null;
-            /** @description Member ID */
-            memberId: string;
-        }[];
-        /** IdResponse */
-        IdResponse: {
-            /** @description Created Talk ID */
-            id: string;
+        };
+        "Member_api-auth-login-naver1482244112": {
+            /** @description True if user is already registered */
+            registered: boolean;
         };
         /** AuthMeResponse */
-        AuthMeResponse: {
+        Member_AuthMeResponse: {
             /** @description User Role */
-            role: string;
+            role?: string | null;
             /** @description User Nickname */
-            nickname: string;
+            nickname?: string | null;
             /** @description Login status */
             isLoggedIn: boolean;
             /** @description User ID */
-            id?: (string | never) | null;
+            id?: string | null;
         };
-        /** SignupRequest */
-        SignupRequest: {
-            /** @description Desired Nickname */
-            nickname: string;
-            /** @description Register Token from Login API */
-            registerToken: string;
+        "Member_api-auth-login-naver1525051994": {
+            /** @description OAuth authorization code */
+            code: string;
+            /** @description OAuth state parameter */
+            state: string;
         };
-        /** NaverLoginRequest */
-        NaverLoginRequest: Record<string, never>;
-        /** BookListResponse */
-        BookListResponse: {
-            /** @description Page number */
+        /** BookResponse */
+        Book_BookResponse: {
+            /** @description Book ISBN */
+            isbn: string;
+            /** @description Book ID */
+            id: string;
+            /** @description Book Title */
+            title: string;
+        };
+        /** BookSliceResponse */
+        Book_BookSliceResponse: {
+            /** @description Current page number */
             number: number;
-            "[]"?: {
-                /** @description ISBN */
-                isbn: string;
-                /** @description Book ID */
-                id: string;
-                /** @description Book Title */
-                title: string;
-            };
-            /** @description Is last page */
-            last: boolean;
-            /** @description Number of elements */
+            /** @description Number of elements in current page */
             numberOfElements: number;
             /** @description Page size */
             size: number;
+            /** @description Is last page */
+            last: boolean;
             /** @description Pageable info */
             pageable: string;
             sort?: {
@@ -398,11 +269,7 @@ export interface components {
             /** @description Is first page */
             first: boolean;
             content?: {
-                /** @description Thumbnail Image URL */
-                thumbnailImageUrl: string;
-                /** @description Author */
-                author: string;
-                /** @description ISBN */
+                /** @description Book ISBN */
                 isbn: string;
                 /** @description Book ID */
                 id: string;
@@ -412,28 +279,58 @@ export interface components {
             /** @description Is empty */
             empty: boolean;
         };
-        /** CustomerMessageRequest */
-        CustomerMessageRequest: {
-            /** @description Message content */
+        "Talk_api-talks-1736083227": {
+            /** @description Talk content */
+            content: string;
+            /** @description Book ID */
+            bookId: string;
+        };
+        "Talk_api-reactions-talks-talkId1159801027": {
+            /** @description Reaction type (LIKE, SUPPORT) */
+            type: string;
+        };
+        "Talk_api-talks-talkId-349859363": {
+            /** @description Updated talk content */
             content: string;
         };
-        /** BookResponse */
-        BookResponse: {
-            /** @description Thumbnail Image URL */
-            thumbnailImageUrl: string;
-            /** @description Author */
-            author: string;
-            /** @description ISBN */
-            isbn: string;
-            /** @description Description */
-            description: string;
-            /** @description Book ID */
-            id: string;
-            /** @description External Link URL */
-            externalLinkUrl: string;
-            /** @description Book Title */
-            title: string;
+        /** TalkPageResponse */
+        Talk_TalkPageResponse: {
+            page?: {
+                /** @description Current page number */
+                number: number;
+                /** @description Page size */
+                size: number;
+                /** @description Total pages */
+                totalPages: number;
+                /** @description Total elements */
+                totalElements: number;
+            };
+            content?: {
+                /** @description Did I Like */
+                didILike: boolean;
+                /** @description Created At */
+                createdAt: string;
+                /** @description Is Modified */
+                isModified: boolean;
+                /** @description Did I Support */
+                didISupport: boolean;
+                /** @description Support Count */
+                supportCount: number;
+                /** @description Nickname */
+                nickname: string;
+                /** @description Like Count */
+                likeCount: number;
+                /** @description Talk ID */
+                id: string;
+                /** @description Content */
+                content: string;
+                /** @description Member ID */
+                memberId: string;
+                /** @description Book ID */
+                bookId: string;
+            }[];
         };
+        "Talk_api-talks486549215": Record<string, never>;
     };
     responses: never;
     parameters: never;
@@ -443,130 +340,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "get-books-by-idssearch-books": {
-        parameters: {
-            query: {
-                /** @description List of Book IDs */
-                id: string;
-                /** @description Search keyword */
-                keyword: string;
-                /** @description Page number (0-based) */
-                page?: string;
-                /** @description Page size */
-                size?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 200 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BookListResponse"];
-                };
-            };
-        };
-    };
-    "add-reaction": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["ReactionRequest"];
-            };
-        };
-        responses: {
-            /** @description 202 */
-            202: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "remove-reaction": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["ReactionRequest"];
-            };
-        };
-        responses: {
-            /** @description 202 */
-            202: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "get-talks-by-book": {
-        parameters: {
-            query: {
-                /** @description Book ID */
-                bookId: string;
-                /** @description Page number */
-                page?: string;
-                /** @description Page size */
-                size?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 200 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TalkPageResponse"];
-                };
-            };
-        };
-    };
-    "create-talk": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["TalkCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description 200 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["IdResponse"];
-                };
-            };
-        };
-    };
     "auth-me": {
         parameters: {
             query?: never;
@@ -582,7 +355,98 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AuthMeResponse"];
+                    "application/json": components["schemas"]["Member_AuthMeResponse"];
+                };
+            };
+        };
+    };
+    withdraw: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 204 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "login-naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["Member_api-auth-login-naver1525051994"];
+            };
+        };
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Member_api-auth-login-naver1482244112"];
+                };
+            };
+        };
+    };
+    "update-profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["Member_api-members-me-profile-379648853"];
+            };
+        };
+        responses: {
+            /** @description 204 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "search-books": {
+        parameters: {
+            query: {
+                /** @description The search keyword */
+                keyword: string;
+                /** @description Page number (starts from 0) */
+                page?: string;
+                /** @description Page size */
+                size?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Book_BookSliceResponse"];
                 };
             };
         };
@@ -605,36 +469,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookResponse"];
+                    "application/json": components["schemas"]["Book_BookResponse"];
                 };
             };
         };
     };
-    "create-customer-message": {
+    "get-talks-by-member": {
         parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["CustomerMessageRequest"];
+            query: {
+                /** @description The unique identifier of the member */
+                memberId: string;
             };
-        };
-        responses: {
-            /** @description 202 */
-            202: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "get-recommend-talks": {
-        parameters: {
-            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
@@ -647,7 +492,38 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TalkListResponse"];
+                    "application/json": components["schemas"]["Talk_TalkPageResponse"];
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "create-talk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["Talk_api-talks-1736083227"];
+            };
+        };
+        responses: {
+            /** @description 201 */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Talk_api-talks486549215"];
                 };
             };
         };
@@ -664,7 +540,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "application/json;charset=UTF-8": components["schemas"]["TalkUpdateRequest"];
+                "application/json;charset=UTF-8": components["schemas"]["Talk_api-talks-talkId-349859363"];
             };
         };
         responses: {
@@ -677,7 +553,7 @@ export interface operations {
             };
         };
     };
-    "delete-talk": {
+    "add-reaction": {
         parameters: {
             query?: never;
             header?: never;
@@ -687,7 +563,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json;charset=UTF-8": components["schemas"]["Talk_api-reactions-talks-talkId1159801027"];
+            };
+        };
         responses: {
             /** @description 204 */
             204: {
@@ -698,18 +578,17 @@ export interface operations {
             };
         };
     };
-    "auth-login-naver-": {
+    "get-talks-by-book": {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description The unique identifier of the book */
+                bookId: string;
+            };
             cookie?: never;
         };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["NaverLoginRequest"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description 200 */
             200: {
@@ -717,30 +596,8 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["NaverLoginResponse"];
+                    "application/json": components["schemas"]["Talk_TalkPageResponse"];
                 };
-            };
-        };
-    };
-    "auth-signup-naver": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json;charset=UTF-8": components["schemas"]["SignupRequest"];
-            };
-        };
-        responses: {
-            /** @description 201 */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };

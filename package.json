@@ -12,7 +12,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "gen:types": "openapi-typescript https://dev-api.quiet-chatter.com/api/spec -o src/types/api-schema.d.ts"
+    "gen:types": "openapi-typescript https://api.quiet-chatter.com/api/docs/openapi.yaml -o src/types/api-schema.d.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
