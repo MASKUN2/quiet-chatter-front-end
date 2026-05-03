@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.0...v1.8.1) (2026-05-03)
+
+
+### Bug Fixes
+
+* move HomeOnboarding to Home.tsx to prevent showing on other pages ([5e70e0c](https://github.com/MASKUN2/quietchatter-frontend/commit/5e70e0ca1d7400ee141d6d0ff1209973ea886470))
+
 # [1.8.0](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.7.0...v1.8.0) (2026-05-03)
 
 
