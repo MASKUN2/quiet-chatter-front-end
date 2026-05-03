@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.2...v1.8.3) (2026-05-03)
+
+
+### Bug Fixes
+
+* update gen:types script and regenerate API schema from production spec ([dcc9fd9](https://github.com/MASKUN2/quietchatter-frontend/commit/dcc9fd918504c8497c23cea2af6068b2177dc280))
+
 ## [1.8.2](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.1...v1.8.2) (2026-05-03)
 
 
