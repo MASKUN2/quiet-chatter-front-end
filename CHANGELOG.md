@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.1...v1.8.2) (2026-05-03)
+
+
+### Bug Fixes
+
+* resolve Naver login and signup error ([1bc319f](https://github.com/MASKUN2/quietchatter-frontend/commit/1bc319f72b9499db4ce0939dc14438d853d74fd1))
+
 ## [1.8.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.0...v1.8.1) (2026-05-03)
 
 
