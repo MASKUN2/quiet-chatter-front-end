@@ -1,3 +1,10 @@
+## [1.8.5](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.4...v1.8.5) (2026-05-03)
+
+
+### Bug Fixes
+
+* update API schema and resolve type mismatches in Book and Talk types ([d9190f9](https://github.com/MASKUN2/quietchatter-frontend/commit/d9190f97889d2a0ea5118beb80e5b7e58a3d7e86))
+
 ## [1.8.4](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.3...v1.8.4) (2026-05-03)
 
 
