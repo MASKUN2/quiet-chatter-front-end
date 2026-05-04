@@ -22,7 +22,7 @@ const RecommendedTalks: React.FC<RecommendedTalksProps> = ({ loading, error, tal
     return (
       <List sx={{ py: 0 }}>
         {Array.from(new Array(6)).map((_, index) => (
-          <ListItem key={index} disablePadding sx={{ mb: 1.5 }}>
+          <ListItem key={`skeleton-talk-${index}`} disablePadding sx={{ mb: 1.5 }}>
             <Box
               sx={{
                 width: '100%',

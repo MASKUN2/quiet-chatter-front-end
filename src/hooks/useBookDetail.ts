@@ -26,12 +26,17 @@ export const useBookDetail = (bookId: string | undefined) => {
       setLoadingBook(true);
       const data = await getBookDetails(id);
       setBook(data);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
+      if (error instanceof Error) {
+        showToast(error.message, 'error');
+      } else {
+        showToast(MESSAGES.ERROR.DEFAULT || '데이터를 불러오는데 실패했습니다.', 'error');
+      }
     } finally {
       setLoadingBook(false);
     }
-  }, []);
+  }, [showToast]);
 
   const loadTalks = useCallback(async (id: string, page: number) => {
     try {
@@ -46,12 +51,17 @@ export const useBookDetail = (bookId: string | undefined) => {
       setTalks(data.content);
       setPageInfo(data.page);
       setTalkPage(page);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
+      if (error instanceof Error) {
+        showToast(error.message, 'error');
+      } else {
+        showToast(MESSAGES.ERROR.DEFAULT || '데이터를 불러오는데 실패했습니다.', 'error');
+      }
     } finally {
       setLoadingTalks(false);
     }
-  }, [refreshMember]);
+  }, [refreshMember, showToast]);
 
   const onTalkUpdate = useCallback(() => {
     if (bookId) {

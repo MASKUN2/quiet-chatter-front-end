@@ -33,6 +33,15 @@ const NaverCallback: React.FC = () => {
   });
 
   const hasFetched = React.useRef(false);
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const code = searchParams.get('code');
@@ -47,7 +56,7 @@ const NaverCallback: React.FC = () => {
       showToast('잘못된 접근입니다.', 'error');
       const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
       localStorage.removeItem('redirect_after_login');
-      setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
+      timeoutRef.current = setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -81,7 +90,7 @@ const NaverCallback: React.FC = () => {
       showToast('로그인에 실패했습니다.', 'error');
       const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
       localStorage.removeItem('redirect_after_login');
-      setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
+      timeoutRef.current = setTimeout(() => navigate(redirectUrl, { replace: true }), 2000);
     }
   };
 
@@ -92,7 +101,7 @@ const NaverCallback: React.FC = () => {
     const redirectUrl = localStorage.getItem('redirect_after_login') || '/home';
     console.log('[DEBUG] completeLogin read redirectUrl (before remove):', redirectUrl);
     localStorage.removeItem('redirect_after_login');
-    setTimeout(() => navigate(redirectUrl, { replace: true }), 1500);
+    timeoutRef.current = setTimeout(() => navigate(redirectUrl, { replace: true }), 1500);
   };
 
   const handleSignup = async (nickname: string) => {

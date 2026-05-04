@@ -36,9 +36,6 @@ const TalkForm: React.FC<TalkFormProps> = ({ content, setContent, onSubmit, nick
 
   useEffect(() => {
     if (!shouldShow) return;
-
-    // Reset showOnboarding if shouldShow changes (e.g. restarts)
-    setShowOnboarding(true);
     
     const timer = setTimeout(() => {
       setShowOnboarding(false);

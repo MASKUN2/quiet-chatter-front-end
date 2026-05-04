@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export interface OnboardingState {
     version: number;
@@ -32,24 +32,21 @@ export function useOnboardingState(config: VisitKeyConfig): {
     shouldShow: boolean;
     optOut: () => void;
 } {
-    const [shouldShow, setShouldShow] = useState(true);
-
-    useEffect(() => {
+    const [shouldShow, setShouldShow] = useState(() => {
+        if (typeof window === 'undefined') return true;
         try {
             const rawState = localStorage.getItem(config.key);
             if (rawState) {
                 const state: OnboardingState = JSON.parse(rawState);
                 if (state.version >= config.version && state.optedOut) {
-                    setShouldShow(false);
-                    return;
+                    return false;
                 }
             }
         } catch (e) {
             console.error('Failed to parse onboarding state', e);
         }
-        // 버전이 낮거나 optedOut이 false인 경우, 혹은 데이터가 없는 경우는 보여줌
-        setShouldShow(true);
-    }, [config.key, config.version]);
+        return true;
+    });
 
     const optOut = () => {
         const state: OnboardingState = {

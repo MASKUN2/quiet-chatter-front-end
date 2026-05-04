@@ -19,10 +19,11 @@ src/ 디렉토리 구조:
 - assets/: 로컬 자산 (SVG, 이미지)
 - components/: 재사용 UI 컴포넌트 (book, common, home 등)
 - constants/: 정적 문자열, 설정값, 경로
-- context/: React Context (Auth, Onboarding)
+- context/: React Context (Onboarding)
 - hooks/: 커스텀 훅 (비즈니스 로직 캡슐화)
 - mocks/: MSW 설정 및 핸들러
 - pages/: 페이지 컴포넌트 (라우터 로드)
+- store/: Zustand 상태 관리 스토어 (auth, toast)
 - types/: TypeScript 정의 (api-schema.d.ts 자동 생성)
 - utils/: 공용 유틸리티 함수
 
@@ -35,7 +36,7 @@ src/ 디렉토리 구조:
 
 상태 관리 전략:
 - UI 전용 상태는 useState를 우선 사용한다.
-- 전역 데이터(로그인 등)는 Context API 또는 Zustand를 사용한다.
+- 전역 데이터(로그인, 토스트)는 Zustand(store)를 사용하며, DOM 요소 참조(Onboarding) 같은 특수 목적에 한해 Context API를 사용한다.
 - 공유 가능한 내비게이션 상태는 URL 파라미터(useSearchParams)를 진실의 근거로 삼는다.
 
 API 및 데이터 로직:
@@ -43,7 +44,7 @@ API 및 데이터 로직:
 - 모든 API 호출은 src/api/api.ts에 정의된 함수를 사용한다.
 - 복잡한 데이터 처리(무한 스크롤, 페이징 등)는 개별 커스텀 훅으로 분리한다.
 - 모든 사용자 메시지는 src/constants/index.ts의 MESSAGES 객체에 정의한다.
-- 에러 처리는 useToast 훅을 통한 전역 토스트 시스템을 사용한다.
+- 에러 처리는 react-error-boundary(GlobalErrorFallback.tsx)를 사용하여 렌더 트리의 크래시를 방어하고, API 에러 등은 useToast 훅을 통한 전역 토스트 시스템을 사용한다.
 
 ## 디자인 및 UI 가이드
 
@@ -65,10 +66,20 @@ API 및 데이터 로직:
 ## 인증 시스템
 
 동작 방식:
-- AuthContext를 통해 로그인 상태를 전역 관리한다.
+- useAuthStore(Zustand)를 통해 로그인 상태를 전역 관리한다.
 - 네이버 OAuth 로그인 흐름을 따르며, 백엔드에서 설정한 쿠키를 통해 세션을 유지한다.
 - 초기화 시 /api/auth/me를 호출하여 세션 유효성을 확인한다.
-- UI 권한 제어는 useAuth 훅에서 제공하는 member 상태를 기반으로 수행한다.
+- UI 권한 제어는 useAuthStore 훅에서 제공하는 member 상태를 기반으로 수행한다.
+
+## 온보딩 시스템
+
+- DOM 요소 참조(ref) 기반의 툴팁 온보딩 시스템을 제공한다 (HomeOnboarding.tsx).
+- OnboardingContext 및 useFirstVisit 훅을 조합하여 최초 방문 시 특정 UI 요소에 대한 가이드를 노출하고 방문 상태(VISIT_KEYS)를 관리한다.
+
+## 계정 라이프사이클 (마이페이지)
+
+- MyPage 내에서 회원 탈퇴 및 계정 비활성화 로직을 관리한다.
+- 탈퇴한 사용자의 재로그인 시 계정 복구(ReactivationModal.tsx) 흐름을 지원하여 유연한 계정 라이프사이클을 제공한다.
 
 ## 개발 워크플로우
 
