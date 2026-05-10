@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.10.1...v1.10.2) (2026-05-10)
+
+
+### Bug Fixes
+
+* **talk-item:** use Visibility/VisibilityOff icons to reflect talk state ([f5d7045](https://github.com/MASKUN2/quietchatter-frontend/commit/f5d70455f840c0938238de5d6170ede3f15ab666))
+
 ## [1.10.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.10.0...v1.10.1) (2026-05-10)
 
 
