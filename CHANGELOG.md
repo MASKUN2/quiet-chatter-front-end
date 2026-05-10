@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.9.1...v1.10.0) (2026-05-10)
+
+
+### Features
+
+* **talk-item:** replace window.confirm with MUI Dialog and fix hide icon ([36e42f6](https://github.com/MASKUN2/quietchatter-frontend/commit/36e42f60d84136c6154ec587e5d936ad80ba8356))
+
 ## [1.9.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.9.0...v1.9.1) (2026-05-10)
 
 
