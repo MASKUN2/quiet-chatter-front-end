@@ -82,7 +82,7 @@ const MyPage: React.FC = () => {
                 sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
             >
                 <Tab label="공개" sx={{ textTransform: 'none', fontWeight: 600 }} />
-                <Tab label="숨겨진" sx={{ textTransform: 'none', fontWeight: 600 }} />
+                <Tab label="숨김" sx={{ textTransform: 'none', fontWeight: 600 }} />
             </Tabs>
 
             {loading ? (
