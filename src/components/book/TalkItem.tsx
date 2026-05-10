@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Card, CardContent, Typography, Box, Button, IconButton, Stack, Tooltip, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Card, CardContent, Typography, Box, Button, IconButton, Stack, Tooltip, Avatar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Menu, MenuItem, ListItemIcon } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -7,9 +7,9 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { updateTalk, deleteTalk } from '../../api/talks';
 import type { Talk } from '../../types';
 import CharacterLimitedTextField from '../common/CharacterLimitedTextField';
@@ -35,7 +35,8 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(talk.content);
   const [loading, setLoading] = useState(false);
-  const [confirmType, setConfirmType] = useState<'hide' | 'delete' | 'restore' | null>(null);
+  const [confirmType, setConfirmType] = useState<'hide' | 'restore' | null>(null);
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const lastConfirmType = useRef(confirmType);
   if (confirmType !== null) lastConfirmType.current = confirmType;
   const displayType = confirmType ?? lastConfirmType.current;
@@ -81,7 +82,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
       onUpdate();
     } catch (error: unknown) {
       showToast(
-        error instanceof Error ? error.message : type === 'hide' ? MESSAGES.ERROR.TALK_HIDE_FAILED : MESSAGES.ERROR.TALK_DELETE_FAILED,
+        error instanceof Error ? error.message : MESSAGES.ERROR.TALK_HIDE_FAILED,
         'error'
       );
       setLoading(false);
@@ -171,32 +172,11 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             <Typography variant="body1" sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
               {talk.content}
             </Typography>
-            {isMine && isHiddenMode && (
+            {isMine && (
               <Box sx={{ ml: 1, mt: -0.5 }}>
-                <Tooltip title="공개 처리">
-                  <IconButton size="small" disabled={loading} onClick={() => setConfirmType('restore')}>
-                    <VisibilityOffIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            )}
-            {isMine && !isMyPageMode && !isHiddenMode && (
-              <Box sx={{ ml: 1, mt: -0.5 }}>
-                <IconButton size="small" onClick={() => setIsEditing(true)}>
-                  <EditIcon fontSize="small" />
+                <IconButton size="small" onClick={(e) => setMenuAnchor(e.currentTarget)}>
+                  <MoreVertIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={() => setConfirmType('delete')} color="error">
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Box>
-            )}
-            {isMine && isMyPageMode && !isHiddenMode && (
-              <Box sx={{ ml: 1, mt: -0.5 }}>
-                <Tooltip title="숨김 처리">
-                  <IconButton size="small" onClick={() => setConfirmType('hide')}>
-                    <VisibilityIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
               </Box>
             )}
           </Box>
@@ -239,15 +219,35 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
         </Box>
       </CardContent>
 
+      <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
+        {!isHiddenMode && (
+          <MenuItem onClick={() => { setMenuAnchor(null); setIsEditing(true); }}>
+            <ListItemIcon><EditIcon fontSize="small" /></ListItemIcon>
+            수정
+          </MenuItem>
+        )}
+        {!isHiddenMode && (
+          <MenuItem onClick={() => { setMenuAnchor(null); setConfirmType('hide'); }}>
+            <ListItemIcon><VisibilityIcon fontSize="small" /></ListItemIcon>
+            숨김 처리
+          </MenuItem>
+        )}
+        {isHiddenMode && (
+          <MenuItem onClick={() => { setMenuAnchor(null); setConfirmType('restore'); }}>
+            <ListItemIcon><VisibilityOffIcon fontSize="small" /></ListItemIcon>
+            공개 처리
+          </MenuItem>
+        )}
+      </Menu>
+
       <Dialog open={confirmType !== null} onClose={() => setConfirmType(null)} maxWidth="xs" fullWidth>
         <DialogTitle>
-          {displayType === 'restore' ? '숨김 해제' : displayType === 'hide' ? '숨김 처리' : '톡 삭제'}
+          {displayType === 'restore' ? '공개 처리' : '숨김 처리'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
             {displayType === 'restore' && '이 톡의 숨김을 해제하시겠습니까? 공개 목록에 다시 표시됩니다.'}
             {displayType === 'hide' && '이 톡을 숨김 처리하시겠습니까? 숨겨진 톡은 마이페이지에서 다시 공개할 수 있습니다.'}
-            {displayType === 'delete' && '이 톡을 삭제하시겠습니까?'}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -257,7 +257,7 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             color={displayType === 'restore' ? 'primary' : 'error'}
             sx={{ textTransform: 'none' }}
           >
-            {displayType === 'restore' ? '해제' : displayType === 'hide' ? '숨김' : '삭제'}
+            {displayType === 'restore' ? '공개' : '숨김'}
           </Button>
         </DialogActions>
       </Dialog>
