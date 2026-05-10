@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.9.0...v1.9.1) (2026-05-10)
+
+
+### Bug Fixes
+
+* update tab label ([706b1d3](https://github.com/MASKUN2/quietchatter-frontend/commit/706b1d3f6d8ecd63c1c101f4ad87e0e27e2528d2))
+
 # [1.9.0](https://github.com/MASKUN2/quietchatter-frontend/compare/v1.8.5...v1.9.0) (2026-05-10)
 
 
