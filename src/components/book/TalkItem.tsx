@@ -8,6 +8,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { updateTalk, deleteTalk } from '../../api/talks';
 import type { Talk } from '../../types';
@@ -172,15 +173,11 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             </Typography>
             {isMine && isHiddenMode && (
               <Box sx={{ ml: 1, mt: -0.5 }}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  disabled={loading}
-                  onClick={() => setConfirmType('restore')}
-                  sx={{ textTransform: 'none', color: 'primary.main', borderColor: 'primary.main' }}
-                >
-                  숨김 해제
-                </Button>
+                <Tooltip title="공개 처리">
+                  <IconButton size="small" disabled={loading} onClick={() => setConfirmType('restore')}>
+                    <VisibilityOffIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
               </Box>
             )}
             {isMine && !isMyPageMode && !isHiddenMode && (
@@ -196,8 +193,8 @@ const TalkItem: React.FC<TalkItemProps> = ({ talk, onReaction, currentMemberId, 
             {isMine && isMyPageMode && !isHiddenMode && (
               <Box sx={{ ml: 1, mt: -0.5 }}>
                 <Tooltip title="숨김 처리">
-                  <IconButton size="small" onClick={() => setConfirmType('hide')} color="default">
-                    <VisibilityOffIcon fontSize="small" />
+                  <IconButton size="small" onClick={() => setConfirmType('hide')}>
+                    <VisibilityIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </Box>
